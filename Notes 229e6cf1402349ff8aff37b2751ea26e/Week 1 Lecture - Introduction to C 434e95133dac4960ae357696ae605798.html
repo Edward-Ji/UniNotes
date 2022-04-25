@@ -1,0 +1,676 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 1 Lecture - Introduction to C</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="434e9513-3dac-4960-ae35-7696ae605798" class="page sans"><header><h1 class="page-title">Week 1 Lecture - Introduction to C</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@February 16, 2022 2:53 PM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-green">COMP2017</span></td></tr></tbody></table></header><div class="page-body"><h1 id="d113db29-065e-4827-ab3b-ebf982ccc3c6" class="">Memory</h1><h2 id="fed2bb6a-4147-484a-982d-9dca669ab166" class="">The addressing system</h2><p id="43ccbf57-7cb7-498b-8474-8f6ba6e4bba7" class="">How much memory do we have - address range<div class="indented"><p id="1fa0852c-1427-4914-ab99-90a13ffbc9ed" class="">Modern-day system <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>64</mn></msup></mrow><annotation encoding="application/x-tex">2^{64}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">64</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></p></div></p><p id="94c9f77b-3a0a-4059-8749-20f6bb1c357d" class="">Where is it? The address.<div class="indented"><p id="4492b953-ee02-46f5-b03e-d2ef70c3dd1e" class=""><code>&amp;</code> the unary (requires one operand) address of operator in C</p></div></p><p id="aef57235-44da-433b-81bb-01beb02d1628" class="">Memory - addresses and values</p><ul id="973811d2-88f2-4075-91c4-19215924b8cf" class="bulleted-list"><li style="list-style-type:disc">The address is the location in memory of some value.</li></ul><ul id="b4d8db2c-2137-4aa0-85e6-41bb96b2ddc5" class="bulleted-list"><li style="list-style-type:disc">Values are <em>an arbitrary</em> number of bits. The first bit of a value is the address it is stored at.</li></ul><p id="7a49292a-d655-472b-8902-e508c554c932" class="">Computers are constantly copying values from one address to another.<div class="indented"><p id="8a37c968-c31b-41ba-ab7e-2d43e810f0e2" class="">main memory ↔ system memory ↔ bus (hardware) ↔ microcontroller (CPU) ↔ chip(s)</p></div></p><p id="bd20a965-be0a-4af7-93ea-bb84bad9605b" class="">The course concerns <strong>the organization of memory</strong>.</p><ul id="d183db85-c12a-4708-acf3-b5b7254969d7" class="bulleted-list"><li style="list-style-type:disc">Correct values copied into the</li></ul><ul id="4ce4e183-d7db-4e7e-8c2d-f3bc422e06f7" class="bulleted-list"><li style="list-style-type:disc">Correct address at the</li></ul><ul id="8224b24c-1723-40b8-bd2f-fc18342f5f81" class="bulleted-list"><li style="list-style-type:disc">Correct time</li></ul><p id="28bfbe04-14c2-4912-af9c-4575e1ae3899" class="">C is heterogeneous while Python is homogenous.<div class="indented"><p id="fe8f6984-57e2-4d71-beb5-30a635b3b8a2" class="">This means that C will behave varyingly on different hardware and operating systems while Python behaves similarly independent of those factors.</p></div></p><h1 id="48d80810-97cb-478b-92a4-5a87564b3615" class="">The C Programming Language</h1><h2 id="5dd07bff-cee8-4e9e-b03d-21da27826162" class="">History of C</h2><p id="d439606f-bd78-41a8-80d9-dc3e3e9b82b2" class="">Unix was written in low-level PDP-7 assembly.</p><p id="6d78ea4e-a016-4743-9841-e7c3fc0bb389" class="">Ken Thompson invented B based on BCPL to overcome issues of PDP-7 assembly.</p><p id="e085d8e8-1b1f-4251-9e0a-edead1163dd8" class="">Dennis Ritchie built on B and called his language C.</p><p id="07287e42-dc4f-409b-8092-2d4ac20f82fd" class="">Unix on PDP-11 was rewritten in C.<div class="indented"><p id="95389820-101f-481a-8848-b717cb901afb" class="">First Unix kernel in C in the year 1973</p></div></p><p id="992ecc63-5d4d-4e88-9809-5bf491fe2e3c" class="">Kernighan and Ritchie published the book <em>The C Programming Language</em> in 1978.</p><p id="884f5a3b-b89e-49ff-bec5-68ab775d4b14" class="">Later C was standardized</p><ul id="518003b0-b53f-4de5-aa71-759956922969" class="bulleted-list"><li style="list-style-type:disc">C89 Standard (ANSI-C) introduced better parameter handling and library standards.</li></ul><ul id="f115888a-06d6-4112-8cc9-4ef92bd46a3e" class="bulleted-list"><li style="list-style-type:disc">C90 standard includes a few minor modifications.</li></ul><ul id="7260ffee-e58c-420b-beed-b4229a6f25dc" class="bulleted-list"><li style="list-style-type:disc">C99</li></ul><ul id="43fdb3cf-b952-49bb-b4d7-3f23a6bf9e25" class="bulleted-list"><li style="list-style-type:disc">C11</li></ul><h1 id="1e0bc631-e007-497b-9fd2-f10010a61d31" class="">Features and Applications</h1><p id="1923a0d3-3bd9-47cd-8bc9-d808f8a2de94" class="">Mainly used for</p><ul id="989b554a-93d2-4d32-a433-a6089906ebff" class="bulleted-list"><li style="list-style-type:disc">System software (OS, embedded systems, etc.)</li></ul><ul id="d1fd1a7e-eb31-4801-b6cd-b94c41deffd6" class="bulleted-list"><li style="list-style-type:disc">Software that needs hardware interaction</li></ul><ul id="4e826d0e-8dfa-447c-aa29-60e53a7f4af4" class="bulleted-list"><li style="list-style-type:disc">Application programming, science/engineering, etc.</li></ul><ul id="d916323d-646a-4e14-9288-8b7809f0675e" class="bulleted-list"><li style="list-style-type:disc">High-Performance Computing (HPC)</li></ul><p id="3a416107-c720-45e7-8bdb-984c3e3d9dc3" class="">C</p><ul id="d82c1d42-8015-4ac3-b3fa-8fd4c27a5892" class="bulleted-list"><li style="list-style-type:disc">Is closer to the underlying machine</li></ul><ul id="d64d9ca3-9525-4969-9f85-11626851e9fb" class="bulleted-list"><li style="list-style-type:disc">Has simple memory model</li></ul><ul id="5e336319-af0e-4d1a-8a3a-b449c9a74c33" class="bulleted-list"><li style="list-style-type:disc">Assumes that programmers know best</li></ul><p id="e08d44e9-fa0b-4ad6-b9ec-3f256ca78671" class="">C-compilers exist for nearly all computer architectures.<div class="indented"><p id="cc542e5a-04db-4bf2-92f9-6523780e4bba" class="">Single-board computing (e.g. Arduino) uses a compiler written in C.</p></div></p><p id="1aa49840-6fca-4568-ae48-07524954e82c" class="">C does not have object-oriented programming features like:</p><ul id="b048cd1d-04fc-4dbb-89cc-71699fa8c044" class="bulleted-list"><li style="list-style-type:disc">Object and classes</li></ul><ul id="47a25cf0-f3c1-4d03-81e6-d4426909a444" class="bulleted-list"><li style="list-style-type:disc">Templates</li></ul><ul id="87e55cd2-4a9c-4f13-a9da-0f68d84a3f60" class="bulleted-list"><li style="list-style-type:disc">Operator and function overloading</li></ul><p id="78c068c6-43e5-4abc-9aaf-8b414a65478a" class="">Examples</p><ul id="1e87faeb-ed34-45bd-86e4-3188c6cf6ca1" class="bulleted-list"><li style="list-style-type:disc">Operating System Linux in C<p id="b1a038a4-96fc-43a1-9b35-2b728bb1cd26" class="">Started in 1991 by Linus Torvalds.</p><p id="94582c46-1b3b-475f-ad6f-d1e8918a8d73" class="">Stands for Linus’ UNIX.</p></li></ul><ul id="27762bed-5b0d-4895-88e6-14bb4749f430" class="bulleted-list"><li style="list-style-type:disc">Python is written in C</li></ul><h2 id="235a40b2-dd8b-4423-a909-7d53b81e3778" class="">The Language</h2><p id="1b6a63c9-55a5-476f-a6b1-918d3b32c28b" class="">C-compilers employ two languages:</p><ul id="41e7bb18-4228-453d-962b-b9eb7c3061a3" class="bulleted-list"><li style="list-style-type:disc">Preprocessing language: text-macro language</li></ul><ul id="1413eb76-258c-4a1f-b279-fa60cc6ebd82" class="bulleted-list"><li style="list-style-type:disc">Actual C-language: high-level programming language</li></ul><p id="de23ae20-2143-4b5b-994a-7615ae0f3202" class="">Preprocessing language: text → text</p><ul id="d0112a0e-0599-4108-8bb1-4341798431f1" class="bulleted-list"><li style="list-style-type:disc">Text-macro language</li></ul><ul id="6d72b0c9-5a73-4843-8abd-8f17fcd71205" class="bulleted-list"><li style="list-style-type:disc">Definition of macro</li></ul><ul id="5627c745-110e-49c1-a5a3-c5292185576a" class="bulleted-list"><li style="list-style-type:disc">Include files</li></ul><ul id="607df3c7-2138-4550-b9ec-dacc38aad013" class="bulleted-list"><li style="list-style-type:disc">Conditional compilation</li></ul><p id="5066bf84-507c-45f2-9067-3ae001a87b5d" class="">C same as other high-level languages has</p><ul id="08f41779-1f64-4ea3-b888-4b822e6fe141" class="bulleted-list"><li style="list-style-type:disc">Control flow structures</li></ul><ul id="a061894d-f358-46cb-9721-68cdde948b9c" class="bulleted-list"><li style="list-style-type:disc">References are called <em>pointers</em></li></ul><ul id="88d11c7a-9696-4add-a2bc-b4b39c9afeac" class="bulleted-list"><li style="list-style-type:disc">No garbage collection<p id="d2df9bad-7802-444f-9e46-42b71fa626a3" class="">The programmer is responsible for the allocation and freeing of memory</p></li></ul><p id="17934482-fdd8-45b3-9f65-20bd538e30fe" class="">A C program consists of a set of files containing:</p><ul id="7c085bfa-cb2f-4022-8f60-b850982c1609" class="bulleted-list"><li style="list-style-type:disc">Global variables</li></ul><ul id="20702e8d-1c9b-4e62-96ec-8565ef0d767c" class="bulleted-list"><li style="list-style-type:disc">Function definitions<ul id="84e62e78-a270-47d7-bad8-69f8a1bc8157" class="bulleted-list"><li style="list-style-type:circle">main()</li></ul><ul id="32d56b63-4dc8-4265-9931-816e3cb41f95" class="bulleted-list"><li style="list-style-type:circle">With local variables</li></ul></li></ul><pre id="ba30c8e2-f5a1-41a6-a608-f4ad90307d25" class="code"><code>#include &lt;stdio.h&gt;
+
+int main(int argc, char **argv)
+{
+	printf(&quot;Hello world!\n&quot;);
+	return 0;
+}</code></pre><p id="4d958e68-8523-4517-abd6-c3e091766a7b" class=""><code>#include</code> instructs the compiler to replace the line with the text in the specified file.</p><h2 id="4ffba96a-e159-4c63-828d-c2fcfa4fa45b" class="">Arrays and Memory</h2><p id="ee1be9b0-379e-4ea9-9010-09fe505b7173" class="">Arrays can be handled with pointers.</p><p id="e3fdd5b7-7967-4c3f-ada9-937a259e61f9" class="">Arrays can be created and initialized in the declaration.</p><p id="62a19992-4db2-4b91-93bd-abefa4d98e3f" class="">C strings are just <code>char</code> arrays with a NUL character at the end.</p><p id="9607d276-8809-4b76-91b9-ca18d8fc7d41" class=""><code>sizeof</code> operator</p><p id="a537e9da-9e15-493e-83f4-99128ff74ca9" class="">Create dynamic data structures with <code>malloc()</code>.</p><h2 id="d4c31752-703a-42e0-865a-5d81e5b3574f" class="">Functions</h2><p id="a9e0c4e4-54ec-4ee6-91d3-9c1173d59d7b" class="">A function consists of:</p><ul id="730d4574-5556-4a24-bc33-434934b0445a" class="bulleted-list"><li style="list-style-type:disc">A function declaration<ul id="ef011cce-f718-402c-9d7e-a1d3a9860acc" class="bulleted-list"><li style="list-style-type:circle">Name</li></ul><ul id="2c0c747b-4679-4a38-9d81-f9c6817ea939" class="bulleted-list"><li style="list-style-type:circle">Return type</li></ul><ul id="5e3cdecb-af97-4531-83d3-af51a3ffe6ea" class="bulleted-list"><li style="list-style-type:circle">Parameter names and types</li></ul></li></ul><ul id="a0b79ef8-1ef1-43cc-92fc-8dc4b37fc8a8" class="bulleted-list"><li style="list-style-type:disc">A function body<ul id="2ac59e49-1b85-4de2-8819-bb1312d217a9" class="bulleted-list"><li style="list-style-type:circle">Statements</li></ul></li></ul><p id="5edee1ff-6194-4986-a629-a8386bdb6bc1" class="block-color-blue_background"><mark class="highlight-blue_background"><code>extern</code></mark><mark class="highlight-blue_background"> or forward function declarations do not have a function body. This is related to the </mark><em><mark class="highlight-blue_background">linking</mark></em><mark class="highlight-blue_background"> process.</mark></p><h1 id="58d37a44-e057-445c-8c8d-1d8e6b365e6c" class="">Q&amp;A</h1><p id="10e1763a-21b8-46a1-9a2e-aab7725546b3" class=""><code>aptitude</code> wrapper around <code>apt</code> for package management in Debian/Ubuntu etc.</p><p id="5ba71366-586c-4e52-95db-950d20c50c03" class="">Install <code>make</code>, <code>gcc</code>, <code>gdb</code>, <code>screen</code>, <code>htop</code>.<div class="indented"><p id="44d2eb99-b920-4618-b539-2aa7193f05d9" class=""><code>gdb</code> GNU debugger</p><p id="2cdf9f08-9107-4337-8180-18e2724ea960" class=""><code>screen</code> terminal multiplexer</p><p id="73cacc0e-20e2-4806-bb0f-22afac98c8eb" class=""><code>htop</code> better activity monitor than <code>top</code></p></div></p><h1 id="6c1c5d2b-1415-4d14-a554-8140ef4071bf" class="">Tutorial</h1><pre id="9f50c5a9-c77f-41d0-a9d5-35840d33dbe6" class="code"><code>char str1[20] = {&#x27;h&#x27;, &#x27;e&#x27;, &#x27;l&#x27;, &#x27;l&#x27;, &#x27;o&#x27;}; // zeros after &#x27;o&#x27;
+char str2[20] = { 0 }; // all zeros</code></pre><p id="90a1e326-8a54-467e-91b9-362b3b1b0986" class="">In C11 Standard 6.7.9,</p><p id="2257c758-7baa-48f0-aa47-b0830f807bad" class="">Clause 21</p><blockquote id="2ad35baf-71a6-4aae-964b-d3e9a12cbee0" class="">If there are fewer initializers in a brace-enclosed list than there are elements or members of an aggregate, or fewer characters in a string literal used to initialize an array of known size than there are elements in the array, the remainder of the aggregate shall be initialized implicitly the same as objects that have static storage duration.</blockquote><p id="a7d5ba88-003f-4484-9abd-318aae00583c" class="">Clause 10</p><blockquote id="e9698231-599d-484c-8fb8-8d7f530fbef6" class="">If an object that has static or thread storage duration is not initialized explicitly ... if it has arithmetic type, it is initialized to (positive or unsigned) zero</blockquote></div></article></body></html>

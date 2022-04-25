@@ -1,0 +1,774 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 2 Reading - Static Memory and I/O</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="690db2e2-49ea-48d1-a45a-437a567b2f54" class="page sans"><header><h1 class="page-title">Week 2 Reading - Static Memory and I/O</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@February 19, 2022 5:15 PM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-green">COMP2017</span></td></tr></tbody></table></header><div class="page-body"><nav id="0fc735e4-648f-47b5-bfec-6214232136af" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#43fb1610-3416-4b34-b71e-e0f579a20945">1.7.4 Files</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#bdc25447-9659-40e7-9f3c-4b931e922e54">2.1 Information Storage</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7b8c7195-1ca7-4c5e-aac9-675b5a4ae5d5">2.1.2 Data Sizes</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cf3b49fb-de34-431c-8277-6de103495105">2.1.3 Addressing and Byte Ordering</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#09412f08-cc87-4f37-8eb8-8c77aedc0cb0">2.1.6 Introduction to Boolean Algebra</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ce0003bd-f629-45ce-b19d-5602710b7cef">2.1.7 Bit-Level Operations in C</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e36cb283-ab68-42e6-a9be-834177203325">2.1.8 Logical Operations in C</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cc03dd0b-e62c-4d06-a4a1-8d67e6f95cab">2.1.9 Shift Operations in C</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e776e31e-da0d-42f8-a344-68ea24522ced">3.8 Array Allocation and Access</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f90cfa0c-2a92-4273-bda1-7f1c7628c7ed">3.8.1 Basic Principles</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6d8b6f4e-c44a-41ba-9c45-86075d312453">3.8.2 Pinter Arithmetic</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7bac3533-dd2e-4155-8756-9cb4b47d6b2d">3.10 Combining Control and Data in Machine-Level Programs</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c13777c6-8982-4c2a-b315-72d46ea1ed11">3.10.1 Understanding Pointers</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ef26c2ab-9325-428f-a6a4-2524f76f77c1">3.10.2 Using the <code>gdb</code> Debugger</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d47cdc02-7923-4d41-be3f-cc694e4cdc81">3.10.3 Out-of-Bounds Memory References and Buffer Overflow</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#4d3e09a4-4770-4dd2-bb25-6026728778c3">3.10.4 Thwarting Buffer Overflow Attacks</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#73f8a69f-5537-4c88-92b8-6d64796707bb">Stack Randomization</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#b8a9e2e9-2ede-41bb-b729-94f0451c129e">Stack Corruption Detection</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#b049b9c1-f37b-4ed2-82e2-f8ca3b9738b9">Limiting Executable Code Regions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9657d95e-0d80-42a4-bcf1-cebf3e995592">3.10.5 Supporting Variable-Sized Stack Frames</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#df427d51-8aff-4a8e-a519-79b1d699634f">10.1 Unix I/O</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a78e99d9-14b5-4919-8f97-40bbf7da583c">10.9 I/O Redirection</a></div></nav><h2 id="43fb1610-3416-4b34-b71e-e0f579a20945" class="">1.7.4 Files</h2><p id="913706bc-cf48-45d1-8f36-c00ad9da486d" class="block-color-blue_background">A <em>file</em> is a sequence of bytes. Every I/O device, including disks, keyboard, displays, and even networks, is modeled as a file. All input and output in the system are performed by reading and writing files, using a small set of system calls known as <em>Unix I/O</em>. This simple and elegant notion of a file is nonetheless very powerful because it provided applications with a uniform view of all the varied I/O devices that might be contained in the system.</p><h1 id="bdc25447-9659-40e7-9f3c-4b931e922e54" class="">2.1 Information Storage</h1><p id="f0efb34e-b0ae-445b-be87-f46d5a8b9ba8" class="">A machine-level program views memory as a very large array of bytes referred to as <em>virtual memory</em>. Every byte of memory is identified by a unique number, known as its <em>address</em>, and the set of all possible addresses is known as the <em>virtual address space</em>. It is just a conceptual image presented to the machine-level program. The actual implementation uses a combination of dynamic random access memory (DRAM), flash memory, disk storage, special hardware, and operating system software to provide the program with what appears to be a monolithic byte array.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cab1707c-533f-4b53-b2a3-676a830c1abc"><div style="font-size:1.5em"><span class="icon">☝</span></div><div style="width:100%">monolithic: (of an organization or system) large, powerful, and intractably indivisible and uniform.</div></figure><p id="c7e2dc4d-69f1-4fbd-b29d-621939e72517" class=""><em>Program objects</em>: program data, instructions, and control information.</p><p id="e3e879f4-f239-44a8-bd37-9ead5fe183e5" class="">The C compiler associates <em>type</em> information with each pointer, so that it can generate different machine-level code to access the value stored at the location designated by the pointer depending on the type of that value. Although the C compiler maintains this type of information, the actual machine-level program it generates has no information about data types.</p><h2 id="7b8c7195-1ca7-4c5e-aac9-675b5a4ae5d5" class="">2.1.2 Data Sizes</h2><p id="1b18cd2b-a718-48d4-a178-df48e009210d" class="">Every computer has a <em>word size</em>, indicating the nominal size of pointer data.</p><p id="e49231dd-0800-4ba9-9593-050344224404" class="">Since a virtual address is encoded by such a word, for a machine with a <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span></span><span>﻿</span></span>-bit word size, the virtual addresses can range from <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^w-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.747722em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span>, giving the program access to at most <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>w</mi></msup></mrow><annotation encoding="application/x-tex">2^w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> bytes.<div class="indented"><p id="c3c1ea19-d7c6-4fbd-a5f5-e15d99350424" class="">In recent years, 32-bit word sizes (4Gb maximum virtual address space) → 64-bit (16 exabytes).</p></div></p><p id="71a20ac5-c960-4c1c-9323-bc2173d44c40" class="block-color-blue_background">Most 64-bit machines can also run programs compiled for use on 32-bit machines, a form of backward compatibility.<div class="indented"><p id="99332a57-741b-40b8-ae11-4204d198ff00" class=""><code>gcc -m32 prog.c</code> to run on 32-bit or 64-bit → 32-bit programs</p><p id="9f0f1144-996f-47bc-971b-17b17901e0ad" class=""><code>gcc -m64 prog.c</code> to run on only 64-bit machine → 64-bit programs</p></div></p><h2 id="cf3b49fb-de34-431c-8277-6de103495105" class="">2.1.3 Addressing and Byte Ordering</h2><p id="4fcf5fe7-65fb-446e-b05a-afd643e0d6a9" class="">In virtually all machines, a multi-byte object is stored as a contiguous sequence of bytes, with the address of the object given by the smallest address of the bytes used.</p><p id="f4be06d6-8332-48a2-850f-838014ea4ea3" class="block-color-blue_background">For ordering the bytes representing any object, there are two common conventions. For example, for the number <code>0x01234567</code>.<div class="indented"><p id="c051cfb9-f794-4f61-b0d8-587410ea0a5f" class=""><em>Little-endian</em> The least significant byte comes first.</p><table id="8914b149-f80e-432c-9b01-dae39f799d7b" class="simple-table"><thead class="simple-table-header"><tr id="94dc5be0-94e1-4c33-b0f7-d61a58cbdf7e"><th id="ii:C" class="simple-table-header-color simple-table-header"></th><th id="u=Vx" class="simple-table-header-color simple-table-header">0x100</th><th id="}db^" class="simple-table-header-color simple-table-header">0x101</th><th id="qiLW" class="simple-table-header-color simple-table-header">0x102</th><th id="Y&gt;VR" class="simple-table-header-color simple-table-header">0x103</th><th id="BBa:" class="simple-table-header-color simple-table-header"></th></tr></thead><tbody><tr id="5149002b-e7f7-4e77-9ef8-1e63f8ba0dfb"><td id="ii:C" class="">...</td><td id="u=Vx" class="">67</td><td id="}db^" class="">45</td><td id="qiLW" class="">23</td><td id="Y&gt;VR" class="">01</td><td id="BBa:" class="">...</td></tr></tbody></table><p id="1cf8a7be-9a97-4ffd-993f-154abea89339" class=""><em>Big-endian</em> The most significant byte comes first.</p><table id="abc94687-51a8-4ea4-a618-cd8f1b85f8cc" class="simple-table"><thead class="simple-table-header"><tr id="d1305f7b-3df1-49c3-8e06-4f94e18a0eb5"><th id="ii:C" class="simple-table-header-color simple-table-header"></th><th id="u=Vx" class="simple-table-header-color simple-table-header">0x100</th><th id="}db^" class="simple-table-header-color simple-table-header">0x101</th><th id="qiLW" class="simple-table-header-color simple-table-header">0x102</th><th id="Y&gt;VR" class="simple-table-header-color simple-table-header">0x103</th><th id="BBa:" class="simple-table-header-color simple-table-header"></th></tr></thead><tbody><tr id="96795539-757c-4b9a-8661-90c1b126846e"><td id="ii:C" class="">...</td><td id="u=Vx" class="">01</td><td id="}db^" class="">23</td><td id="qiLW" class="">45</td><td id="Y&gt;VR" class="">67</td><td id="BBa:" class="">...</td></tr></tbody></table></div></p><p id="cfcf8144-786d-4b76-8127-604762eb6777" class="">There is no technological reason to choose one byte ordering convention over the other. However, there are cases where byte ordering is important:</p><ul id="98b21c70-fc3d-4aef-b586-07ecbfc80ae9" class="block-color-blue_background bulleted-list"><li style="list-style-type:disc">Binary data are communicated over a network between different machines. Code written for networking applications must follow established conventions for byte ordering.</li></ul><ul id="5674700c-d94b-4e2d-9b13-4ea8bfdcbc2c" class="block-color-blue_background bulleted-list"><li style="list-style-type:disc">Looking at the byte sequences representing integer data when inspecting machine-level programs.</li></ul><ul id="392c0d82-9484-445f-87c8-6560b1c16e7e" class="block-color-blue_background bulleted-list"><li style="list-style-type:disc">Programs are written that circumvent the normal type system. This can be done using a <em>cast</em> or a <em>union</em> to allow an object to be referenced according to a different data type from which it was created.</li></ul><div id="c15c141e-846f-4503-9c3e-6a058a15e9cc" class="column-list"><div id="86e08cb3-9818-4bd4-b003-876f2d5f5674" style="width:50%" class="column"><h2 id="09412f08-cc87-4f37-8eb8-8c77aedc0cb0" class="">2.1.6 Introduction to Boolean Algebra</h2></div><div id="1de4e9bb-3930-4189-a0bc-ce6326b83d49" style="width:50%" class="column"><h2 id="ce0003bd-f629-45ce-b19d-5602710b7cef" class="">2.1.7 Bit-Level Operations in C</h2></div></div><p id="20ace8bc-620e-40f6-86b7-36c89423cd25" class="">One useful application of bit vectors is to represent subsets of finite sets. We encode any subset <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>⊆</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>w</mi><mo>−</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">A\subseteq\{0,1,\dots,w-1\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span></span><span>﻿</span></span> with a bit vector <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msub><mi>a</mi><mrow><mi>w</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>a</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>a</mi><mn>0</mn></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[a_{w-1},\dots,a_1,a_0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>, where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mtext>  </mtext><mo>⟺</mo><mtext>  </mtext><mi>i</mi><mo>∈</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">a_i=1 \iff i \in A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66844em;vertical-align:-0.024em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">⟺</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69862em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span></span></span></span></span><span>﻿</span></span>. Then, boolean operations corresponds to set operations:</p><ul id="258fef31-ed6f-4aa9-9efc-5fc50751c49e" class="bulleted-list"><li style="list-style-type:disc"><code>|</code> set union</li></ul><ul id="c12b4824-ffa4-4856-9c8d-e3dc3c92d3a3" class="bulleted-list"><li style="list-style-type:disc"><code>&amp;</code> set intersection</li></ul><ul id="f42c19ba-289f-4396-bade-11522792e9d7" class="bulleted-list"><li style="list-style-type:disc"><code>~</code> set complement</li></ul><p id="b1e0ea80-0ec0-4fdc-80fa-ac31f3fa8c17" class="">An application of the property that <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⊕</mo><mi>a</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a \oplus a = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> is the following swap algorithm.</p><pre id="3082c1c9-96c6-4f88-ae2b-414eb6d9e35a" class="code"><code>void inplace_swap(int *x, int *y) {
+	*y = *x ^ *y;  /* Step 1 */
+	*x = *x ^ *y;  /* Step 2 */
+	*y = *x ^ *y;  /* Step 3 */
+}</code></pre><table id="97f8b29f-21f6-4bd6-b0dd-cfec0b74d04b" class="simple-table"><thead class="simple-table-header"><tr id="371c65d8-7914-4674-8e8d-c5377a2382ba"><th id="&lt;EaF" class="simple-table-header-color simple-table-header">Step</th><th id="`NRU" class="simple-table-header-color simple-table-header"><code>*x</code></th><th id="QVfp" class="simple-table-header-color simple-table-header"><code>*y</code></th></tr></thead><tbody><tr id="fdc6c673-1397-48b2-84a3-e7e91adb12f1"><td id="&lt;EaF" class="">Initially</td><td id="`NRU" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span></span><span>﻿</span></span></td><td id="QVfp" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="eb1f87b1-88f7-41af-8865-b911c72905a2"><td id="&lt;EaF" class="">1</td><td id="`NRU" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span></span><span>﻿</span></span></td><td id="QVfp" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⊕</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \oplus b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="249f6f84-5395-47c7-b8cb-a3af60e5bc00"><td id="&lt;EaF" class="">2</td><td id="`NRU" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⊕</mo><mo stretchy="false">(</mo><mi>a</mi><mo>⊕</mo><mi>b</mi><mo stretchy="false">)</mo><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \oplus (a \oplus b) = b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span></span><span>﻿</span></span></td><td id="QVfp" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>⊕</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a \oplus b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="73c79176-41f6-4f42-b084-9ca89b3b2875"><td id="&lt;EaF" class="">3</td><td id="`NRU" class="">b</td><td id="QVfp" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>a</mi><mo>⊕</mo><mi>b</mi><mo stretchy="false">)</mo><mo>⊕</mo><mi>b</mi><mo>=</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">(a \oplus b) \oplus b = a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span></span></span></span></span><span>﻿</span></span></td></tr></tbody></table><p id="286b0113-d0b4-40ab-9c22-893a40158224" class="block-color-blue_background">However, this algorithm assumes that x and y point to different locations. Otherwise, it would zero out the value at that address. The problem is that this function operates <strong>in place</strong>.</p><p id="6e88f463-bd7d-496a-80ad-258d94a00563" class="">One common use of bit-level operations is to implement m<em>asking</em> operations.</p><h2 id="e36cb283-ab68-42e6-a9be-834177203325" class="">2.1.8 Logical Operations in C</h2><p id="1e4f04d8-444e-4560-a7e4-f6110e3ed0ec" class="">The logical operations treat any nonzero argument as representing <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>true</mtext></mrow><annotation encoding="application/x-tex">\text{true}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">true</span></span></span></span></span></span><span>﻿</span></span> and argument 0 as representing <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>false</mtext></mrow><annotation encoding="application/x-tex">\text{false}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">false</span></span></span></span></span></span><span>﻿</span></span>. They return either 1 or 0, indicating a result of either <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>true</mtext></mrow><annotation encoding="application/x-tex">\text{true}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord text"><span class="mord">true</span></span></span></span></span></span><span>﻿</span></span> or <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>false</mtext></mrow><annotation encoding="application/x-tex">\text{false}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord text"><span class="mord">false</span></span></span></span></span></span><span>﻿</span></span>, respectively.</p><p id="1662802b-a639-474c-82e9-69f5f716c549" class="block-color-blue_background">Another important distinction is that logical operators are short-circuited. For example, the expression <code>a &amp;&amp; 5/a</code> will never cause a division by zero, and the expression <code>p &amp;&amp; *p++</code> will never cause the dereferencing of a null pointer.</p><h2 id="cc03dd0b-e62c-4d06-a4a1-8d67e6f95cab" class="">2.1.9 Shift Operations in C</h2><p id="31d50b4b-05e2-417e-82fd-84e3326505f2" class="">C also provides a set of <em>shift</em> operations for shifting bit patterns to the left and the right.</p><p id="cea8796e-32db-47ef-9ab9-2028834ffc7a" class="">For an operand <code>x</code> having bit representation <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>2</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[x_{w-1}, x_{w-2}, \dots, x_0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>, the C expression <code>x &lt;&lt; k</code> yields a value with bit representation <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mi>k</mi><mo>−</mo><mn>2</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>x</mi><mn>0</mn></msub><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[x_{w-k-1}, x_{w-k-2}, \dots, x_0, 0, \dots, 0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>.</p><p id="8c263147-dd31-49da-bb13-a6247405c1eb" class="block-color-blue_background">Generally, machines support two forms of right shift <code>x &gt;&gt; k</code>:</p><ul id="0b9ac734-47cd-40a5-ad6d-e8bdacb5ae28" class="block-color-blue_background bulleted-list"><li style="list-style-type:disc"><em>Logical</em>. A logical right shift fills the left end with <code>k</code> zeros, giving a result <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>2</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>x</mi><mi>k</mi></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0, \dots, 0, x_{w-1}, x_{w-2}, \dots, x_k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>.</li></ul><ul id="ade4f932-d95b-4d47-8678-ba2d086be894" class="block-color-blue_background bulleted-list"><li style="list-style-type:disc"><em>Arithmetic</em>. An arithmetic right shift fills the left end with <code>k</code> repetitions of the most significant bit, giving a result <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>1</mn></mrow></msub><mo separator="true">,</mo><msub><mi>x</mi><mrow><mi>w</mi><mo>−</mo><mn>2</mn></mrow></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>x</mi><mi>k</mi></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[x_{w-1}, \dots, x_{w-1}, x_{w-1}, x_{w-2}, \dots, x_k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span></span><span>﻿</span></span>. This convention is useful for operating on signed integer data.</li></ul><p id="f6d81eb0-cecb-413b-a848-ec176d0b360b" class="block-color-blue_background">The C standards do not precisely define which type of right shift should be used with signed numbers. In practice, almost all compiler/machine combinations use arithmetic right shifts for signed data. For unsigned data, the right shifts must be logical.<div class="indented"><p id="7122cef9-28db-485d-8ce6-1bf9ad856b38" class="">Java, however, has a precise definition of how the right shifts should be performed. The expression <code>x &gt;&gt; k</code> shifts <code>x</code> arithmetically by <code>k</code> positions, while <code>x &gt;&gt;&gt; k</code> shifts it logically.</p><p id="6845cc2a-2449-4ace-bf5e-1351919ee449" class="">Python only has an arithmetic right shift; logical right shift would not make sense in the context of Python’s unbounded integer type. <a href="https://stackoverflow.com/questions/64963170/how-to-do-arithmetic-right-shift-in-python-for-signed-and-unsigned-values#:~:text=Actually%2C%20Python%20only%20has%20arithmetic,used%20to%20represent%20an%20integer.">[ref]</a></p></div></p><h1 id="e776e31e-da0d-42f8-a344-68ea24522ced" class="">3.8 Array Allocation and Access</h1><p id="caf3cd69-d3e6-4021-a89f-205993db612c" class="">Array in C is one means of aggregating scalar data into larger data types. One feature of C is that we can generate pointers and perform arithmetic, which is translated into address computations in machine code.</p><p id="88c2c881-16cb-43d3-9f2a-01ff8539635d" class="">Compilers are particularly good at optimizing address computations used by array indexing. This can make the correspondence between the C code and its translation into machine code somewhat difficult to decipher.</p><h2 id="f90cfa0c-2a92-4273-bda1-7f1c7628c7ed" class="">3.8.1 Basic Principles</h2><figure id="0db82279-cd00-46be-9016-e94578e2b3d6"><a href="https://en.cppreference.com/w/c/language/array" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Array declaration</div><div class="bookmark-description">1,2) General array declarator syntax 3) Declarator for VLA of unspecified size (can appear in function prototype scope only) where expression - any expression other than comma operator, designates the number of elements in the array qualifiers - any combination of , , or qualifiers, only allowed in function parameter</div></div><div class="bookmark-href"><img src="https://en.cppreference.com/favicon.ico" class="icon bookmark-icon"/>https://en.cppreference.com/w/c/language/array</div></div></a></figure><p id="0228c5e0-d3ec-405c-bfb0-d55d553527c1" class="">For data type <code>T</code> and some <em>integer constant expression</em> <code>N</code>, consider a declaration of the form <code>T A[N];</code></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="316d365b-fe04-420b-b35e-c9ca5670edf9"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">An integer constant expression is an expression that is composed of only the following elements: <ul id="d36cbb8d-04cc-4742-a07c-dea78241a76e" class="bulleted-list"><li style="list-style-type:disc">literals</li></ul><ul id="5971d212-b05b-48eb-978a-00b52a29980d" class="bulleted-list"><li style="list-style-type:disc">enumerators</li></ul><ul id="6b5f88c5-97aa-4289-93ee-36bdbe3d5e14" class="bulleted-list"><li style="list-style-type:disc"><code>const</code> variables initialized with compile-time constant expressions</li></ul><ul id="f74b352e-9db1-4232-90a1-2c8d8662b8e8" class="bulleted-list"><li style="list-style-type:disc"><code>static const</code> data members initialized with compile-time constant expressions</li></ul><ul id="812ed349-2f5a-4b57-bef4-43dd66953ccb" class="bulleted-list"><li style="list-style-type:disc">casts to integral types</li></ul><ul id="12e81245-d8bb-49ce-bd2f-17def1a72cc4" class="bulleted-list"><li style="list-style-type:disc"><code>sizeof</code> expressions, where the operand is not a variable-length array</li></ul></div></figure><p id="5acd8dc9-2b4a-4c94-a48d-ab33b8646245" class="">The declaration has two effects:</p><ul id="0cb4e862-97fb-4eac-938a-5ce4e6157cdc" class="bulleted-list"><li style="list-style-type:disc">It allocates a contiguous region of <code>sizeof(T) * N</code> bytes in memory.</li></ul><ul id="e6ca82f5-874c-4fa4-a6ff-1b872056f44d" class="bulleted-list"><li style="list-style-type:disc">It introduces an identifier <code>A</code> that has the value of the address at the beginning of the array.</li></ul><p id="78f10eff-86cb-431f-a0f9-dc1334690e70" class="block-color-gray_background">The memory referencing instructions of x86-64 are designed to simplify array access. For example, suppose <code>E</code> is an array of values of type <code>int</code> and we wish to evaluate <code>E[i]</code>, where the address of <code>E</code> is stored in register <code>%rdx</code> and <code>i</code> is stored in register <code>%rcx</code>. Then the instruction <code>movl (%rdx, %rcx, 4), %eax</code> loads the result to register <code>%eax</code>.</p><h2 id="6d8b6f4e-c44a-41ba-9c45-86075d312453" class="">3.8.2 Pinter Arithmetic</h2><p id="57d675f2-c2cf-4085-a728-93c3bd8f6800" class="">C allows arithmetic on pointers, where the computed value is scaled according to the size of the data type referenced by the pointer.</p><h1 id="7bac3533-dd2e-4155-8756-9cb4b47d6b2d" class="">3.10 Combining Control and Data in Machine-Level Programs</h1><h2 id="c13777c6-8982-4c2a-b315-72d46ea1ed11" class="">3.10.1 Understanding Pointers</h2><p id="e1244ce8-2902-4d4e-a97b-5ed5078f9531" class="">Some key principles of pointers:</p><ul id="c951c724-e176-4585-843e-33321fd0014e" class="bulleted-list"><li style="list-style-type:disc">Every pointer has an associated type. The special <code>void *</code> represents a generic pointer. Pointer types are <strong>not</strong> part of the machine code; they are an abstraction provided by C to help programmers avoid addressing errors.</li></ul><ul id="1f3b5bc5-f5cd-4a88-9098-3750a0542ccc" class="bulleted-list"><li style="list-style-type:disc">Every pointer has a value. The special <code>NULL</code> value indicates that the pointer does not point anywhere.</li></ul><ul id="9752d457-6713-43c2-9f92-90acd84a6ca7" class="bulleted-list"><li style="list-style-type:disc">Pointers are created with the <code>&amp;</code> operator. The operator can be applied to any C expression that is categorized as an <em>lvalue</em>. The machine-code realization of the <code>&amp;</code> operator often uses the <code>leap</code> instruction to compute the expression value.<figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="7d9c15fd-b7a7-49f2-a7bc-62978c86802b"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><a href="https://en.cppreference.com/w/c/language/value_category">Lvalue Expression</a><p id="1ee5ed71-1bb6-4da9-80ec-bbd6b0a8f7f5" class="">Lvalue expression is any expression with an object type other than the type <code>void</code>. Lvalue expression evaluates to the <em>object identity</em>. The following expressions are lvalues:</p><ul id="65d856ca-fcb4-4af0-8ac7-3647debb4751" class="bulleted-list"><li style="list-style-type:disc">identifiers, including function named parameters, provided they were declared as designating objects (not functions or enumeration constants)</li></ul><ul id="dd6418ed-f524-4945-90a8-7d895e7cc282" class="bulleted-list"><li style="list-style-type:disc">string literals</li></ul><ul id="876bbaa2-423d-4868-b604-ddfd9a78b21a" class="bulleted-list"><li style="list-style-type:disc">compound literals</li></ul><ul id="dd538bde-56d1-4f12-9d84-d0bec82cded6" class="bulleted-list"><li style="list-style-type:disc">parenthesized lvalue expression</li></ul><ul id="f90c322f-0aaf-4e6a-ad2b-adc40217e9d7" class="bulleted-list"><li style="list-style-type:disc">the result of member access <code>.</code> operator if its left-hand argument is lvalue</li></ul><ul id="52113e32-f11c-4c5e-935e-d35da23129cc" class="bulleted-list"><li style="list-style-type:disc">the result of member access through pointer <code>-&gt;</code> operator</li></ul><ul id="72467c1f-d0a9-4b40-9b9e-b892c6639853" class="bulleted-list"><li style="list-style-type:disc">the result of the indirection (unary <code>*</code>) operator applier to a pointer to object</li></ul><ul id="aef8881b-e0e0-42ab-b6c9-7ad9054ee6be" class="bulleted-list"><li style="list-style-type:disc">the result of the subscription operator (<code>[]</code>)</li></ul></div></figure></li></ul><ul id="19aa2bcc-6a67-42ed-9cd2-bcffb9eb5f4d" class="bulleted-list"><li style="list-style-type:disc">Pointers are dereferenced with the <code>*</code> operator. The result is a value having the type associated with the pointer. Dereferencing is implemented by a memory reference, whether storing to or retrieving from the specified address.</li></ul><ul id="9496b7aa-be35-42a4-88af-3a430cf3994a" class="bulleted-list"><li style="list-style-type:disc">Arrays and pointers are closely related. The name of an array can be referenced (but not updated ) as if it were a pointer variable. Array referencing (e.g. <code>a[i]</code>) has the exact same effect as pointer arithmetic and dereferencing (e.g. <code>*(a+3)</code>). Both arrays referencing and pointer arithmetic require scaling the offsets by the object size.<p id="11e5a339-4e62-41af-84b4-6131c798522f" class=""><code>p+i</code> ⇒ <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>+</mo><mi>L</mi><mo>×</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">p + L \times i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span></span><span>﻿</span></span>, where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span></span></span></span></span><span>﻿</span></span> is the size of the data type associated with <code>p</code>.</p></li></ul><ul id="45463b08-bf90-419b-966d-e69eef2c9558" class="bulleted-list"><li style="list-style-type:disc">Casting from one type of pointer to another changes its type but not its value. One effect of casting is to change any scaling of pointer arithmetic.</li></ul><ul id="b163f2b4-5937-4513-afc6-3508b1ce104c" class="bulleted-list"><li style="list-style-type:disc">Pointers can also point to functions. This provides a powerful capability for storing and passing references to code, which can be invoked in some other part of the program.<p id="e322280d-4e05-4516-9b35-4cf5f0e52200" class="">Pointer declaration takes the form <code>return_type (*name)(type parameter, ...)</code><em>. </em>The parentheses around the <code><em>*</em></code><code>name</code> are required because otherwise it would be interpreted as a function prototype.</p></li></ul><h2 id="ef26c2ab-9325-428f-a6a4-2524f76f77c1" class="">3.10.2 Using the <code>gdb</code> Debugger</h2><p id="f8b9e219-ef02-436f-a897-503d732cd97f" class="">The GNU debugger <code>gdb</code> provides several useful features to support the run-time evaluation and analysis of machine-level programs.</p><h2 id="d47cdc02-7923-4d41-be3f-cc694e4cdc81" class="">3.10.3 Out-of-Bounds Memory References and Buffer Overflow</h2><p id="b4a4c56d-b667-4bb2-a7ac-f708d3d23ea1" class="">C does not perform any bounds checking for array references; local variables are stored on the stack along with state information such as saved register values and return addresses. The state stored on the stack can get corrupted by a write to out-of-bounds array element. When the program then tries to reload the register or execute a <code>ret</code> instruction with this corrupted state, things can go seriously wrong.</p><p id="49f4a3ad-5783-44a1-b9ed-768c334a1527" class="">A particularly common source of state corruption is known as <em>buffer overflow</em>. Typically, some character array is allocated on the stack to hold a string, but the size of the string exceeds the space allocated for the array. This is demonstrated by the following program example:</p><div><pre id="221f0903-b59c-4618-ac0b-bcd87b753e26" class="code"><code>/* Implementation of library function gets */
+char *gets(char *s) {
+    int c;
+    char *dest = s;
+    while ((c = getchar()) != &#x27;\n&#x27; &amp;&amp; c != EOF) {
+        *dest++ = c;
+    }
+    if (c == EOF &amp;&amp; dest == s) {
+        /* No characters read */
+        return NULL;
+    }
+    *dest++ = &#x27;\0&#x27;; /* Terminate string */
+    return s;
+}
+
+void echo() {
+    char buf[8];
+    gets(buf);
+    puts(buf);
+}</code></pre></div><p id="26cf7e96-0ba1-46f9-b859-d9583110f4ff" class="">The compiled assembly code with <a href="Week%202%20Reading%20-%20Static%20Memory%20and%20I%20O%20690db2e249ea48d1a45a437a567b2f54.html"><code>-fno-stack-protector</code></a> flag shows:</p><div><pre id="531bd7f8-da62-45ae-b21d-c6ccf99ccde6" class="code"><code>echo:
+.LFB1:
+	.cfi_startproc
+	stp	x29, x30, [sp, -32]!
+	.cfi_def_cfa_offset 32
+	.cfi_offset 29, -32
+	.cfi_offset 30, -24
+	mov	x29, sp
+	add	x0, sp, 24
+	bl	gets
+	add	x0, sp, 24
+	bl	puts
+	nop
+	ldp	x29, x30, [sp], 32
+	.cfi_restore 30
+	.cfi_restore 29
+	.cfi_def_cfa_offset 0
+	ret
+	.cfi_endproc</code></pre></div><p id="d1ae2f6a-e030-4f0a-96ab-d7909d4be522" class="">The program allocates 24 bytes on the stack by subtracting 24 from the stack pointer. Character <code>buf</code> is positioned at the top of the stack. If the user types more than seven characters, the string returned by <code>gets</code> will not fit within the space allocated for <code>buf</code>. The return address and saved state in the caller will get corrupted. Unfortunately, many commonly used library functions, including <code>strcpy</code>, <code>strcat</code>, and <code>sprintf</code>, have the property that they can generate a byte sequence without being given any indication of the size of the destination buffer. Such conditions can lead to vulnerabilities to buffer overflow.</p><p id="0f2a1d67-6ef5-4554-af26-875322d9a522" class="">A more pernicious use of buffer overflow is to get a program to perform a function that it would otherwise be unwilling to do. This is one of the most common methods to attack the security of a system over a computer network. Typically, the program is fed with a string that contains the byte encoding of some executable code, called the <em>exploit code</em>, plus some extra bytes that overwrite the return address with a pointer to the exploit code. The effect of executing the <code>ret</code> instruction is then to jump to the exploit code.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e4541385-e45f-44f7-83c8-cc1218350a64"><div style="font-size:1.5em"><span class="icon">☝</span></div><div style="width:100%">pernicious: having a harmful effect, especially in a gradual or subtle way</div></figure><p id="6f7adeb3-5c74-4417-b476-5ecb56e5870e" class="">In one form of attack, the exploit code uses a system call to start up a shell program, providing the attacker with a range of operating system functions. In another form, the exploit code performs some otherwise unauthorized task, repairs the damage to the stack, and then executes <code>ret</code> a second time, causing a normal return to the caller.</p><h2 id="4d3e09a4-4770-4dd2-bb25-6026728778c3" class="">3.10.4 Thwarting Buffer Overflow Attacks</h2><p id="a5e3f494-0cdb-4d89-8719-2e743b1627cb" class="">Modern compilers and operating systems have implemented mechanisms to make it more difficult to mount buffer overflow attacks.</p><h3 id="73f8a69f-5537-4c88-92b8-6d64796707bb" class="">Stack Randomization</h3><p id="fdd6c246-2772-4dae-91c0-3af62e08b7d2" class="">Generating a pointer to the exploit code in a buffer overflow attack requires knowing the stack address. Historically, the stack addresses for a program were highly predictable. For all systems running the same combination of program and operating system version, the stack locations were fairly stable across many machines. Many systems were vulnerable to the same virus, this is a phenomenon often referred to as a <em>security monoculture</em>.</p><p id="3be896f4-0d4e-4cef-bed6-98750f242483" class="">The idea of <em>stack randomization</em> is to make the position of the stack vary from one run of a program to another. This is implemented by allocating a random amount of space between <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span> bytes on the stack at the start of a program, for example, by using the allocation function <code>alloca</code>, which allocates space for a specified number of bytes on the stack. The choice of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span> needs to be large enough to get sufficient variations in the stack addresses, yet small enough that it does not waste too much space in the program.</p><p id="fafc7932-103b-4383-ba02-92512b766148" class="">This has become a standard practice in Linux systems. It is one of a larger class of techniques known as <em>address-space layout randomization</em> (or ASLR). With ASLR, different parts of the program, including program code, library code, stack, global variables, and heap data, are loaded into different regions of memory each time a program is run.</p><p id="2c42a259-c089-465a-9ec9-03d196a4cb15" class="">A persistent attacker can overcome randomization by brute force, repeatedly attempting attacks with different addresses. A common trick is to include a long sequence of <code>nop</code> instructions before the actual exploit code. As long as the attacker can guess an address somewhere within this sequence, the program will then hit the exploit code. The common term for this sequence is a “<code>nop</code> sled”. If we set up a <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">2^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>-byte <code>nop</code> slide, then the randomization over <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><msup><mn>2</mn><mi>m</mi></msup></mrow><annotation encoding="application/x-tex">n=2^{m}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> can be cracked by enumerating <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>m</mi><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">2^{m-k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> starting addresses.</p><h3 id="b8a9e2e9-2ede-41bb-b729-94f0451c129e" class="">Stack Corruption Detection</h3><p id="a9dc12d0-6e07-4b95-8f39-9dd2dff6e65a" class="">In C, there is no reliable way to prevent writing beyond the bounds of an array. Instead, the program can attempt to detect when such a write has occurred before it can have any harmful effects at a machine-code level.</p><p id="5d29ccec-2215-4570-9482-ae3f5f24d372" class="block-color-blue_background">Recent versions of <code>gcc</code> incorporate a mechanism known as <em>stack protector</em> in the generated code to detect buffer overruns. The idea is to store a special <em>canary</em> value in the stack frame between any local buffer and the rest of the stack state. Before restoring the register state and returning from the function, the program checks if the canary has been altered by some operation of this function or one that it has called. If so, the program aborts with an error. The canary value, also referred to as a <em>guard value</em>, is generated randomly each time the program runs, and also there is no easy way for an attacker to determine what it is.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3f5bb449-c5be-4137-8fcd-fca9c130b068"><div style="font-size:1.5em"><span class="icon">☝</span></div><div style="width:100%">The term “canary” refers to the historic use of these birds to detect the presence of dangerous gases in coal mines.</div></figure><div><pre id="221f0903-b59c-4618-ac0b-bcd87b753e26" class="code"><code>/* Implementation of library function gets */
+char *gets(char *s) {
+    int c;
+    char *dest = s;
+    while ((c = getchar()) != &#x27;\n&#x27; &amp;&amp; c != EOF) {
+        *dest++ = c;
+    }
+    if (c == EOF &amp;&amp; dest == s) {
+        /* No characters read */
+        return NULL;
+    }
+    *dest++ = &#x27;\0&#x27;; /* Terminate string */
+    return s;
+}
+
+void echo() {
+    char buf[8];
+    gets(buf);
+    puts(buf);
+}</code></pre></div><div id="caa328e0-46b4-489d-b025-6bb75961765b" class="column-list"><div id="82e4b200-8425-4591-bf5b-31df35fce305" style="width:50%" class="column"><pre id="56953d0e-fb9d-4882-84a8-81d1969773e9" class="code"><code>echo:
+.LFB1:
+	.cfi_startproc
+	stp	x29, x30, [sp, -32]!
+	.cfi_def_cfa_offset 32
+	.cfi_offset 29, -32
+	.cfi_offset 30, -24
+	mov	x29, sp
+	adrp	x0, :got:__stack_chk_guard
+	ldr	x0, [x0, #:got_lo12:__stack_chk_guard]
+	ldr	x1, [x0]
+	str	x1, [sp, 24]
+	mov	x1,0
+	add	x0, sp, 16
+	bl	gets
+	add	x0, sp, 16
+	bl	puts
+	nop
+	adrp	x0, :got:__stack_chk_guard
+	ldr	x0, [x0, #:got_lo12:__stack_chk_guard]
+	ldr	x1, [sp, 24]
+	ldr	x2, [x0]
+	subs	x1, x1, x2
+	mov	x2, 0
+	beq	.L8
+	bl	__stack_chk_fail</code></pre></div><div id="23303f3e-0ee3-41c7-bde7-aa1fefa3f779" style="width:50%" class="column"><div><pre id="531bd7f8-da62-45ae-b21d-c6ccf99ccde6" class="code"><code>echo:
+.LFB1:
+	.cfi_startproc
+	stp	x29, x30, [sp, -32]!
+	.cfi_def_cfa_offset 32
+	.cfi_offset 29, -32
+	.cfi_offset 30, -24
+	mov	x29, sp
+	add	x0, sp, 24
+	bl	gets
+	add	x0, sp, 24
+	bl	puts
+	nop
+	ldp	x29, x30, [sp], 32
+	.cfi_restore 30
+	.cfi_restore 29
+	.cfi_def_cfa_offset 0
+	ret
+	.cfi_endproc</code></pre></div><p id="fcab97ef-0e59-4d23-9996-cf5889c077c0" class="">Compile the same program with <em>stack protector</em> on gives the left assembly code vs the previous result on the right.</p></div></div><h3 id="b049b9c1-f37b-4ed2-82e2-f8ca3b9738b9" class="">Limiting Executable Code Regions</h3><p id="d9ddea68-f4c2-4927-b495-24a11c16215a" class="">One method of eliminating the ability of an attacker to insert executable code into a system is to limit the memory that holds executable code. The hardware supports different forms of <em>memory protection</em>, indicating the forms of access allowed by both user programs and the operating system kernel with no efficiency penalty. Many systems allow control over three forms of access:</p><ul id="35bfa2d0-f496-4a8b-a954-938a009f9bc7" class="bulleted-list"><li style="list-style-type:disc">read: reading data from memory</li></ul><ul id="8399f37a-1d25-44ea-ad70-fcdc048d3fe6" class="bulleted-list"><li style="list-style-type:disc">write: storing data into memory</li></ul><ul id="d5800362-2159-4245-a5fa-63d4ceb657bd" class="bulleted-list"><li style="list-style-type:disc">execute: treating the memory contents as machine-level code</li></ul><p id="7e013ef2-8f9a-4363-b605-6d656b4b357f" class="">Historically, the x86 architecture merged the read and execute access controls into a single 1-bit flag. The stack must be readable and writable, which means the bytes on the stack are also executable. More recently, AMD introduced an NX (for “no-execute”) bit into the memory protection for its 64-bit processors, separating the read and execute access modes, and Intel followed suit.</p><p id="bc992215-ac30-4a10-96b4-2d8c24e609ae" class="">Some types of programs require the ability to dynamically generate and execute code (e.g. “just-in-time” compilation or interpretation). Whether or not the run-time system can restrict the executable code to just that part generated by the compiler in creating the original program depends on the language and the operating system.</p><h2 id="9657d95e-0d80-42a4-bcf1-cebf3e995592" class="">3.10.5 Supporting Variable-Sized Stack Frames</h2><p id="3ec6632f-eb5e-45c2-9d73-e3f9ec7aa373" class="">Some functions may require a variable amount of local storage. The compiler can not determine in advance the amount of space that must be allocated for their stack frames. This can occur, for example, when the function calls <code>alloca</code>, a standard library function that can allocate an arbitrary number of bytes of storage on the stack. It can also occur when the code declares a local array of variable size.</p><p id="a9ebb8c9-114a-4a99-92cd-3a7a92ad727d" class="">To manage a variable-sized stack frame, x86-64 code uses register <code>%rbp</code> to serve as a <em>frame pointer</em> (sometimes referred to as a <em>base pointer</em>). The code must save the previous version of the frame pointer on the stack since it is a callee-saved register. It then keeps the frame pointer pointing to this position throughout the execution of the function and references fixed-length local variables at offsets relative to that pointer.</p><h1 id="df427d51-8aff-4a8e-a519-79b1d699634f" class="">10.1 Unix I/O</h1><p id="379ea051-d802-4577-843e-d4f6196798f7" class="">A Linux <em>file</em> is a sequence of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span></span><span>﻿</span></span> bytes: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>0</mn></msub><mo separator="true">,</mo><msub><mi>B</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>B</mi><mi>k</mi></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>B</mi><mrow><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">B_0,B_1,\dots,B_k,\dots,B_{m-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>.</p><p id="991c8a14-9b3f-47dc-af2a-9004e8325dc7" class="">All I/O devices, such as networks, disks, and terminals, are modeled as files, and all input and output are performed by reading and writing the appropriate files. This elegant mapping of devices to files allows the Linux kernel to export a simple, low-level application interface, known as <em>Unix I/O</em>, that enables all input and output to be performed in a uniform and consistent way. The following are operations one can perform on a file:</p><ul id="a812900b-e331-42f5-810b-466b34d6358f" class="bulleted-list"><li style="list-style-type:disc">Opening file. An application announces its intention to access an I/O device by asking the kernel to <em>open</em> the corresponding file. The kernel returns a small non-negative integer, called the <em>descriptor</em>, that identifies the file in all subsequent operations on the file. The kernel keeps track of all information about the open file. The application only keeps track of the descriptor.
+Each process created by a Linux shell begins life with three open files:<table id="2fb41d4a-6dd9-4776-9df4-5c896dae14f7" class="simple-table"><thead class="simple-table-header"><tr id="89ce572f-30f1-4240-936d-5b32bedaab3a"><th id="VnqN" class="simple-table-header-color simple-table-header">name</th><th id="L[e{" class="simple-table-header-color simple-table-header">descriptor</th><th id="TJ@S" class="simple-table-header-color simple-table-header"><code>&lt;unistd.h&gt;</code> constant</th></tr></thead><tbody><tr id="af60f8f0-30b1-4920-8e23-6196e2252006"><td id="VnqN" class=""><em>standard input</em></td><td id="L[e{" class="">0</td><td id="TJ@S" class=""><code>STDIN_FILENO</code></td></tr><tr id="cbad9b8c-7143-4d72-87d0-20803a9b8fa1"><td id="VnqN" class=""><em>standard output</em></td><td id="L[e{" class="">1</td><td id="TJ@S" class=""><code>STDOUT_FILENO</code></td></tr><tr id="68ae0c7d-837d-4e12-9245-c2c375db041e"><td id="VnqN" class=""><em>standard error</em></td><td id="L[e{" class="">2</td><td id="TJ@S" class=""><code>STDERR_FILENO</code></td></tr></tbody></table></li></ul><ul id="c184fff1-9b71-4437-b2c0-8a21ad41181e" class="bulleted-list"><li style="list-style-type:disc">Changing the current file position. The kernel maintains a <em>file position</em> <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span>, initially <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span>, for each open file. The file position is a byte offset from the beginning of a file. An application can set the current file position <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> explicitly by performing a <code>seek</code> operation.</li></ul><ul id="fee4b99e-243c-4cb7-b2a4-d8e738a23198" class="bulleted-list"><li style="list-style-type:disc">Reading and writing files. A <em>read</em> operation copies <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n&gt;0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> bytes from a file to memory, starting at the current file position <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> and then incrementing <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span>. Given a file with a size of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span> bytes, performing a read operation when <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>≥</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">k \ge m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83041em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span></span><span>﻿</span></span> triggers a condition known as <em>end-of-file (EOF)</em>, which can be detected by the application. <span style="border-bottom:0.05em solid">There is no explicit “EOF character” at the end of a file.</span>
+Similarly, a <em>write</em> operation copies <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">n&gt;0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> bytes from memory to a file, starting at the current file position <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> and then updating <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span>.</li></ul><ul id="876c7202-1b98-4fec-9d3f-9cff3677e6c2" class="bulleted-list"><li style="list-style-type:disc">Closing files. When an application has finished accessing a file, it informs the kernel by asking it to <em>close</em> the file. The kernel responds by freeing the data structures it created when the file was opened and restoring the descriptor to a pool of available descriptors. When a process terminates for any reason, the kernel closes all open files and frees their memory resources.</li></ul><h1 id="a78e99d9-14b5-4919-8f97-40bbf7da583c" class="">10.9 I/O Redirection</h1><p id="8fbf6f86-cb29-4a62-a8a5-a98d29d7b97e" class="">Linux shell provides <em>I/O redirection</em> operators that allow users to associate standard input and output with disk files. One way to accomplish this in C is to use the <code>dup2</code> function.</p><pre id="a2441ace-4585-4d94-949a-25a2e09ba041" class="code"><code>int dup2(int oldfd, int newfd);</code></pre><p id="042494e7-3c70-4e35-b1d5-376d91f7c92c" class="">The <code>dup2</code> function copies descriptor table entry <code>oldfd</code> to descriptor table entry <code>newfd</code>, overwriting the previous contents of descriptor table entry <code>newfd</code>. If <code>newfd</code> was already open, then <code>dup2</code> closes <code>newfd</code> before it copies <code>oldfd</code>.</p></div></article></body></html>

@@ -1,0 +1,753 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 2 Lecture - Preparing Data</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="988ecbc4-9f28-49c7-a7c4-25501133b9f9" class="page sans"><header><h1 class="page-title">Week 2 Lecture - Preparing Data</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@March 2, 2022 9:30 PM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-purple">DATA2901</span></td></tr></tbody></table></header><div class="page-body"><figure id="ad609480-2d1b-454d-b5b0-f7ccc8d9ea62" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.2500em" columnalign="center center center center center center center" columnspacing="0.5em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Acquire data</mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munderover><mo stretchy="true" minsize="3.0em">→</mo><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded></munderover></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Reformat and clean data</mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munderover><mo stretchy="true" minsize="3.0em">→</mo><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded></munderover></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Edit analysis scripts</mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munderover><mo stretchy="true" minsize="3.0em">→</mo><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded></munderover></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Execute scripts</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" lspace="-1width" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle><mo fence="false" stretchy="true" minsize="1.8em" maxsize="1.8em">↑</mo><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle></mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" lspace="-1width" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle><mo fence="false" stretchy="true" minsize="1.8em" maxsize="1.8em">↓</mo><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle></mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Debug</mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munderover><mo stretchy="true" minsize="3.0em">←</mo><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded></munderover></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Inspect outputs</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" lspace="-1width" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle><mo fence="false" stretchy="true" minsize="1.8em" maxsize="1.8em">↑</mo><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle></mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Explore alternatives</mtext></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" lspace="-1width" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle><mo fence="false" stretchy="true" minsize="1.8em" maxsize="1.8em">↑</mo><mstyle displaystyle="false" scriptlevel="1"><mpadded width="0" voffset="0.7em"><mrow><mrow></mrow></mrow></mpadded></mstyle></mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mi mathvariant="normal"> </mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munder><munder><mtable rowspacing="0.2500em" columnalign="center" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Make comparisons</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Take notes</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Hold meetings</mtext></mstyle></mtd></mtr></mtable><mo stretchy="true">undefined</mo></munder><mtext>Reflection</mtext></munder></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munderover><mo stretchy="true" minsize="3.0em">→</mo><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded><mpadded width="+0.6em" lspace="0.3em"><mrow></mrow></mpadded></munderover></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><munder><munder><mtable rowspacing="0.2500em" columnalign="center" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Write reports</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Deploy online</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Archive experiment</mtext></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mtext>Share experiment</mtext></mstyle></mtd></mtr></mtable><mo stretchy="true">undefined</mo></munder><mtext>Dissemination</mtext></munder></mstyle></mtd></mtr><mtr></mtr></mtable><annotation encoding="application/x-tex">\def\t#1{\text{#1}}
+\begin{CD}
+\t{Acquire data} @&gt;&gt;&gt; \t{Reformat and clean data} @&gt;&gt;&gt; \t{Edit analysis scripts} @&gt;&gt;&gt; \t{Execute scripts} \\
+@. @. @AAA @VVV \\
+@. @. \t{Debug} @&lt;&lt;&lt; \t{Inspect outputs} \\
+@. @. @AAA @. \\
+@. @. \t{Explore alternatives} @. \\
+@. @. @AAA @. \\
+@. @.
+\underbrace{
+\begin{gather*}
+\t{Make comparisons} \\
+\t{Take notes} \\
+\t{Hold meetings}
+\end{gather*}
+}_{\t{Reflection}}
+@&gt;&gt;&gt;
+\underbrace{
+\begin{gather*}
+\t{Write reports} \\
+\t{Deploy online} \\
+\t{Archive experiment} \\
+\t{Share experiment}
+\end{gather*}
+}_{\t{Dissemination}}
+\end{CD}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:18.708391em;vertical-align:-8.3076955em;"></span><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Acquire data</span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.144em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.511em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128
+-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20
+ 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7
+ 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85
+-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5
+-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67
+ 151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span><span style="top:-2.4000000000000004em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Reformat and clean data</span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.144em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.511em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128
+-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20
+ 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7
+ 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85
+-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5
+-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67
+ 151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span><span style="top:-2.4000000000000004em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Edit analysis scripts</span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord cd-vert-arrow"><span class="sizing reset-size6 size3 mtight cd-label-left" style="bottom:0.8em;"><span class="mord mtight"></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.151005em;"><span style="top:-1.9659950000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>⏐</span></span></span><span style="top:-2.5589950000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span style="height:0.61601em;width:0.667em;"><svg width='0.667em' height='0.61601em' style='width:0.667em' viewBox='0 0 667 616' preserveAspectRatio='xMinYMin'><path d='M312 0 H355 V616 H312z M312 0 H355 V616 H312z'/></svg></span></span><span style="top:-3.167015em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>↑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6500149999999999em;"><span></span></span></span></span></span></span><span class="sizing reset-size6 size3 mtight cd-label-right" style="bottom:0.8em;"><span class="mord mtight"></span></span></span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Debug</span></span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord cd-vert-arrow"><span class="sizing reset-size6 size3 mtight cd-label-left" style="bottom:0.8em;"><span class="mord mtight"></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.151005em;"><span style="top:-1.9659950000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>⏐</span></span></span><span style="top:-2.5589950000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span style="height:0.61601em;width:0.667em;"><svg width='0.667em' height='0.61601em' style='width:0.667em' viewBox='0 0 667 616' preserveAspectRatio='xMinYMin'><path d='M312 0 H355 V616 H312z M312 0 H355 V616 H312z'/></svg></span></span><span style="top:-3.167015em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>↑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6500149999999999em;"><span></span></span></span></span></span></span><span class="sizing reset-size6 size3 mtight cd-label-right" style="bottom:0.8em;"><span class="mord mtight"></span></span></span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Explore alternatives</span></span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord cd-vert-arrow"><span class="sizing reset-size6 size3 mtight cd-label-left" style="bottom:0.8em;"><span class="mord mtight"></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.151005em;"><span style="top:-1.9659950000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>⏐</span></span></span><span style="top:-2.5589950000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span style="height:0.61601em;width:0.667em;"><svg width='0.667em' height='0.61601em' style='width:0.667em' viewBox='0 0 667 616' preserveAspectRatio='xMinYMin'><path d='M312 0 H355 V616 H312z M312 0 H355 V616 H312z'/></svg></span></span><span style="top:-3.167015em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>↑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6500149999999999em;"><span></span></span></span></span></span></span><span class="sizing reset-size6 size3 mtight cd-label-right" style="bottom:0.8em;"><span class="mord mtight"></span></span></span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5000000000000004em;"><span style="top:-1.165892em;"><span class="pstrut" style="height:4.500000000000001em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">Reflection</span></span></span></span></span><span style="top:-4.500000000000001em;"><span class="pstrut" style="height:4.500000000000001em;"></span><span class="mord munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.500000000000001em;"><span class="svg-align" style="top:-1.851999999999999em;"><span class="pstrut" style="height:4.5em;"></span><span class="stretchy" style="height:0.548em;min-width:1.6em;"><span class="brace-left" style="height:0.548em;"><svg width='400em' height='0.548em' viewBox='0 0 400000 548' preserveAspectRatio='xMinYMin slice'><path d='M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z'/></svg></span><span class="brace-center" style="height:0.548em;"><svg width='400em' height='0.548em' viewBox='0 0 400000 548' preserveAspectRatio='xMidYMin slice'><path d='M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z'/></svg></span><span class="brace-right" style="height:0.548em;"><svg width='400em' height='0.548em' viewBox='0 0 400000 548' preserveAspectRatio='xMaxYMin slice'><path d='M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z'/></svg></span></span></span><span style="top:-4.5em;"><span class="pstrut" style="height:4.5em;"></span><span class="mord"><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.5000000000000004em;"><span style="top:-4.66em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Make comparisons</span></span></span></span><span style="top:-3.16em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Take notes</span></span></span></span><span style="top:-1.6599999999999993em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Hold meetings</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.000000000000001em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.648000000000001em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.334108000000001em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.144em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.511em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128
+-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20
+ 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7
+ 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85
+-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5
+-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67
+ 151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span><span style="top:-2.4000000000000004em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.144em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.511em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMinYMin slice'><path d='M400000 241H110l3-3c68.7-52.7 113.7-120
+ 135-202 4-14.7 6-23 6-25 0-7.3-7-11-21-11-8 0-13.2.8-15.5 2.5-2.3 1.7-4.2 5.8
+-5.5 12.5-1.3 4.7-2.7 10.3-4 17-12 48.7-34.8 92-68.5 130S65.3 228.3 18 247
+c-10 4-16 7.7-18 11 0 8.7 6 14.3 18 17 47.3 18.7 87.8 47 121.5 85S196 441.3 208
+ 490c.7 2 1.3 5 2 9s1.2 6.7 1.5 8c.3 1.3 1 3.3 2 6s2.2 4.5 3.5 5.5c1.3 1 3.3
+ 1.8 6 2.5s6 1 10 1c14 0 21-3.7 21-11 0-2-2-10.3-6-25-20-79.3-65-146.7-135-202
+ l-3-3h399890zM100 241v40h399900v-40z'/></svg></span></span><span style="top:-2.4000000000000004em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.144em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.511em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="hide-tail" style="height:0.522em;min-width:3em;"><svg width='400em' height='0.522em' viewBox='0 0 400000 522' preserveAspectRatio='xMaxYMin slice'><path d='M0 241v40h399891c-47.3 35.3-84 78-110 128
+-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20
+ 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7
+ 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85
+-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5
+-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67
+ 151.7 139 205zm0 0v40h399900v-40z'/></svg></span></span><span style="top:-2.4000000000000004em;"><span class="pstrut" style="height:2.5220000000000002em;"></span><span class="sizing reset-size6 size3 mtight cd-arrow-pad"><span class="mord mtight"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.122em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.25em;"></span><span class="arraycolsep" style="width:0.25em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:10.400695500000001em;"><span style="top:-14.7455955em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Execute scripts</span></span></span><span style="top:-12.9066905em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord cd-vert-arrow"><span class="sizing reset-size6 size3 mtight cd-label-left" style="bottom:0.8em;"><span class="mord mtight"></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.151005em;"><span style="top:-1.9660050000000004em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>↓</span></span></span><span style="top:-2.558005em;"><span class="pstrut" style="height:2.61601em;"></span><span style="height:0.61601em;width:0.667em;"><svg width='0.667em' height='0.61601em' style='width:0.667em' viewBox='0 0 667 616' preserveAspectRatio='xMinYMin'><path d='M312 0 H355 V616 H312z M312 0 H355 V616 H312z'/></svg></span></span><span style="top:-3.1660150000000002em;"><span class="pstrut" style="height:2.61601em;"></span><span class="delimsizinginner delim-size1"><span>⏐</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6500149999999999em;"><span></span></span></span></span></span></span><span class="sizing reset-size6 size3 mtight cd-label-right" style="bottom:0.8em;"><span class="mord mtight"></span></span></span></span><span style="top:-11.051575499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord text"><span class="mord">Inspect outputs</span></span></span><span style="top:-9.2126705em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-7.357555499999999em;"><span class="pstrut" style="height:5.249999999999999em;"></span></span><span style="top:-5.518650499999998em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord"> </span></span><span style="top:-1.3186355em;"><span class="pstrut" style="height:5.249999999999999em;"></span><span class="mord munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.249999999999999em;"><span style="top:-1.1736689999999994em;"><span class="pstrut" style="height:5.25em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">Dissemination</span></span></span></span></span><span style="top:-5.25em;"><span class="pstrut" style="height:5.25em;"></span><span class="mord munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.2499999999999996em;"><span class="svg-align" style="top:-1.8519999999999994em;"><span class="pstrut" style="height:5.25em;"></span><span class="stretchy" style="height:0.548em;min-width:1.6em;"><span class="brace-left" style="height:0.548em;"><svg width='400em' height='0.548em' viewBox='0 0 400000 548' preserveAspectRatio='xMinYMin slice'><path d='M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z'/></svg></span><span class="brace-center" style="height:0.548em;"><svg width='400em' height='0.548em' viewBox='0 0 400000 548' preserveAspectRatio='xMidYMin slice'><path d='M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z'/></svg></span><span class="brace-right" style="height:0.548em;"><svg width='400em' height='0.548em' viewBox='0 0 400000 548' preserveAspectRatio='xMaxYMin slice'><path d='M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z'/></svg></span></span></span><span style="top:-5.25em;"><span class="pstrut" style="height:5.25em;"></span><span class="mord"><span class="mord"><span class="mtable"><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Write reports</span></span></span></span><span style="top:-3.91em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Deploy online</span></span></span></span><span style="top:-2.4099999999999993em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Archive experiment</span></span></span></span><span style="top:-0.9099999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Share experiment</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.7500000000000004em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:3.3980000000000006em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:4.076331000000001em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:8.3076955em;"><span></span></span></span></span></span></span></span></span></span></span></span></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="fe8f4aee-4be7-43f5-842a-8b31da37b0bf"><div style="font-size:1.5em"><span class="icon">🔗</span></div><div style="width:100%"><a href="http://ucpu0.ug.it.usyd.edu.au">Shared server</a></div></figure><h1 id="343690b5-a1d6-4713-8f3a-835c5ec290cc" class="">Types of Data</h1><ul id="a8317c43-3ac0-49df-a2e6-8d5ca4021731" class="bulleted-list"><li style="list-style-type:disc">Categorical<ul id="7d9c533f-2c0b-471e-98ce-cf4b82d197b2" class="bulleted-list"><li style="list-style-type:circle">Nominal<p id="25f3d57c-9f4d-46a0-a37b-473a5a1c7d81" class="">This is unordered categorical data. This type of variable may be “label-coded” in numeric form but these numerical values have no mathematical interpretation.</p><ul id="0de89768-e6a9-4df0-bd5b-e3e2e898785e" class="bulleted-list"><li style="list-style-type:square">Dichotomous<p id="d5c1d193-32b4-4d9c-9a4e-fefca60f89e0" class="">A dichotomous is a type of nominal data that can only have two possible values. These are also sometimes referred to as binary or Boolean variables.</p></li></ul></li></ul><ul id="3d521a1d-8097-4cce-8058-ae7184050971" class="bulleted-list"><li style="list-style-type:circle">Ordinal<p id="09405178-20bc-4eed-b8de-f317fc051685" class="">This is ordered categorical data in which there is strict order for comparing the values.</p></li></ul></li></ul><ul id="aa05979b-be40-4dd2-88c5-f1bb08db0d39" class="bulleted-list"><li style="list-style-type:disc">Quantitative<ul id="f08d293d-224d-4e13-a10d-7f7e7223a0c0" class="bulleted-list"><li style="list-style-type:circle">Interval<p id="b624fbb9-48fb-438b-b1ad-397aa13275ee" class="">This is a variable in which the interval between values has meaning and there is no true zero value. The addition operation between values is well defined. For example, the Celsius temperature scale is such a variable.</p></li></ul><ul id="ab51471a-ae76-4ad3-9956-ec8b62c845ab" class="bulleted-list"><li style="list-style-type:circle">Ratio
+This is a variable in which the ratio between values is meaningful. It might have a true zero value that represents the total absence of the variable being measured. The multiplication operation between values is well defined. For example, the Kelvin temperature scale is such a variable. It makes sense to say <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mtext>K</mtext></mrow><annotation encoding="application/x-tex">100\text{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">100</span><span class="mord text"><span class="mord">K</span></span></span></span></span></span><span>﻿</span></span> is twice as hot as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mtext>K</mtext></mrow><annotation encoding="application/x-tex">50 \text{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">50</span><span class="mord text"><span class="mord">K</span></span></span></span></span></span><span>﻿</span></span> because it represents twice as much thermal energy.</li></ul></li></ul><table id="c0cd4af9-427f-4ba6-aa3a-2647ed17ddeb" class="simple-table"><thead class="simple-table-header"><tr id="448a2738-84e0-4897-b193-efe1a217ff83"><th id=";@Zx" class="simple-table-header-color simple-table-header" style="width:333.203125px">Levels of Measurement</th><th id="Ub@;" class="simple-table-header-color simple-table-header" style="width:80.859375px">Nominal</th><th id="yNsA" class="simple-table-header-color simple-table-header" style="width:73.59375px">Ordinal</th><th id="YE=m" class="simple-table-header-color simple-table-header" style="width:75.6015625px">Interval</th><th id="^~Vj" class="simple-table-header-color simple-table-header" style="width:57.7890625px">Ratio</th></tr></thead><tbody><tr id="1c722a54-410a-4dc8-a5e8-d9a87ce64caf"><td id=";@Zx" class="" style="width:333.203125px">Countable, equality defined</td><td id="Ub@;" class="" style="width:80.859375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="b61e93e3-8cb6-419b-88d9-083db968fc73"><td id=";@Zx" class="" style="width:333.203125px">Order defined</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="4c24bc4a-1c5b-4f09-9539-9cbe1bcad4d6"><td id=";@Zx" class="" style="width:333.203125px">Difference defined (addition, subtraction)</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="8a30bded-7527-4022-b525-322fc44a673d"><td id=";@Zx" class="" style="width:333.203125px">Zero defined (multiplication, division)</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"></td><td id="YE=m" class="" style="width:75.6015625px"></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr></tbody></table><table id="ae7504a0-7c62-4351-be52-9367b7be5e22" class="simple-table"><thead class="simple-table-header"><tr id="b4c2d728-d8ac-4094-ac30-ca8a27dea1a4"><th id=";@Zx" class="simple-table-header-color simple-table-header" style="width:333.203125px">Measures of Central Tendency</th><th id="Ub@;" class="simple-table-header-color simple-table-header" style="width:80.859375px">Nominal</th><th id="yNsA" class="simple-table-header-color simple-table-header" style="width:73.59375px">Ordinal</th><th id="YE=m" class="simple-table-header-color simple-table-header" style="width:75.6015625px">Interval</th><th id="^~Vj" class="simple-table-header-color simple-table-header" style="width:57.7890625px">Ratio</th></tr></thead><tbody><tr id="e84d9c83-fbc0-4ffc-bfd0-b30eaf69f26b"><td id=";@Zx" class="" style="width:333.203125px">Mode</td><td id="Ub@;" class="" style="width:80.859375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="84b6a311-5e1f-4e94-8c20-9e6909daedd4"><td id=";@Zx" class="" style="width:333.203125px">Median</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="77c1de3d-a7e6-4e1e-bd1f-28747dbc66ca"><td id=";@Zx" class="" style="width:333.203125px">Mean</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr></tbody></table><table id="8b80cd12-2ee4-4e01-86f3-5cac66643f84" class="simple-table"><thead class="simple-table-header"><tr id="773bc81c-217e-43ea-ac71-33453b19e679"><th id=";@Zx" class="simple-table-header-color simple-table-header" style="width:333.203125px">Measures of Dispersion</th><th id="Ub@;" class="simple-table-header-color simple-table-header" style="width:80.859375px">Nominal</th><th id="yNsA" class="simple-table-header-color simple-table-header" style="width:73.59375px">Ordinal</th><th id="YE=m" class="simple-table-header-color simple-table-header" style="width:75.6015625px">Interval</th><th id="^~Vj" class="simple-table-header-color simple-table-header" style="width:57.7890625px">Ratio</th></tr></thead><tbody><tr id="8ab11920-61d4-4f96-a478-cbcd1f49c1ad"><td id=";@Zx" class="" style="width:333.203125px">Counts/Distribution</td><td id="Ub@;" class="" style="width:80.859375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="98b6cfdb-ff3a-4ca1-acc8-6b89fcda65b5"><td id=";@Zx" class="" style="width:333.203125px">Minimum/Maximum</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="bd0b4608-da49-4134-95ec-4349fb23210f"><td id=";@Zx" class="" style="width:333.203125px">Range</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="2ae06b12-8a80-4046-9041-f8eb4af9d384"><td id=";@Zx" class="" style="width:333.203125px">Percentiles</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr><tr id="6bd86666-4ed9-4dbb-9fb6-014560a4334a"><td id=";@Zx" class="" style="width:333.203125px">Standard deviation/Variance</td><td id="Ub@;" class="" style="width:80.859375px"></td><td id="yNsA" class="" style="width:73.59375px"></td><td id="YE=m" class="" style="width:75.6015625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td><td id="^~Vj" class="" style="width:57.7890625px"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">✓</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">✓</span></span></span></span></span><span>﻿</span></span></td></tr></tbody></table><h1 id="1271f0d2-83e8-4653-84e3-abe9824a6058" class="">Data Acquisition and Cleaning</h1><h2 id="1147acba-04a4-4fb7-940e-44ae14d97bb7" class="">Data Acquisition</h2><ul id="8e4e3584-ebc2-4a4f-8966-036b7f2b0a9e" class="bulleted-list"><li style="list-style-type:disc">File access<ul id="dba74070-d02c-44b9-9d39-88bf2c9ee98b" class="bulleted-list"><li style="list-style-type:circle">CSV</li></ul><ul id="d8fd9cc9-dcca-402e-ad98-7bbf9bb9a37a" class="bulleted-list"><li style="list-style-type:circle">Excel</li></ul><ul id="ba1f2ce4-fe53-4fb9-ba1a-1807b3e5fdef" class="bulleted-list"><li style="list-style-type:circle">XML</li></ul></li></ul><ul id="72efda60-5b65-482f-a52c-a0659f560d4c" class="bulleted-list"><li style="list-style-type:disc">Programmatically<div><ul id="badc94bc-f8cd-4f73-bc46-b6e948a89145" class="bulleted-list"><li style="list-style-type:disc">Scrapping the web (HTML)</li></ul></div><ul id="8e6820ea-effb-4ac2-b2f5-aa5645b3615d" class="bulleted-list"><li style="list-style-type:circle">Use Web APIs</li></ul></li></ul><ul id="7fc9d131-a00c-40c5-b662-b306964fa701" class="bulleted-list"><li style="list-style-type:disc">Database access</li></ul><ul id="ae955889-d209-49a9-85b5-4d3af4460aaf" class="bulleted-list"><li style="list-style-type:disc">Collect data yourself<ul id="03e9ac5d-1d6a-463e-83a8-943980b6a59a" class="bulleted-list"><li style="list-style-type:circle">Through survy</li></ul></li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="f1c86673-0c63-4479-aae7-5ccf0e0276ff"><div style="font-size:1.5em"><span class="icon">🔗</span></div><div style="width:100%">Links to Government Data<ul id="2258380e-b18d-49a0-afd4-fab4d5c86f26" class="bulleted-list"><li style="list-style-type:disc"><a href="http://data.nsw.gov.au">Data.NSW</a></li></ul><ul id="4dcb668d-29c5-4653-97aa-d137fa3dffcc" class="bulleted-list"><li style="list-style-type:disc"><a href="http://data.gov.au">data.gov.au</a></li></ul></div></figure><h2 id="930ae0bd-cb7e-4efe-bbc7-50adc548c2e0" class="">Data Cleaning</h2><p id="62d82f8d-0f26-4355-ad91-bb2e372d2ce7" class="">Real-world data is often “dirty”. The typical cleaning steps are:</p><ul id="fa9d8be3-3c80-49ae-9a69-c2a702e11bf9" class="bulleted-list"><li style="list-style-type:disc">type and name conversion</li></ul><ul id="520b6f30-d4c5-4a31-8083-42607cf93ebe" class="bulleted-list"><li style="list-style-type:disc">filtering of missing data</li></ul><ul id="59a8d6af-2851-4c80-96ca-2f5129021a66" class="bulleted-list"><li style="list-style-type:disc">unifying semantic representations</li></ul><ul id="df101633-2c73-49ab-b9e9-8f2f9b38a1b8" class="bulleted-list"><li style="list-style-type:disc">matching of entries</li></ul><ul id="34e029eb-6562-4469-9ea0-50b9962a5ae7" class="bulleted-list"><li style="list-style-type:disc">handling of dates and time</li></ul><p id="1081553a-1774-438d-b67e-e57fc7255942" class="">Approaches</p><ul id="4080c497-94ee-4b85-b85a-ba4eb484c038" class="bulleted-list"><li style="list-style-type:disc">Data cleaning tools
+For example, Open Refine is an open-source data cleaning software.</li></ul><ul id="62689dcd-98c3-42cf-be3b-b55cb782c1bf" class="bulleted-list"><li style="list-style-type:disc">Jupyter notebook with Python<figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="602a8329-9f85-490c-9481-92c0a6df3b7d"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">Be aware:<ul id="21fad674-6736-4bea-9504-745f60c0bb2c" class="bulleted-list"><li style="list-style-type:disc">Always look at the data first.</li></ul><ul id="dabd92dc-e4b1-4122-b35e-3fe51fc245dc" class="bulleted-list"><li style="list-style-type:disc">Always keep a copy of the original data.</li></ul></div></figure></li></ul><h1 id="ff12cce5-b9c4-4155-9745-fca2bb02c736" class="">Descriptive Statistics</h1><p id="8ea95b50-2563-43dd-817e-0697219acb37" class=""><code>pandas</code> - a Python data analysis library</p><p id="84e9815d-358d-41ba-a8fb-a564728f05a1" class="">Two main data structures:</p><ul id="33b14489-066a-4b79-8a40-bc5f60575790" class="bulleted-list"><li style="list-style-type:disc"><code>Series</code>
+1-dimensional, labeled, homogenously typed</li></ul><ul id="443f45c9-3eb9-45bf-aa3d-ee872b1be18e" class="bulleted-list"><li style="list-style-type:disc"><code>DataFrame
+</code>2-dimensional, labeled, potentially heterogeneous columns</li></ul><p id="e6e5526c-799c-4b52-8fee-72855ed88ec4" class="">CSV reader imports a dataset as a <code>DataFrame</code>.</p><figure id="e979db11-d17c-4cbc-a4ff-8f8b99b25c30"><div class="source">https://github.com/Edward-Ji/SololearnDataScience</div></figure><h1 id="79d908d9-7cfc-4803-b3b3-d3694808cf13" class="">Advanced Content</h1><p id="36a988cc-ea09-4d4e-aa3b-26c1ae59aa5a" class="">Exchanging data between Unix and Python.<div class="indented"><pre id="a454203e-3057-4c9d-bf10-7928de759c6b" class="code"><code>text = &quot;&quot;&quot;Original text
+This is the original text.
+It is very very long.
+&quot;&quot;&quot;
+print(text)
+
+modified = ! echo &quot;{text}&quot; | sed -e &#x27;s/original/modified/g&#x27;
+print(modified.n)  # Print modified joined by newline characters</code></pre></div></p><p id="9e393729-d3b7-433b-b1dd-44f4a982a666" class="">Jupyter Notebook is very modular and extensible.</p><ul id="c69198f7-30e1-4b0d-bad5-362fc52490a2" class="bulleted-list"><li style="list-style-type:disc">Jupyter extensions</li></ul><ul id="a10b6540-d94e-4c7f-9b0d-194b608747c7" class="bulleted-list"><li style="list-style-type:disc">Jupyter supports several kernels, including IPython, JavaScript, Scala, Matlab, and bash.</li></ul><ul id="678cf44b-eb3e-49bc-baa2-dacd4997d60b" class="bulleted-list"><li style="list-style-type:disc">Jupyter supports IPython magic that begins with <code>%</code>.</li></ul></div></article></body></html>

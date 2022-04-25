@@ -1,0 +1,735 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 5 Reading - Signals</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="61763ab2-b001-4c17-bded-e084774e4328" class="page sans"><header><h1 class="page-title">Week 5 Reading - Signals</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@March 27, 2022 9:50 AM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-green">COMP2017</span></td></tr></tbody></table></header><div class="page-body"><nav id="053a4299-5ca4-43ea-9d86-06643f5ba120" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b219a409-a293-49a7-b51a-9e71b06d1fb1">Signals</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0af46655-e60b-408b-9844-f8f5d21de8cc">Signal Terminology</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#543f936d-5af2-4af1-a023-389574048e9d">Sending Signals</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#bb31d204-2b6b-4655-8035-e32020b872b6">Process Groups</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#0e23ba42-e703-460d-9834-e69aa465557d">Sending Signals with <code>/bin/kill</code></a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#6bc3b14b-b090-4b33-95c3-63f3c6790cda">Sending Signals from the Keyboard</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#0b96d0de-cf27-4b76-b551-9776094934c4">Sending Signals in C</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f0019438-df8e-4f54-a790-bcf7eb5c7319">Receiving Signals</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f3921f87-82d8-4c35-9a5a-ddef8d6ea783">Blocking and Unblocking Signals</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bbbd5ba3-a227-447a-a95f-c82209439e8a">Writing Signal Handlers</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#5efbd0d4-6ddd-4334-9b1b-b1179d824cbc">Safe Signal Handling</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#faa55f65-d738-4265-bc23-4c70483cc58e">Correct Signal Handling</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bb361d2c-7c95-42e4-90b9-fa7d67a7fa2f">Synchronizing Flows</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#54ce6380-d5b3-4359-b20e-38c3f2f09f74">Error Handling</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ad4017a8-99f4-4cbe-927f-225bcc0d96e2">Error Handling in Unix Systems</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#63a4db0c-c9fe-4078-8a8b-e97e78181b42">Unix-Style Error Handling</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#3e2d970c-f611-4d0a-996f-0e408df84e87">Posix-Style Error Handling</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d272ccf5-d39c-462f-8b9d-03585ff86a1d">Error Handling Wrappers</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8742a55e-1e12-42f5-a98e-b757af23e32b">Robust Reading and Writing</a></div></nav><h1 id="b219a409-a293-49a7-b51a-9e71b06d1fb1" class="">Signals</h1><figure id="ace97e3f-23b5-4ec9-905c-86f427d1ce28"><a href="https://man7.org/linux/man-pages/man0/signal.h.0p.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">signal.h(0p) - Linux manual page</div><div class="bookmark-description">signal.h(0P) POSIX Programmer&#x27;s Manual signal.h(0P) This manual page is part of the POSIX Programmer&#x27;s Manual. The Linux implementation of this interface may differ (consult the corresponding Linux manual page for details of Linux behavior), or the interface may not be implemented on Linux.</div></div><div class="bookmark-href">https://man7.org/linux/man-pages/man0/signal.h.0p.html</div></div><img src="https://man7.org/tlpi/cover/TLPI-front-cover-vsmall.png" class="bookmark-image"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="499840cc-e15f-4468-a071-ab66846313d4"><div style="font-size:1.5em"><span class="icon">📖</span></div><div style="width:100%"><em>Computer Systems: A Programmer’s Perspective</em> 8.5</div></figure><p id="2484d161-9dd5-4114-807e-bf82be706560" class="">A <em>signal</em> is a small message that notifies a process that an event of some type has occurred in the system. Linux system supports 30 different types of signals. Each signal type corresponds to some kind of system event. Low-level hardware exceptions are processed by the kernel’s exception handlers and would not normally be visible to user processes. Signals provide a mechanism for exposing the occurrence of such exceptions to user processes.</p><h2 id="0af46655-e60b-408b-9844-f8f5d21de8cc" class="">Signal Terminology</h2><p id="3abcf179-58a1-47a3-ae3b-10c6ec9e225f" class="">The transfer of signal to a destination process occurs in two distinct steps:</p><ul id="23159eba-5157-4913-9ff9-1dcf2be3a51c" class="bulleted-list"><li style="list-style-type:disc">Sending a signal. The kernel <em>sends</em> (<em>delivers</em>) a signal to a destination process by updating some state in the context of the destination process. The signal is delivered for one of two reasons:<ol type="1" id="cbbaa24d-0897-4c57-9d6e-8ae680d56413" class="numbered-list" start="1"><li>The kernel has detected a system recent such as a divide-by-zero error or the termination of a child process.</li></ol><ol type="1" id="56b03a92-b647-49aa-a848-3001ae5db633" class="numbered-list" start="2"><li>A process has invoked the <code>kill</code> function to explicitly request the kernel to send a signal to the destination process. A process can send a signal to itself.</li></ol></li></ul><ul id="b22a937a-622f-46e2-bc25-45faea34cdf2" class="bulleted-list"><li style="list-style-type:disc">Receiving a signal. A destination process <em>receives</em> a signal when it is forced by the kernel to react in some way to the delivery of the signal. The process can either ignore the signal, terminate, or <em>catch</em> the signal by executing a user-level function called a <em>signal handler</em>.<ol type="1" id="6e5a93f7-4a15-484a-a5e6-cd12fa474402" class="numbered-list" start="1"><li>A signal is received by the process.</li></ol><ol type="1" id="ece75d13-4824-4b35-b30e-a78c2c67e62f" class="numbered-list" start="2"><li>Control passes to signal handler.</li></ol><ol type="1" id="eb29e8f4-6c7c-46e4-99a3-e1eb7b5beabb" class="numbered-list" start="3"><li>Signal handler returns.</li></ol><ol type="1" id="0979707c-2335-40c6-80a2-09fc2cf025fb" class="numbered-list" start="4"><li>The signal handler returns to the next instruction.</li></ol></li></ul><p id="c89e00b2-ecf3-4af5-a57d-0113d6bdfdf2" class="">A process can selectively <em>block</em> the receipt of certain signals. When a signal is blocked, it can be delivered, but the resulting pending signal will not be received until the process unblocks the signal. A signal that has been sent but not yet received is called a <em>pending signal</em>. Signals of the same type sent to a process are <strong>not</strong> queued.</p><p id="e6b0145a-8369-4256-8e39-4521e90fa14b" class="">For each process, the kernel maintains the set of pending signals in the <code>pending</code> bit vector and the set of blocked signals in the <code>blocked</code> bit vector. The kernel sets bit <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> in pending whenever a signal of type <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> is delivered and clears bit <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> in pending whenever a signal of type <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> is received.</p><h2 id="543f936d-5af2-4af1-a023-389574048e9d" class="">Sending Signals</h2><p id="14160a84-60f1-42a4-ab74-b1b1e99e2aa3" class="">Unix systems provide several mechanisms for sending signals to processes. All of the mechanisms rely on the notion of a <em>process group</em>.</p><h3 id="bb31d204-2b6b-4655-8035-e32020b872b6" class="">Process Groups</h3><p id="3e36ad98-fb2c-4e94-9284-f8280137a4ad" class="">Every process belongs to exactly one process group, which is identified by a positive integer <em>process group ID</em>. The <code>getpgrp</code> function returns the process group ID of the current process.</p><pre id="dc203861-2a94-4406-8239-859c99a3384f" class="code"><code>#include &lt;unistd.h&gt;
+
+pid_t getpgrp(void); // Returns process group ID of calling process</code></pre><p id="6e0d2fe2-736d-4e1b-9926-3f4fef8b947b" class="">By default, a child process belongs to the same process group as its parent. A process can change the process group of itself or another process by using the <code>setpgrp</code> function. The function changes the process group of process <code>pid</code> to <code>pgid</code>. If <code>pid</code> is zero, the PID of the current process is used. If <code>pgid</code> is zero, the effective <code>pid</code> is used.</p><pre id="9bf78719-3ec6-44e9-8800-7d2fc4d9a1c5" class="code"><code>#include &lt;unistd.h&gt;
+
+int setpgid(pid_t pid, pid_t pgid); // Returns 0 on success, -1 on error</code></pre><h3 id="0e23ba42-e703-460d-9834-e69aa465557d" class="">Sending Signals with <code>/bin/kill</code></h3><p id="30604ace-0f9e-4034-8e2b-ab26e791b6da" class="">The <code>/bin/kill</code> program sends an arbitrary signal to another process.</p><pre id="40c509d7-b032-473c-89e7-b774d396e3f7" class="code"><code>/bin/kill -&lt;signal&gt; &lt;PID&gt;   // send to process
+/bin/kill -&lt;signal&gt; 0       // send to calling process
+/bin/kill -&lt;signal&gt; -&lt;PGID&gt; // send to process group</code></pre><h3 id="6bc3b14b-b090-4b33-95c3-63f3c6790cda" class="">Sending Signals from the Keyboard</h3><p id="01977814-7734-4a40-aeb0-12392a69e01b" class="">Unix shells use the abstraction of a <em>job</em> to represent the processes that are created as a result of evaluating a single command line. At any point in time, there is at most one foreground job and zero or more background jobs.</p><p id="94eda467-bdb7-4790-89f1-b645b0b07d67" class="">Processes connected via Unix pipe are considered to be one foreground job. The shell creates a separate process group for each job. Typically, the process group ID is taken from one of the parent processes in the job.</p><p id="fdb3286a-5841-4569-abb3-e9893fcbdd06" class="">Typing Ctrl+C at the keyboard causes the kernel to send a <code>SIGINT</code> signal to every process in the foreground process group. By default, it terminates the foreground job. Typing Ctrl+Z causes the kernel to send a <code>SIGTSTP</code> signal to every process in the foreground process group. By default, it stops the foreground job.</p><h3 id="0b96d0de-cf27-4b76-b551-9776094934c4" class="">Sending Signals in C</h3><p id="eb50b790-dba3-478a-9b17-47ac790ffdc1" class="">A C program sends signals to other processes (including themselves) by calling the <code>kill</code> function.</p><pre id="14d9873d-ed71-4d8b-a743-218d5c426ac9" class="code"><code>#include &lt;signal.h&gt;
+
+int kill(pid_t pid, int sig); // Returns 0 if OK, -1 on error</code></pre><p id="64d4462c-38a4-4796-b2be-e7176641b779" class="">It works similarly to <code>/bin/kill</code>.</p><p id="8d67821d-e83d-4d30-934c-6f5e223779ac" class="">A process can send SIGALARM signals to itself by calling the <code>alarm</code> function.</p><pre id="4263f053-6df2-4739-a34b-57122fbe7512" class="code"><code>#include &lt;unistd.h&gt;
+
+unsigned int alarm(unsigned int secs);
+// Returns remaining seconds of previous alarm, or 0 if no previous alarm</code></pre><p id="d38e61f6-68b1-4aef-b10e-4937dbd780ff" class="">This function arranges for the kernel to send a SIGALARM signal to the calling process in <code>secs</code> seconds. If <code>secs</code> is 0, then no new alarm is scheduled. Any pending alarm is canceled.</p><h2 id="f0019438-df8e-4f54-a790-bcf7eb5c7319" class="">Receiving Signals</h2><p id="bd388df7-84af-414a-b636-cefcacc55de3" class="">When the kernel switches a process <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span></span><span>﻿</span></span> from kernel mode to user mode (e.g. returning from a system call or completing a context switch), it checks the set of unblocked pending signals (<code>pending &amp; ~blocked</code>) for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span></span><span>﻿</span></span>. If this set is empty (the usual case), then the kernel passes control to the next instruction (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mtext>next</mtext></msub></mrow><annotation encoding="application/x-tex">I_{\text{next}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">next</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>) in the logical control flow of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span></span><span>﻿</span></span>. However, if the set is nonempty, then the kernel chooses some signal <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> in the set (typically the smallest <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span>) and forces <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span></span><span>﻿</span></span> to <em>receive</em> signal <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span>. The receipt of the signal triggers some <em>action</em> by the process. Once the process completes the action, then the control passes back to the next instruction (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mtext>next</mtext></msub></mrow><annotation encoding="application/x-tex">I_{\text{next}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">next</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>) in the logical control flow of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span></span></span></span></span><span>﻿</span></span>. Each signal type has a predefined <em>default action</em>, which is one of the following:</p><ul id="45172157-0060-4de0-98a7-836245d51fbb" class="bulleted-list"><li style="list-style-type:disc">The process terminates.</li></ul><ul id="99e482cc-a6a9-4624-9560-60468d6dab68" class="bulleted-list"><li style="list-style-type:disc">The process terminates and dumps the core.</li></ul><ul id="8304a402-af2e-4a89-b036-f297bcbdafd8" class="bulleted-list"><li style="list-style-type:disc">The process stops (suspends) until restarted by a SIGCONT signal.</li></ul><ul id="0e945798-6bd5-4c2f-91eb-d54d8bb06f0f" class="bulleted-list"><li style="list-style-type:disc">The process ignores the signal.</li></ul><p id="f541da56-7b68-4418-bdce-83f9e4d5fe0e" class="">A process can modify the default action associated with a signal by using the <code>signal</code> function, except for the SIGSTOP and SIGKILL signals, whose default actions cannot be changed.</p><pre id="a326b746-42d9-4cb3-8c36-5d2f5ceeba1a" class="code"><code>#include &lt;signal.h&gt;
+typedef void (*sighandler_t)(int);
+
+sighandler_t signal(int signum, sighandler_t handler);
+// Returns pointer to previous handler if OK, SIG_ERR on error (does not set errno)</code></pre><p id="ef991588-c366-405e-8751-5f07a3e56658" class="">The function can change the action associated with a signal <code>signum</code> in one of the three ways:</p><ul id="9c6fb2e0-2844-4f75-b7b3-de5a98d95e8b" class="bulleted-list"><li style="list-style-type:disc">If the <code>handler</code> is SIG_IGN, then signals of type <code>signum</code> are ignored.</li></ul><ul id="bac5ba25-1d0f-4b45-94db-1be79c6d7cf3" class="bulleted-list"><li style="list-style-type:disc">If the <code>handler</code> is SIG_DFL, then the action for signals of type <code>signum</code> reverts to the default action.</li></ul><ul id="e8657614-93fd-4826-9385-17b2118cb06e" class="bulleted-list"><li style="list-style-type:disc">Otherwise, the <code>handler</code> is the address of a user-defined function, called a <em>signal handler</em>, that will be called whenever the process receives a signal of type <code>signum</code>. Changing the default action by passing the address of a handler to the <code>signal</code> function is known as <em>installing the handler</em>. The invocation of the handler is called <em>catching the signal</em>. The execution of the handler is referred to as <em>handling the signal</em>.</li></ul><p id="bd15ebd6-ca00-4908-8fa5-57de86f6a208" class="">When a process catches a signal of type <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span>, the handler installed for signal <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span> is invoked with a single integer argument set to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span></span><span>﻿</span></span>. This argument allows the same handler function to catch different types of signals.</p><p id="697c285a-9b54-4e25-adec-a850e98ecc45" class="">When the program returns from the handler, control usually passes back to the instruction in the control flow where the process was interrupted by the receipt of the signal, although in some systems, interrupted system calls return immediately with an error.</p><p id="e1244991-af9f-4728-a9d8-64a2d634943d" class="">Handlers can be interrupted by other handlers.</p><h2 id="f3921f87-82d8-4c35-9a5a-ddef8d6ea783" class="">Blocking and Unblocking Signals</h2><p id="4b19f229-e3d8-4685-ae0e-3973189a964b" class="">Linux provides implicit and explicit mechanisms for blocking signals:</p><ul id="d9494b6e-0be6-473a-8793-ea93faeda86c" class="bulleted-list"><li style="list-style-type:disc"><em>Implicit blocking mechanism</em>. By default, the kernel blocks any pending signals of the type currently being processed by a handler.</li></ul><ul id="2532162c-d846-430d-af9a-5935a66d1698" class="bulleted-list"><li style="list-style-type:disc"><em>Explicit blocking mechanism</em>. Applications can explicitly block and unblock selected signals using the <code>sigprocmask</code> function and its helpers.</li></ul><pre id="53f8045b-e558-4861-ae0d-8e6f71325fbd" class="code"><code>#include &lt;signal.h&gt;
+
+int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
+int sigemptyset(sigset_t *set);
+int sigfillset(sigset_t *set);
+int sigaddset(sigset_t *set, int signum);
+
+int sigdelset(sigset_t *set, int signum);
+// Returns: 0 if OK, −1 on error
+
+int sigismember(const sigset_t *set, int signum);
+// Returns: 1 if member, 0 if not, −1 on error</code></pre><p id="84b6e5d8-56e7-40c8-94de-ada3f29f440c" class="">The specific behavior of <code>sigprocmask</code> depends on the value of <code>how</code>:</p><ul id="f60bfeb9-c657-404e-9d37-5c52f7db7228" class="bulleted-list"><li style="list-style-type:disc">SIG_BLOCK. <code>blocked |= set</code></li></ul><ul id="169d2604-a1a6-469e-956a-2d3feec0adeb" class="bulleted-list"><li style="list-style-type:disc">SIG_UNBLOCK. <code>blocked &amp;= ~set</code></li></ul><ul id="7f969679-0f27-472f-a4c8-f0ba94627743" class="bulleted-list"><li style="list-style-type:disc">SIG_SETMASK. <code>blocked = set</code></li></ul><h2 id="bbbd5ba3-a227-447a-a95f-c82209439e8a" class="">Writing Signal Handlers</h2><p id="4ed6cbf9-f781-4338-bcb6-3c3fe7cbea53" class="">Some difficulties of signal handling include:</p><ul id="f00f33fc-d2fc-4ba4-821c-474690a081a2" class="bulleted-list"><li style="list-style-type:disc">Handlers run concurrently with the main program and share the same global variables, and thus can interfere with the main program and with other handlers.</li></ul><ul id="dcae6713-48a6-4214-8341-c1a8dd4ef4bf" class="bulleted-list"><li style="list-style-type:disc">The rules for how and when signals are received are often counterintuitive.</li></ul><ul id="489f8dec-c015-4294-b078-ab4d7e597571" class="bulleted-list"><li style="list-style-type:disc">Different systems can have different signal-handling semantics.</li></ul><h3 id="5efbd0d4-6ddd-4334-9b1b-b1179d824cbc" class="">Safe Signal Handling</h3><p id="e3860f73-463c-4bc2-ad15-6d3f87b27896" class="">Some conservative guidelines for writing handlers that are sage to run concurrently:</p><ul id="a4677d11-f68c-4f1e-bce1-84d6d50eda4e" class="bulleted-list"><li style="list-style-type:disc">Keep handlers as simple as possible. For example, the handler might simply set a global flag.</li></ul><ul id="a5b9fae5-1377-4867-864a-4768b25425ab" class="bulleted-list"><li style="list-style-type:disc">Call only <em>async-signal-safe</em> functions. A function is async-signal-safe, or simple safe, either because it is <em>reentrant</em> (e.g., accesses only local variables), or because it cannot be interrupted by a signal handler.</li></ul><ul id="ce94296e-752b-4c69-9d51-8a0e33aaa483" class="bulleted-list"><li style="list-style-type:disc">Save and restore <code>errno</code>. Many async-signal-safe functions set <code>errno</code>. Other parts of the program may also reply on <code>errno</code>.</li></ul><ul id="79d7148f-5120-42ce-9f3e-514eb2633be6" class="bulleted-list"><li style="list-style-type:disc">Protect access to shared global data structures by blocking all signals. Accessing a data structure <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span></span><span>﻿</span></span> typically requires a sequence of instructions. If this sequence is interrupted by a handler that accesses <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span></span><span>﻿</span></span>, then the handler might find <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span></span><span>﻿</span></span> in an inconsistent state. Temporarily blocking signals while you access <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">d</span></span></span></span></span><span>﻿</span></span> guarantees that a handler will not interrupt the instruction sequence.</li></ul><ul id="5b1f248f-23c2-4e0f-93aa-c63ae1cdb815" class="bulleted-list"><li style="list-style-type:disc">Declare global variables with <code>volatile</code>. The <code>volatile</code> qualifier forces the compiler to read the value from memory each time it is referenced in the code.</li></ul><ul id="bbff55e3-2b48-4089-9eb1-f92923ca3d05" class="bulleted-list"><li style="list-style-type:disc">Declare flags with <code>sig_atomic_t</code>. In a common handler design, the handler records the receipt of the signal by writing to a global flag. The main program periodically reads the flag, responds to the signal, and clears the flag. C provides atomic data types that can’t be interrupted.</li></ul><h3 id="faa55f65-d738-4265-bc23-4c70483cc58e" class="">Correct Signal Handling</h3><p id="6e920241-d4f8-403d-a65b-14c54a21aeca" class="">The following signal handler properly reaps all child processes that have terminated. The <code>SIGCHLD</code> signal is received only once by the parent process, so we need the while loop to handle each child process that has terminated.</p><pre id="e529b4dc-69ea-4dd7-a31b-5c7443ebb67d" class="code"><code>void handler(int sig) {
+	int olderrno = errno;
+	while (waitpid(-1, NULL, 0) &gt; 0) {
+		sio_puts(&quot;Handler reaped child!&quot;)
+	}
+	if (errno != ECHILD) {
+		sio_error(&quot;waitpid error&quot;);
+	}
+	sleep(1);
+	errno = olderrno;
+}</code></pre><h2 id="bb361d2c-7c95-42e4-90b9-fa7d67a7fa2f" class="">Synchronizing Flows</h2><p id="7536db7b-7eef-4870-b7ac-a22de61a3f24" class="">In a program with concurrent flows that read and write the same storage locations, the number of potential interleavings of the flows is exponential to the number of instructions. Some of those interleavings will create correct answers while others will not. We want to <em>synchronize</em> the flow so as to the largest set of feasible interleavings such that each of them produces the correct answer.</p><p id="ae7ea425-e304-479c-8a9b-e469fdec2d2f" class="">A classic synchronization error is called a <em>race condition</em>. It occurs when two concurrent threads or processes compete for a resource and the resulting final state depends on who gets the resource first.</p><h1 id="54ce6380-d5b3-4359-b20e-38c3f2f09f74" class="">Error Handling</h1><p id="4a62dc7f-988d-4d77-abcb-c4c73914cb99" class="">Programmers should <strong>always</strong> check the error codes returned by system-level functions.</p><h2 id="ad4017a8-99f4-4cbe-927f-225bcc0d96e2" class="">Error Handling in Unix Systems</h2><h3 id="63a4db0c-c9fe-4078-8a8b-e97e78181b42" class="">Unix-Style Error Handling</h3><p id="6c1e3d68-67df-4b13-bf14-8acfd482147b" class="">Functions that were developed in the early days overload the function return value with both the error code and useful results. The error number is stored in <code>errno</code>.  </p><pre id="881ec8ef-52cc-4f46-bd1e-9ae59ac566f7" class="code"><code>if ((pid = wait(NULL)) &lt; 0) {
+	fprintf(stderr, &quot;wait error: %s\n&quot;, strerror(errno));
+	exit(0);
+}</code></pre><h3 id="3e2d970c-f611-4d0a-996f-0e408df84e87" class="">Posix-Style Error Handling</h3><p id="55093dac-e0bd-46ef-b5fd-24360027502c" class="">Many of the newer Posix functions use the return value only to indicate success (usually zero) or failure (non zero). Any useful results are stored in function arguments that are passed by reference.</p><pre id="f417c3af-1336-4698-a14e-ddd6772480a3" class="code"><code>if ((retcode = pthread_create(&amp;tid, NULL, thread, NULL)) != 0) {
+	fprintf(stderr, &quot;thread create error: %s\n&quot;, strerror(errno));
+	exit(0);
+}</code></pre><h2 id="d272ccf5-d39c-462f-8b9d-03585ff86a1d" class="">Error Handling Wrappers</h2><pre id="d7cb5589-6e2f-491a-8f97-0ca4a04bd244" class="code"><code>void unix_error(char *msg) {
+	fprintf(stderr, &quot;%s: %s\n&quot;, msg, strerror(errno));
+	exit(0);
+}
+
+void posix_error(int code, char *msg) {
+	fprintf(stderr, &quot;%s: %s\n&quot;, msg, strerror(code));
+	exit(0);
+}
+
+pid_t wait_(int *status) {
+	pit_t pid;
+	if ((pid = wait(status)) &lt; 0) {
+		unix_error(&quot;wait error&quot;);
+	}
+	return pid;
+}
+
+void pthread_detach_(pthread_t tid) {
+	int rc;
+	if ((rc = pthread_detach(tid)) != 0) {
+		posix_error(rc, &quot;pthread detach error&quot;);
+	}
+}</code></pre><h1 id="8742a55e-1e12-42f5-a98e-b757af23e32b" class="">Robust Reading and Writing</h1><p id="e30c107d-e715-45c7-be44-a3bbee6a9124" class="">
+</p></div></article></body></html>

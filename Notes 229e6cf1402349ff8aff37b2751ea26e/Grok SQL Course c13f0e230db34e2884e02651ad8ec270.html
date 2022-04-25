@@ -1,0 +1,750 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Grok SQL Course</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c13f0e23-0db3-4e28-84e0-2651ad8ec270" class="page sans"><header><h1 class="page-title">Grok SQL Course</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@February 24, 2022 10:31 AM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-purple">DATA2901</span></td></tr></tbody></table></header><div class="page-body"><p id="50652e97-cd65-419c-8ad9-5831fd97d7c8" class=""><a href="https://www.postgresql.org/docs/14/index.html">PostgreSQL14 Documentation</a></p><nav id="23840cd3-ba02-48b9-b753-b40d5d76c177" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#204f05af-f466-4123-8d6c-e03fbd1389d3">Introduction to SQL</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#83f2213b-ed2f-4c01-b2eb-f31299309071">Summarizing Data</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#25a1ce02-0097-43e4-a5c1-7eb51e9b3f8a">Transforming Data</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cac594c0-bc6e-4830-b9ca-0143a66a9b86">Joining Tables</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#69ed710b-eec3-41e9-8712-875d5fe6e170"><strong>Cartesian join</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e05b2ace-a707-4d69-9f34-7f9580f70a31"><strong>Equijoin</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c5f84e0c-87da-489d-8d09-d320c75ee1fb">Explicit <code>JOIN</code> Operations</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5e6ec4f2-e00a-4bcc-8f41-f51b43fa4d6f">Self-Join</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ecdef43d-31fb-454d-99dc-2873a4673f89">More Join Operations</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f918b397-e28f-4bc7-8f79-274766153d4c">Dealing with Raw Data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#85f87da7-a4eb-40ed-a4a2-6db613988361">Pattern Matching</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a047a8de-927c-46bd-914e-58bc6dd28b1e">Missing Data</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#d1b0f426-0ceb-438c-bfd2-016edfbbfcca">Join on Missing Data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#32d68c46-1ba6-4ded-a5a7-e0a9f47ba9e9">Type Conversion</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e2f23b8e-7a0a-470d-ac52-ae72a0f9355a">From Datasets to Databases</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c545f31d-f549-45e0-93c3-25861740d226">Basic Table Commands</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2b36634c-1d65-4b7f-98ee-181aa5a6e533">Creating Table</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bc929f98-aae2-4873-9970-470efb837b15">Import Data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5b5db716-8e83-44cd-87b2-84f0dfc273b8">Set Operation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ffbeab90-111d-44f7-990d-8e400361dcb9">View</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#097dc3aa-9b0e-459b-ac60-0b25ec608883">Subqueries</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6be5c209-3d49-41d4-b8d8-70f76d01dc41">Extract</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aad4f452-8b55-4efc-a25f-9c1827411322">Data Aggregation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7a6800b7-debe-4c24-b7e2-9048d4334f17">Filter</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9e4c4258-0612-4c78-a923-03e441f24416">String Aggregation</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b0e93233-4f31-46cb-9c2d-f5d205cb5cf7">Data Summary</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#78584bd2-ee7a-4856-b422-d8b2bd53a1b5">Grouping Sets</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a5e0f1d5-4e12-4468-b45b-bb5476f01fae">Boxplots</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#fcb59829-5b51-4999-b203-625bb2e0f786">Percentiles</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#987e6623-a20e-4fc9-92ee-345fdbca0001">Mode</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7e8f9be6-c7be-442f-bcb7-90716846e065">Outliers</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e527dc34-de6b-48be-bd5f-baba485e3694">Standard Deviations</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8dc365f7-af13-47f6-8a4a-26fa5335264b">Ranking</a></div></nav><h1 id="204f05af-f466-4123-8d6c-e03fbd1389d3" class="">Introduction to SQL</h1><p id="e5e3faf5-cc40-47ed-a521-b2632845c7d7" class="">The basic process of writing and executing an SQL query:<div class="indented"><p id="511e0a2e-2ac9-46e3-b588-cf6c59b2c389" class="">Writing the SQL query → Query execution by DBMS → Return results</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="864caec1-062a-4960-a5ed-54bde6a55ba9"><div style="font-size:1.5em"><span class="icon">☝</span></div><div style="width:100%">DBMS: database management system</div></figure></div></p><p id="9b4bd760-7daf-4e14-b8f6-02fcd822a0a0" class=""><code>SELECT &lt;column&gt;[, &lt;column2&gt;...] FROM &lt;table&gt;;</code><div class="indented"><p id="ad55e0ec-376e-4394-9df9-6636c6381d88" class=""><code>SELECT</code> specifies the columns to retrieve. <code>*</code> is the wildcard that matches all columns.</p><p id="6d3811ff-7870-4be3-bae8-84b37620c671" class=""><code>FROM</code> specifies the table (or relation) where the data is stored.</p></div></p><p id="373bf6dd-2072-41ff-83ec-fbd593adbfd5" class="">In a relational database, data is stored in <em>tables</em> (also called relations), consisting of <em>columns</em> (attributes) and <em>rows</em> (entries). Each table in a database has a unique name, and within each table, every column has a unique name.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="a1798fc2-96b4-415b-9b82-4f31eb271272"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">The rows of a table have no specific order - it is a <em>set</em> rather than a list.</div></figure><p id="eb7f1756-23cf-4dfe-9881-248664096295" class=""><code>SELECT DISTINCT &lt;column&gt; FROM &lt;table&gt;;</code> to remove duplicate results.</p><p id="5d88f313-90b6-4934-9a77-961e43f7d15b" class="">To include a <em>filter condition</em> that is applied to each data entry, add a <code>WHERE</code> part to a query. It only returns data entries with whose values the filter condition becomes true.<div class="indented"><p id="bdc1a9fc-8d45-4079-867d-4078d94e257f" class="">The <code>WHERE</code> clause supports:</p><table id="8f722e4d-d473-4b2d-a7bf-17ff182c6efe" class="simple-table"><thead class="simple-table-header"><tr id="ff67b082-3f7d-4e54-99de-87d3675ec1d7"><th id="kEaX" class="simple-table-header-color simple-table-header" style="width:375.296875px">Operator</th><th id="mfvz" class="simple-table-header-color simple-table-header" style="width:465.5px">Description</th></tr></thead><tbody><tr id="4c18aa47-218a-425b-be36-753b03ff9d3e"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; = &lt;value&gt;</code></td><td id="mfvz" class="" style="width:465.5px">Equal</td></tr><tr id="92318940-c344-4b4f-9e0b-72a8f4bef82b"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; &gt; &lt;value&gt;</code></td><td id="mfvz" class="" style="width:465.5px">Greater than</td></tr><tr id="2797ed01-d904-4995-b889-4f6b8dd90c65"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; &lt; &lt;value&gt;</code></td><td id="mfvz" class="" style="width:465.5px">Less then</td></tr><tr id="d29806f3-7511-4657-a103-09b59970a842"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; &gt;= &lt;value&gt;</code></td><td id="mfvz" class="" style="width:465.5px">Greater than or equal</td></tr><tr id="ea46f22c-d931-4bec-b9c2-b5ba3603f49f"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; &lt;= &lt;value&gt;</code></td><td id="mfvz" class="" style="width:465.5px">Less then or equal</td></tr><tr id="baa83e78-8670-46c3-9f7d-7dff8f45c25c"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; &lt;&gt; &lt;value&gt;</code> </td><td id="mfvz" class="" style="width:465.5px">Not equal
+In some versions, <code>&lt;column&gt; != &lt;value&gt;</code></td></tr><tr id="6caa05da-bfd3-480b-ac3c-7c4b6ee0c31a"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; BETWEEN &lt;x&gt; and &lt;y&gt;</code></td><td id="mfvz" class="" style="width:465.5px">Between a certain range (inclusive)
+Equivalent to <code>&lt;column&gt; &gt;= &lt;x&gt; AND &lt;column&gt; &lt;= &lt;y&gt;</code></td></tr><tr id="d279ec0f-e94f-41f5-82dd-a9fca1e90c0c"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; LIKE &#x27;&lt;pat&gt;&#x27;</code> 
+<code>%</code> for zero or more characters
+<code>_</code> for one, single character</td><td id="mfvz" class="" style="width:465.5px">Search for a pattern</td></tr><tr id="0bb5255f-6115-4376-ae97-278261d6d38a"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;column&gt; IN (&lt;value&gt;[, &lt;value2&gt;...])</code></td><td id="mfvz" class="" style="width:465.5px">To specify multiple possible values for a column</td></tr><tr id="8bbedcd8-668d-4c48-9a6e-e8b2cf6af616"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;condition1&gt; AND &lt;condition2&gt;</code></td><td id="mfvz" class="" style="width:465.5px">True if both conditions are true</td></tr><tr id="74bb573a-b199-4bd6-9c9d-aad91876d2a1"><td id="kEaX" class="" style="width:375.296875px"><code>&lt;condition1&gt; OR &lt;condition2&gt;</code></td><td id="mfvz" class="" style="width:465.5px">True if either condition is true</td></tr></tbody></table></div></p><p id="523a4f13-aa8b-4d70-a82f-811c46b4261f" class="">Each attribute in the table stores a particular <em>type</em> of data, such as textual or numerical data. Textual data is represented as a single-quoted sequence of characters, called a <em>string</em>.</p><h1 id="83f2213b-ed2f-4c01-b2eb-f31299309071" class="">Summarizing Data</h1><p id="0f9b560c-094a-4e0c-ad21-a439278105b5" class="">To summarize data, we use <em>aggregate</em> functions that operate on a set of values and return a single value.</p><p id="614c4df0-aa6a-42ba-9f8f-d605bd402ea0" class=""><code>COUNT(&lt;column&gt;)</code> for counting the number of input rows, also accepts <code>*</code><div class="indented"><p id="75a35dee-469d-483b-a720-04065f38d8a4" class=""><code>COUNT(DISTINCT &lt;column&gt;)</code> for counting the number of distinct values</p></div></p><p id="a187e572-0651-4cd2-8b82-8a0a19644368" class=""><code>AVG(&lt;column&gt;)</code> for calculating the average of a numeric column</p><p id="65359ee1-fc0e-40c5-9aaf-be69379a7e6a" class=""><code>SUM(&lt;column&gt;)</code> for calculating the sum of a numeric column</p><p id="50dd5cbb-0e0f-46f9-a883-c4be413b9f9d" class=""><code>MIN(&lt;column&gt;)</code> for finding the minimum of any column</p><p id="ca3a7274-74f8-4494-b2c5-7791a0e63a32" class=""><code>MAX(&lt;column&gt;)</code> for finding the maximum of any column</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="a032b05c-448f-48e5-b8cd-bcdcea465ba4"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%"><code>NULL</code> values are ignored</div></figure><p id="f5af8346-52ec-46ea-91ff-311f5ba265a9" class="">You can select multiple aggregation functions, like so.<div class="indented"><p id="a7ffc928-10e7-4f3c-a1d4-80b20f4c8861" class=""><code>SELECT &lt;agg_func1&gt;(&lt;column1&gt;)[, &lt;agg_func2&gt;(&lt;column2&gt;)...]</code></p></div></p><p id="356b93ff-116f-4938-a1e6-a0cb58b07634" class="">Date type data is presented in YYYY-MM-DD format, which is specified in standard ISO8601 by the International Standards Organization (ISO). To query, write the date in a single-quoted string.</p><p id="52e96bc5-c613-4469-85f0-4480247a5d6d" class=""><code>current_date</code> always holds the date on which the query is executed.<div class="indented"><p id="71472c1b-d71d-40d3-afeb-7a7be65b7c30" class="">Check with <code>SELECT current_date</code>.</p></div></p><h1 id="25a1ce02-0097-43e4-a5c1-7eb51e9b3f8a" class="">Transforming Data</h1><p id="c35dda5a-bf0e-4767-8145-1c7213fe3976" class=""><strong>Ordering</strong><div class="indented"><p id="ebe1c498-b1c6-4f55-8b3b-1fffd9155399" class="">To apply order to the query result, append <code>ORDER BY &lt;column1&gt;[, &lt;column2&gt;...]</code> to your query.</p><p id="a51bc588-6a99-43cd-8d4f-29386ca44b58" class="">The default order is ascending, use <code>ORDER BY &lt;column&gt; DESC</code> for decreasing order; use <code>ORDER BY &lt;column&gt; ASC</code> to enforce ascending order.</p></div></p><p id="5911d1d1-97ba-457b-8e98-876ee3e9ac34" class=""><strong>Limiting output size</strong><div class="indented"><p id="1a8814e5-a4e5-423f-a9bc-61e7407499e3" class="">To take a glance at what the table looks like, we can restrict the output of an SQL query result with the <code>LIMIT &lt;number_of_rows&gt;</code> command.</p><p id="67b38bff-4e01-4bdd-bf07-191cd9ffea87" class="">The table could be arranged in some particular order initially, to enforce random ordering while limiting the output, use <code>ORDER BY random()</code>.</p><p id="5adc1e2f-6bf6-4c51-b59d-da5e986b93e0" class="">Combining ordering and limiting, we can get top-n results. <code>SELECT * FROM &lt;table&gt; ORDER BY &lt;column&gt; DESC LIMIT &lt;n_rows&gt;</code></p></div></p><p id="a9c2630f-f436-4908-801f-07b42b43feea" class=""><strong>Transforming columns</strong><div class="indented"><p id="7e3e9690-fb0f-4881-8fc1-02086e5472d3" class="">The order of columns in output is the same as the order in which they are listed after <code>SELECT</code>.</p><p id="f8949d90-895e-422b-889d-f84ee51cdb04" class="">Add the <code>AS &quot;&lt;new_column_name&gt;&quot;</code> directive after a column name to rename a column.</p><p id="46ff86d0-6963-41d9-9871-56dac0b0c4a2" class="">A renamed column must be referred to with double quotes in later clauses.</p></div></p><p id="362ce179-be54-4b10-9ec0-3ecae1a150bf" class=""><strong>Data conversions</strong><div class="indented"><p id="07d2f00e-94eb-4178-931a-f0271c7c7d49" class="">We can transform a column by performing arithmetic operations.</p><p id="31899ebe-6a92-464b-8203-0e9cfef143ba" class=""><code>ROUND(&lt;column&gt;, &lt;digits&gt;)</code> to round up to a certain number of digits. There are many numerical functions available, such as <code>ABS()</code>, <code>CEIL()</code>, and <code>FLOOR()</code>.</p><p id="c2f80654-1a27-413c-abe6-27791de28caf" class="">Use the concatenate operator <code>||</code> to join any non-array columns together. Note that MySQL uses <code>CONCAT()</code> instead.</p><p id="759ee06e-53ee-4cda-a03a-9d03c86a2e02" class="">Explicit casting with <code>CAST(&lt;column&gt; AS &lt;type&gt;)</code>. Strings are of type <code>VARCHAR</code>.</p><p id="6a01f609-058b-409f-921f-2b1e9721884d" class="">Use <code>TO_CHAR(&lt;date_column&gt;, &lt;format_string&gt;)</code> to format date type.</p></div></p><p id="9576adbb-5ef5-4cdf-a1b2-cf8bc2405ca4" class=""><strong>The </strong><code><strong>CASE</strong></code><strong><strong> statement</strong></strong></p><pre id="b2505a89-62de-41c3-8e7a-1f37a62b75d1" class="code"><code>CASE WHEN &lt;condition1&gt; THEN &lt;expr&gt;
+     WHEN &lt;condition2&gt; THEN &lt;expr&gt;
+     ...
+     ELSE &lt;expr&gt;
+END</code></pre><p id="a2ae43e5-f396-4310-82f1-899b847043bf" class="">This can be used in conjunction with (or rather within) other clauses.</p><h1 id="cac594c0-bc6e-4830-b9ca-0143a66a9b86" class="">Joining Tables</h1><p id="a0722205-6785-475e-9a3c-f4911aeeb982" class="">The operation of combining data from multiple tables is called a <em>join</em> in SQL.</p><p id="79953d28-a388-4fde-bc58-739c7cb9e45b" class="">Use the syntax <code>&lt;table&gt;.&lt;column&gt;</code> to distinguish columns with the same name in different tables.</p><p id="13ddb936-08b0-4e5b-8860-7bc439f7d93a" class="">To simplify table names in a join, specify an alias after the table name in <code>FROM.</code> The syntax is <code>FROM &lt;table1&gt; &lt;alias1&gt;[, &lt;table2&gt; &lt;alias2&gt;...]</code>. After creating an alias, the original name can not be used.</p><h2 id="69ed710b-eec3-41e9-8712-875d5fe6e170" class=""><strong>Cartesian join</strong></h2><p id="7e8952d3-49c4-4953-9617-311c5e4bf14f" class="">This is also called a cross join in some SQL implementations.</p><p id="5fa3666f-3bcf-45e2-9e87-8ceaf5ecb696" class="">The simplest way to join tables is by specifying multiple comma-separated table names in the <code>FROM</code> clause.</p><p id="32ad3248-a9d6-4c7d-8a72-996d3a077be9" class="">When the join condition is omitted, the result is a <em>cartesian join</em> - every row of each listed table is combined with every row of every other listed table.</p><h2 id="e05b2ace-a707-4d69-9f34-7f9580f70a31" class=""><strong>Equijoin</strong></h2><p id="5163987b-04d8-4cbf-a85e-aa4fd71ea276" class="">A join with equality test is often called <em>equijoin</em>.</p><p id="64e2049a-3836-46bd-b883-6e485a19088d" class="">The most common join condition is to find matching entries in two tables such that they have the same value for a join attribute. The join attribute is usually the identifying attribute in one of the two tables - called the <em>primary key</em>. If we refer to the primary key in another table, we call it a <em>foreign key</em> there.</p><p id="7540cb7e-bc0d-44cc-ac56-309e7588078c" class="">In diagrams, we underline primary key attributes; and we indicate foreign key attributes with arrows from their corresponding primary key attributes.</p><p id="21ecd408-2289-4a0a-9592-b242da49aa41" class="">In an equijoin, the foreign key is matched to the primary key in the other table, and its subsequent attributes are included in the output.</p><p id="97f18c31-a503-468c-b1e7-a49d020b5ffe" class=""><strong>Multi-Way Equijoin</strong><div class="indented"><ul id="f0a4efaf-4459-433a-be52-95c36b208ab9" class="bulleted-list"><li style="list-style-type:disc">List all involved tables in the <code>FROM</code> clause.</li></ul><ul id="e4b49225-c5d8-4998-83a0-d93a95177cd8" class="bulleted-list"><li style="list-style-type:disc">Specify the join conditions (one less than the number of tables) in the <code>WHERE</code> clause.</li></ul></div></p><p id="85661a00-b3b2-41f3-a069-e4b11748d542" class=""><strong>Natural Joins</strong><div class="indented"><p id="f2f19535-5dc4-4244-ac21-78d2bcf1a6b3" class="">A <em>natural join</em> is an equijoin between two tables that combines rows with the same values in identically named and typed columns.</p><p id="be21c118-736e-4173-9888-b4a4ae2a8ebd" class="">Columns with the same name as associated tables will appear once only.</p><p id="bfa65a19-365b-450b-b9d1-ed8af68aff79" class="">Joining two tables without identical attributes result in a Cartesian join.</p></div></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b5799fd3-2a99-41fd-ad5d-2f00442e8af6"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">Explicit <code>JOIN</code> operations are always preferred over natural joins, as the latter is prone to changes in database structure.</div></figure><h2 id="c5f84e0c-87da-489d-8d09-d320c75ee1fb" class="">Explicit <code>JOIN</code> Operations</h2><p id="7919cd2c-a87a-41e9-9eae-d7d0c7473e5e" class="">An <em>inner join</em> is when two tuples from each of the two relations are combined if and only if a join condition is true. Put the <code>INNER JOIN</code> keyword inside a <code>FROM</code> clause. The keyword <code>JOIN</code> also refers to <code>INNER JOIN</code>.</p><p id="261ec4c7-15d5-4960-a71e-0e5c8b587077" class="">There are two syntax options to specify the join condition:</p><ul id="12e3d782-e7a5-4876-9af2-cd8ca9c8d9be" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;r1&gt; JOIN &lt;r2&gt; ON &lt;condition&gt;</code><p id="c36fd9ea-9462-4d3c-8205-3d318e025fb6" class="">It combines tuples from relations whenever the condition is true. The condition may not necessarily be equality checks.</p></li></ul><ul id="00f9b263-5588-48d4-a76a-52452314ce20" class="bulleted-list"><li style="list-style-type:disc"><code>&lt;r1&gt; JOIN &lt;r2&gt; USING &lt;field(s)&gt;</code><p id="99e5da03-f4c3-44d0-8f99-156d00bfe344" class="">It combines tuples from relations whenever all listed field(s) have the same values in both tuples. This assumes that these attributes occur in both relations.</p></li></ul><h2 id="5e6ec4f2-e00a-4bcc-8f41-f51b43fa4d6f" class="">Self-Join</h2><p id="dcf68eb9-999b-4326-9eab-f64b24cdd401" class="">By specifying the same table twice in the <code>FROM</code> clause, you can make that table self-join. This is useful when you need to filter entries based on their relationship with some other entries in the same table.</p><h2 id="ecdef43d-31fb-454d-99dc-2873a4673f89" class="">More Join Operations</h2><p id="926be776-3302-41ba-8a19-b701c7860525" class="">See <a href="Grok%20SQL%20Course%20c13f0e230db34e2884e02651ad8ec270.html">Join on Missing Data</a>.</p><h1 id="f918b397-e28f-4bc7-8f79-274766153d4c" class="">Dealing with Raw Data</h1><p id="8adc0523-9dd6-49f0-9af7-3ced87435387" class="">There are a wide variety of problems and/or mistakes in real-world datasets. Some examples are:</p><ul id="aa4596a7-27dc-4046-b494-62f9135fb7a2" class="bulleted-list"><li style="list-style-type:disc">inconsistent spelling (capitalization, abbreviation, spelling mistakes, etc.)</li></ul><ul id="b84407ae-b324-4060-8961-373955289383" class="bulleted-list"><li style="list-style-type:disc">missing values of (<code>NULL</code>, placeholders like <code>&#x27;--&#x27;</code>, or <code>&#x27;n/a&#x27;</code>)</li></ul><ul id="5e552de1-8611-4cc1-afb7-6815f739bc39" class="bulleted-list"><li style="list-style-type:disc">special values (<code>NaN</code> or <code>infinity</code>)</li></ul><ul id="64fd9f73-273a-47b6-949c-6f56114925b6" class="bulleted-list"><li style="list-style-type:disc">inconsistent values (unclean measurements, numbers written as text)</li></ul><p id="365da395-2377-4872-9f64-c97038d4f29e" class="">Comparison operators are case sensitive, use <code>UPPER()</code> or <code>LOWER()</code> to unify the case before a case-insensitive compare.</p><p id="56f23e7a-b966-4350-8ced-d5d05e2be321" class="">An approach to deal with spelling inconsistencies is to explicitly list all spelling variants when querying the corresponding data after the <code>IN</code> operator.</p><h2 id="85f87da7-a4eb-40ed-a4a2-6db613988361" class="">Pattern Matching</h2><p id="5dbfae58-ec91-48e2-9024-9aa207a20ad7" class="">The <code>LIKE</code> command performs pattern matching. It can be reversed with <code>NOT LIKE</code>.</p><ul id="4fd22611-392c-466e-9241-9f636350e5e8" class="bulleted-list"><li style="list-style-type:disc"><code>%</code> for zero or more characters</li></ul><ul id="7e618bd3-b353-4fec-a699-c7fc08ced674" class="bulleted-list"><li style="list-style-type:disc"><code>_</code> for one, single character</li></ul><p id="bad0e932-de22-41b2-a797-63f7ffcff5fa" class="">PostgreSQL also provides a <code>SIMILAR TO</code> operator that includes SQL’s definition of regular expressions.</p><ul id="899adb74-7148-48e2-83f6-87a4ab78fe32" class="bulleted-list"><li style="list-style-type:disc"><code>(a|b)</code> for a or b</li></ul><h2 id="a047a8de-927c-46bd-914e-58bc6dd28b1e" class="">Missing Data</h2><p id="169454f2-2316-4f0a-aaed-7e8f45246e59" class="">SQL uses <code>NULL</code> to represent missing values.</p><p id="19b2521b-b5b0-449d-889a-6968de7f955e" class="">Compare to <code>NULL</code> with the <code>IS</code> and <code>IS NOT</code> operator.</p><p id="dee7dc80-031e-459c-ba77-9b3be477e625" class="">In SQL, any arithmetic comparison with <code>NULL</code> returns neither <code>TRUE</code> nor <code>FALSE</code>, but <code>NULL</code> instead.</p><p id="653d6f49-80df-4144-b329-34c5f974737f" class="">Using <code>COUNT()</code> on any specific column ignores <code>NULL</code>. <code>COUNT(*)</code> includes all rows with <code>NULL</code> values.</p><p id="77818da6-65f0-4ad3-a8e2-d1a3bc48047a" class=""><mark class="highlight-gray"><code>NULL</code></mark><mark class="highlight-gray"> is normally not shown in the output. In </mark><mark class="highlight-gray"><code>psql</code></mark><mark class="highlight-gray">, you can tell PostgreSQL to display them using </mark><mark class="highlight-gray"><code>\pset NULL &#x27;[NULL]&#x27;</code></mark><mark class="highlight-gray">.</mark></p><p id="865a2676-c634-43fe-9248-a229ab6f5990" class="">Another way to visualize any <code>NULL</code> value is to use <code>COALESCE(expr, value_if_null)</code>. The types of the expression and the value if null should match, you may need to cast before passing the expression. like so, <code>COALESCE(column::text, &#x27;[UNKNOWN]&#x27;)</code>.</p><p id="71d4bc76-0e54-4883-9482-1b5333058660" class="">People often use ‘-’ or ‘n/a’ instead for invalid measurements. We can use <code>CASE</code> and <code>=</code> to turn them into <code>NULL</code>.</p><h3 id="d1b0f426-0ceb-438c-bfd2-016edfbbfcca" class="">Join on Missing Data</h3><p id="0f25d8a3-f826-4ec9-9f5f-8d308d05be2a" class="">The <code>OUTER JOIN</code> operator produces a resulting join tuple even if there is no join partner available in one of the input relations. The result tuple is filled with <code>NULL</code> values on the missing side. There are a few variants:</p><ul id="6580f9f6-21ad-4a6a-a970-6d89d2fe140b" class="bulleted-list"><li style="list-style-type:disc"><code>r1 LEFT OUTER JOIN r2</code>: keep all input tuples of the left relation</li></ul><ul id="979dd90a-962f-4d62-9f23-c1e1bd4debab" class="bulleted-list"><li style="list-style-type:disc"><code>r1 RIGHT OUTER JOIN r2</code>: keep all input tuples of the right relation</li></ul><ul id="e130fa5d-358f-4f00-bced-93634381ae06" class="bulleted-list"><li style="list-style-type:disc"><code>r1 FULL OUTER JOIN r2</code>: keep all input tuples of both relations</li></ul><h2 id="32d68c46-1ba6-4ded-a5a7-e0a9f47ba9e9" class="">Type Conversion</h2><p id="590f4d0d-a1a6-4c70-bba7-f7d61a4603b6" class="">Usually have to deal with <a href="Grok%20SQL%20Course%20c13f0e230db34e2884e02651ad8ec270.html">missing data</a> first.</p><p id="bf1bb729-5ed1-4af2-87ee-df492cf6e099" class="">Use <code>column::type</code> to cast the column to a certain type.</p><p id="3fafab70-1868-40ff-b79c-87ead14c1bcb" class="">Or use <code>CAST(column AS type)</code> to cast the column to a certain type.</p><p id="d6d0a2a7-c952-450c-ba0d-3463d3bdfb2a" class="">SQL supports a few special values for floating-point data.</p><ul id="824a812c-cd4a-4dda-bc71-e7156e996b39" class="bulleted-list"><li style="list-style-type:disc"><code>NaN</code> for not a number</li></ul><ul id="24a4390a-9654-4f6a-bba8-c63507b05f0e" class="bulleted-list"><li style="list-style-type:disc"><code>infinity</code> for larger than any number</li></ul><ul id="26976f3e-6ef0-4d00-a8cd-c9ff90b1ab9f" class="bulleted-list"><li style="list-style-type:disc"><code>-infinity</code> for smaller than any number</li></ul><h1 id="e2f23b8e-7a0a-470d-ac52-ae72a0f9355a" class="">From Datasets to Databases</h1><p id="9b0338af-3bf6-4591-b1c2-b7a657386362" class="">In this module, we learn how to create a database from scratch using DDL.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="43f48b25-7ed9-40bd-a225-e8921bf05428"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><em>Data definition language</em> (DDL) describes the portion of SQL that creates, alters and deletes database objects.<p id="1f09cf40-3ecb-4dea-8243-9a573e254390" class=""><em>Data manipulation language</em> (DML) is used to manipulate the data itself.</p></div></figure><h2 id="c545f31d-f549-45e0-93c3-25861740d226" class="">Basic Table Commands</h2><p id="f08aed49-1f4f-4702-968b-9dfdfc14a928" class="">The <code>INSERT</code> command adds a new row to the specific table.</p><pre id="fca65ed4-2d60-4ffa-aeee-f4dc8228bf24" class="code"><code>INSERT INTO &lt;table_name&gt; values (&lt;expression&gt;, ...);
+-- explicit ordering of columns
+INSERT INTO &lt;table_name&gt;(&lt;column_name&gt;, ...) values (&lt;expression&gt;, ...);
+-- multiple rows
+INSERT INTO &lt;table_name&gt; values (&lt;expression&gt;, ...), ...;
+-- from existing tables
+INSERT INTO &lt;table_name&gt; values (SELECT ...);</code></pre><p id="4f7a0c8d-498e-4fd0-b2b4-999bd4833760" class="">The <code>UPDATE</code> command modifies the data in one or more rows of the specified table.</p><pre id="44ac885a-a633-4038-a4b5-12b1fc22da90" class="code"><code>UPDATE &lt;table_name&gt;
+	SET &lt;column_name&gt; = &lt;expression&gt;,
+		...
+	WHERE &lt;condition&gt;;</code></pre><p id="a0562361-926e-44f4-865a-a41d7dbc5369" class="">The <code>DELETE</code> command removes one or more rows from the specified table.</p><pre id="547318dd-9c3d-4a69-aaf7-beb7ad68ac51" class="code"><code>DELETE FROM &lt;table_name&gt;
+	WHERE &lt;condition&gt;;</code></pre><h2 id="2b36634c-1d65-4b7f-98ee-181aa5a6e533" class="">Creating Table</h2><pre id="e36e51a3-1939-4b07-9784-355aca2cbf09" class="code"><code>CREATE TABLE &lt;table_name&gt; (
+	&lt;column1&gt; &lt;type1&gt;,
+	&lt;column2&gt; &lt;type2&gt;,
+  ...
+);</code></pre><p id="d8616b26-0fe2-4d24-adb4-5cad6927a35c" class="">The most common types are:</p><table id="8c9873b7-cf75-4250-87ae-c2e469fb7676" class="simple-table"><tbody><tr id="5c2ddf05-28dd-4460-9bc3-d8478f7935d9"><td id="p~`|" class=""><code>SMALLINT</code></td><td id="UB]`" class="">2-byte integer</td></tr><tr id="19d8810d-435f-4f61-82e9-4231f8fe9101"><td id="p~`|" class=""><code>INTEGER</code></td><td id="UB]`" class="">4-byte integer</td></tr><tr id="3a14b0c8-ee41-4bf2-97cd-eac1bf75f991"><td id="p~`|" class=""><code>FLOAT</code></td><td id="UB]`" class="">8-byte floating point</td></tr><tr id="4925b56f-a199-459c-ba27-6a9251dec57e"><td id="p~`|" class=""><code>CHAR(n)</code></td><td id="UB]`" class="">fixed-length strings of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span> characters</td></tr><tr id="34b57d08-cf10-44d8-bc87-4102433bdae0"><td id="p~`|" class=""><code>VARCHAR(n)
+</code>aliased <code>TEXT</code> in PostgreSQL</td><td id="UB]`" class="">variable-length strings of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span> characters</td></tr></tbody></table><p id="b229daae-26a0-4e1a-91b1-afa9922a90cc" class="">
+</p><pre id="795ee20b-f641-4162-af92-79e4ef63ba47" class="code"><code>CREATE TABLE &lt;table_name&gt; (
+	&lt;column1&gt; &lt;type1&gt; &lt;constraints&gt;,
+  ...
+);</code></pre><p id="0e268d9e-e227-4dc7-9468-7b62c8c0085a" class="">The most common constraints are:</p><ul id="3a4470a9-6b03-40bf-b652-0077e6a0e8bb" class="bulleted-list"><li style="list-style-type:disc"><code>PRIMARY KEY</code> declares a column (or several columns) as the unique identifier(s) for each row in the table.</li></ul><ul id="266ec24a-705e-48d5-94f1-3d67f3abd728" class="bulleted-list"><li style="list-style-type:disc"><code>NOT NULL</code> forces every row in the table to have a non-null value for this column.</li></ul><ul id="1baf28ca-788a-4214-9d49-a28de6f03dab" class="bulleted-list"><li style="list-style-type:disc"><code>DEFAULT &lt;expr&gt;</code> specifies a default value for a column.</li></ul><ul id="eec300a9-9799-4189-884c-fbb7596b6167" class="bulleted-list"><li style="list-style-type:disc"><code>REFERENCES &lt;another_table&gt;(&lt;column&gt;)</code> is called a <em>foreign key constraint</em>. It specifies that values stored for a column in one table must match a value in some column from another table.</li></ul><p id="bc2e34a1-1fa0-4562-b689-1c9d8f131421" class="">The <code>DROP TABLE</code> command removes a table from the schema.</p><pre id="d8e390d4-a0a6-4813-b357-4fc79da81984" class="code"><code>DROP TABLE &lt;table_name&gt;;</code></pre><pre id="52caae07-3503-4ced-93cd-cb368c94938f" class="code"><code>-- To use a combination of columns as the primary key
+CREATE TABLE &lt;T&gt; (
+	&lt;C1&gt; ...
+	PRIMARY KEY (&lt;Cx&gt;, ...)
+);</code></pre><h2 id="bc929f98-aae2-4873-9970-470efb837b15" class="">Import Data</h2><p id="8c0fa275-6c9a-490e-acf3-d02fb732c93b" class="">Data systems support some common data exchange formats to bulk-load data directly from a file. A very common file format to exchange datasets is common-separated values (CSVs).</p><p id="3539a2ef-4183-4a77-bfc7-f3ef23a9a2db" class="">Database systems rely on a “schema first” approach which means that you first have to create a database schema before you can load any data into those tables.</p><p id="9350b5b2-97ef-4113-9b2b-dd42988ad126" class="">In PostgreSQL, we use the <code>COPY</code> command to import from a file.</p><pre id="1ac25124-f472-4e12-b4d9-b7cbceea12bb" class="code"><code>COPY &lt;table_name&gt; FROM &#x27;&lt;file_name&gt;&#x27;;
+-- Import from CSV where the first line is header
+COPY &lt;table_name&gt; FROM &#x27;&lt;file_name&gt;&#x27; CSV HEADER;
+-- Import with the given string as NULL
+COPY &lt;table_name&gt; FROM &#x27;&lt;file_name&gt;&#x27; WITH (FORMAT CSV, NULL &#x27;&lt;str&gt;&#x27;, HEADER);</code></pre><h2 id="5b5db716-8e83-44cd-87b2-84f0dfc273b8" class="">Set Operation</h2><p id="a2a9440b-3aa3-4be4-971f-d181c97b5f2b" class="">We can combine the outputs of two queries with set operations. The meaning is the same as that of mathematical set operations. By default set operations return results without duplicates. Use the <code>ALL</code> keyword to keep all values.</p><pre id="09d12c3b-e239-4c46-8d54-96e51642e93b" class="code"><code>SELECT ... UNION SELECT ...;
+SELECT ... INTERSECT SELECT ...;
+SELECT ... EXCEPT SELECT ...;
+-- To perform some operations on the combined result, use parenthesis
+(SELECT ... &lt;SET_OPE&gt; SELECT ...) &lt;CLAUSE&gt;;
+-- To keep duplicates
+SELECT ... &lt;SET_OPE&gt; ALL SELECT ...;</code></pre><h2 id="ffbeab90-111d-44f7-990d-8e400361dcb9" class="">View</h2><p id="4e472679-4cae-4771-b59e-81a3760a643b" class="">A view is the result set of a stores query on the data, which is not persistently stored in the database but can be queried like a table.</p><pre id="087da776-1a8f-423c-b6d5-c34799302bda" class="code"><code>CREATE VIEW &lt;name&gt; AS SELECT ...;
+-- To remove a view
+DROP VIEW &lt;name&gt;;</code></pre><h1 id="097dc3aa-9b0e-459b-ac60-0b25ec608883" class="">Subqueries</h1><p id="23552c51-94ec-4bc2-99aa-2c0fbd1d1930" class="">Queries can be placed anywhere in another query.</p><p id="a3d1ef40-133d-4c48-a32d-3160139060ae" class="">You have to provide a name for subqueries in <code>FROM</code> clause.</p><pre id="3272765a-4653-4f6b-9a2f-fc9aab4f8c56" class="code"><code>SELECT ... FROM (SELECT ...) AS &lt;name&gt;;</code></pre><p id="ed075688-d48f-48fb-acd2-773d90e427c7" class="">We can use a correlated subquery to test some inner conditions of the outer query.</p><p id="3505a453-3168-4be4-be1c-f3c376d78b9e" class="">Non-correlated queries are executed only once whereas correlated ones execute for each row in the main query.</p><pre id="694cc5ec-c5e5-42cf-a23d-c56cd5f6fe2e" class="code"><code>-- The following select part of table 1
+-- that satisfies some condition in the subquery
+SELECT ... FROM ... T1 WHERE EXISTS (SELECT * FROM ... WHERE T1 ...);
+-- This is typically faster than
+SELECT ... FROM ... T1 WHERE (SELECT COUNT(*) FROM ... WHERE T1 ...) != 0;
+-- Because the query can short-circuit</code></pre><h2 id="6be5c209-3d49-41d4-b8d8-70f76d01dc41" class="">Extract</h2><figure id="7e51b35d-817b-442a-83a2-0ff909fd7808"><a href="https://www.postgresql.org/docs/9.5/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">9.9. Date/Time Functions and Operators</div><div class="bookmark-description">Table 9.32 shows the available functions for date/time value processing, with details appearing in the following subsections. Table 9.31 illustrates the behaviors of the basic arithmetic operators (+, *, etc.). For formatting functions, refer to Section 9.8. You should be familiar with the background information on date/time data types from Section 8.5.</div></div><div class="bookmark-href"><img src="https://www.postgresql.org/favicon.ico" class="icon bookmark-icon"/>https://www.postgresql.org/docs/9.5/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT</div></div><img src="https://www.postgresql.org/media/img/about/press/elephant.png" class="bookmark-image"/></a></figure><pre id="adc598a3-b555-4df8-a283-38fc20709c29" class="code"><code>EXTRACT(year FROM &lt;date&gt;)
+EXTRACT(month FROM &lt;date&gt;)
+EXTRACT(day FROM &lt;date&gt;)
+EXTRACT(isodow FROM &lt;date&gt;) -- integer Monday(1) to Sunday(7)</code></pre><h1 id="aad4f452-8b55-4efc-a25f-9c1827411322" class="">Data Aggregation</h1><p id="9657f22b-416b-45e6-aea5-22e281099ffb" class="">We can use <code>GROUP BY</code> for pre-group data aggregation. It can partition data into subsets of data entries that have the same value for the group attributes and then combine those grouped entries into one result row (typically using some aggregate functions).</p><p id="dc5820ed-b84e-4745-b7ff-fabea7f880b7" class="">The columns in the <code>SELECT</code> clause must appear in the <code>GROUP BY</code> clause.</p><h2 id="7a6800b7-debe-4c24-b7e2-9048d4334f17" class="">Filter</h2><p id="75546113-cd1e-40a7-8f7b-5e720e5371bf" class="">We can use the <code>HAVING</code> clause with <code>GROUP BY</code> to filter groups on some conditions. It is different from <code>WHERE</code>:</p><ul id="3e0545f9-4d5d-4963-ad42-c3beb46b7850" class="bulleted-list"><li style="list-style-type:disc">The <code>WHERE</code> clause filters individual tuples before they are grouped via <code>GROUP BY</code></li></ul><ul id="c546dd1d-80d7-48d4-a352-245506750e36" class="bulleted-list"><li style="list-style-type:disc">The <code>HAVING</code> clause filters whole groups after they have been formed with <code>GROUP BY</code></li></ul><figure id="1c8447c5-5d48-47fb-bc7f-520029949953" class="image"><a href="https://groklearning-cdn.com/modules/ScY3fuvqDj8bfiFTnogG9d/QueryClause-Processing-Order.png"><img src="https://groklearning-cdn.com/modules/ScY3fuvqDj8bfiFTnogG9d/QueryClause-Processing-Order.png"/></a></figure><h2 id="9e4c4258-0612-4c78-a923-03e441f24416" class="">String Aggregation</h2><p id="6f618b1e-afae-4ea3-b1e2-21e0e4e10024" class=""><code>&lt;text1&gt; || &lt;text2&gt;</code> concatenates the two texts together horizontally.</p><p id="e0401ffa-ec52-4060-8492-4222b0ed0f39" class="">We can also use <code>string_agg(&lt;col&gt;, &lt;delim&gt;)</code> function to aggregate a group of strings separated by the delimiter.</p><p id="09cbacc8-cf3a-487c-a04a-baca3e6c0651" class="">The function supports <code>ORDER BY</code>. For example, <code>string_agg(&lt;col&gt;, &lt;delim&gt; ORDER BY &lt;col&gt;)</code> also orders the column before aggregating.</p><p id="786cbb3d-5ddb-4b88-a193-20b3b2dc69fb" class="">The function supports <code>DISTINCT</code>. For example, <code>string_agg(DISTINCT &lt;col&gt;, &lt;delim&gt;)</code> also removes duplicates from the column before aggregating.</p><p id="28956ba3-368e-41d0-b336-ff86d05fdf7b" class="">Another option is to combine values from one group into an <em>array</em> using the <code>array_agg(&lt;col&gt;)</code> function.</p><h1 id="b0e93233-4f31-46cb-9c2d-f5d205cb5cf7" class="">Data Summary</h1><h2 id="78584bd2-ee7a-4856-b422-d8b2bd53a1b5" class="">Grouping Sets</h2><pre id="a3a1ae80-6b07-4574-a716-95fb0b06c295" class="code"><code>SELECT ... GROUP BY GROUPING SETS (...)</code></pre><p id="01082654-f9e7-46d4-a30a-dae75f639182" class="">The above code results in several group-bys of the provided sets.</p><pre id="aea0afb0-b51e-415d-b73e-2feb5b5cf32e" class="code"><code>SELECT ... GROUP BY CUBE (...)</code></pre><p id="a0b7a553-b983-4a0a-97d4-fd253c013c2d" class="">The above is a shortcut for generating a grouping set combination of the provided columns.</p><h2 id="a5e0f1d5-4e12-4468-b45b-bb5476f01fae" class="">Boxplots</h2><p id="e8b02b14-b32a-4edc-bf85-faeec3cb746a" class="">A boxplot graphically summarises the water temperature using the following five numbers:</p><ul id="a8a300c1-9eb9-459a-aac8-ed7b0dae7d4c" class="bulleted-list"><li style="list-style-type:disc">The median;</li></ul><ul id="cab69218-534a-4056-86b0-dbc93eccd367" class="bulleted-list"><li style="list-style-type:disc">The first and third quartiles (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Q</mtext><mn>1</mn></mrow><annotation encoding="application/x-tex">\text{Q}1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Q</span></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Q</mtext><mn>3</mn></mrow><annotation encoding="application/x-tex">\text{Q}3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">Q</span></span><span class="mord">3</span></span></span></span></span><span>﻿</span></span>); and</li></ul><ul id="05d35082-cea8-4e50-89b6-1bf7f0afcd8c" class="bulleted-list"><li style="list-style-type:disc">The minimum and the maximum values.
+Alternatively, we can express the value range using <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.5</mn><mtext> </mtext><mtext>IQR</mtext></mrow><annotation encoding="application/x-tex">1.5\,\text{IQR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord">1.5</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord text"><span class="mord">IQR</span></span></span></span></span></span><span>﻿</span></span> (interquartile range) around the first and third quartiles.</li></ul><h3 id="fcb59829-5b51-4999-b203-625bb2e0f786" class="">Percentiles</h3><p id="daa50306-9264-4f8a-a957-cde2a313fc3d" class="">Note that SQL normally works on <em>sets</em>, not on <em>ordered lists</em>. We need to use the <code>WITHIN GROUP</code> clause that allows us to first order the values of an attribute before we apply an aggregate function that needs an ordered input:</p><pre id="dfd81330-0195-4c83-aaef-f1cd48059308" class="code"><code>SELECT some_agg(), ... WITHIN GROUP (ORDER BY expression)</code></pre><p id="7bca75fc-ae37-4b13-81ac-ae16ce53a8c5" class="">We use the <code>percentile_disc(&lt;frac&gt;)</code> function of PostgreSQL to determine the first value whose position in the ordered list equals or exceeds the specified fraction.</p><p id="61c31c7a-3c2b-4a2d-b1e2-0dc9b83e2826" class="">A variant of this function is the <code>percentile_cont(&lt;frac&gt;)</code> which interpolates the result and applies to continuous ranges.</p><pre id="3eccf0cd-fd49-4756-beb4-0e7ed673e3da" class="code"><code>SELECT &quot;Q1&quot;, &quot;Q3&quot;, (&quot;Q3&quot; - &quot;Q1&quot;) AS &quot;IQR&quot;
+	FROM (SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;Q1&quot;,
+		percentile_cont(0.75) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;Q3&quot;
+	FROM &lt;table_name&gt;) AS Subquery;</code></pre><div><p id="27c3ee4f-9547-4b7a-8e0e-b8a63058d78a" class="">In a Tukey boxplot, the whiskers extend to the lowest and highest data pointer still within <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.5</mn><mo>×</mo><mtext>IQR</mtext></mrow><annotation encoding="application/x-tex">1.5 \times \text{IQR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1.5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">IQR</span></span></span></span></span></span><span>﻿</span></span> of the first quartile, and the third quartile, respectively.</p></div><div><pre id="51e9cefe-3f2f-449f-903c-e9c8a8805ad1" class="code"><code>SELECT
+	GREATEST(min, (q1 - 1.5 * (q3 - q1))) AS &quot;lowest&quot;,
+	q1, median, q3,
+	LEAST(max, (q3 + 1.5 * (q3 - q1))) AS &quot;highest&quot;
+FROM (
+	SELECT MIN(&lt;col&gt;) AS &quot;min&quot;,
+		percentile_cont(0.25) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;q1&quot;,
+		percentile_cont(0.50) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;median&quot;,
+		percentile_cont(0.75) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;q3&quot;,
+	  MAX(&lt;col&gt;) AS &quot;max&quot;
+	FROM &lt;table&gt;
+) AS SubQuery;</code></pre></div><p id="1a68959d-56a4-44b5-a16b-557388e77fd8" class="">We can use arrays to simplify the workflow, although the output does not look as nice.</p><pre id="2e5f6962-ab93-4f91-b804-a45416287996" class="code"><code>SELECT percentile_cont(ARRAY[0.25,0.5,0.75]) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;quartiles&quot;,
+	percentile_cont(0.75) WITHIN GROUP (ORDER BY &lt;col&gt;) 
+		- percentile_cont(0.25) WITHIN GROUP (ORDER BY &lt;col&gt;) AS &quot;IQR&quot;
+FROM Measurements;
+-- Example output:
+-- +--------------------------+-----+
+-- |        quartiles         | IQR |
+-- +--------------------------+-----+
+-- | {17.8335,21.783,23.6335} | 5.8 |
+-- +--------------------------+-----+</code></pre><h3 id="987e6623-a20e-4fc9-92ee-345fdbca0001" class="">Mode</h3><p id="c05eade1-5c88-42f0-963a-4afb5c0717df" class="">The mode of an attribute is the most frequent value.</p><pre id="cabcc7ed-4a50-4012-9640-37b9cbb94ddf" class="code"><code>SELECT MODE() WITHIN GROUP (ORDER BY &lt;col&gt;) FROM &lt;tb&gt;;</code></pre><h3 id="7e8f9be6-c7be-442f-bcb7-90716846e065" class="">Outliers</h3><p id="8eb8cc9e-683a-4739-a769-5bd0131d73b3" class="">An <em>outlier</em> is a data value that is well beyond the expected value distribution of a variable. In this course, we define:</p><ul id="59e9f7ff-2166-4387-b578-b817238a5265" class="bulleted-list"><li style="list-style-type:disc">An outlier is any value more than <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mtext>IQR</mtext></mrow><annotation encoding="application/x-tex">3\times\text{IQR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">IQR</span></span></span></span></span></span><span>﻿</span></span> below the first quartile or more than <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mtext>IQR</mtext></mrow><annotation encoding="application/x-tex">3\times\text{IQR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">IQR</span></span></span></span></span></span><span>﻿</span></span> above the third quartile.</li></ul><ul id="fbbbed10-2100-4e2e-97c9-5a0714b818e3" class="bulleted-list"><li style="list-style-type:disc">A <em>suspected outlier</em> is any value more than <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.5</mn><mo>×</mo><mtext>IQR</mtext></mrow><annotation encoding="application/x-tex">1.5\times\text{IQR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1.5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">IQR</span></span></span></span></span></span><span>﻿</span></span> below the first quartile or more than <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.5</mn><mo>×</mo><mtext>IQR</mtext></mrow><annotation encoding="application/x-tex">1.5\times\text{IQR}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1.5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord text"><span class="mord">IQR</span></span></span></span></span></span><span>﻿</span></span> above the third quartile.</li></ul><p id="ff4ca960-a5bc-438c-a93e-cfb17db48a8c" class="">To reuse the result of a query in a follow-up query, we use <em>common table expressions</em>. They are specified in a <code>WITH ... AS ...</code> clause.</p><pre id="3ad7d998-9abf-4d17-8c32-54f667580649" class="code"><code>WITH Quartiles AS (
+  SELECT percentile_cont(0.25) WITHIN GROUP (ORDER BY &lt;col&gt;) AS q1,
+         percentile_cont(0.75) WITHIN GROUP (ORDER BY &lt;col&gt;) AS q3
+    FROM &lt;tb&gt;
+)
+SELECT ...
+  FROM Quartiles Q, &lt;tb&gt; T;</code></pre><h3 id="e527dc34-de6b-48be-bd5f-baba485e3694" class="">Standard Deviations</h3><p id="837d9aeb-98b8-43ee-9ff9-f6c27df46363" class="">Standard deviation <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span></span><span>﻿</span></span> measures the variation of the data in the whole dataset.</p><ul id="b63d046a-4ca4-4c1c-8484-2b5c969cf187" class="bulleted-list"><li style="list-style-type:disc"><code>stddev_pop(&lt;expr&gt;)</code> for standard deviation of a population</li></ul><ul id="508de302-1ff9-45ed-8ff0-fd9257f9659d" class="bulleted-list"><li style="list-style-type:disc"><code>stddev_samp(&lt;expr&gt;)</code> for standard deviation of a sample</li></ul><p id="00811216-9767-45e0-832b-523c064cd1a7" class="">We expect <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>66</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">66\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.80556em;vertical-align:-0.05556em;"></span><span class="mord">66%</span></span></span></span></span><span>﻿</span></span> of data to be within one standard deviation of the mean.</p><h2 id="8dc365f7-af13-47f6-8a4a-26fa5335264b" class="">Ranking</h2><p id="9b84347a-e19b-4bdf-9ad7-5c39b58931c9" class="">The <code>RANK()</code> function is a <em>window function</em>. It computes a rank for each row of the query result based on the position of that row in the ordered input.</p><pre id="d11aee04-61ac-4b58-b2d6-9fb5b226dda4" class="code"><code>SELECT RANK() OVER (ORDER BY &lt;col&gt;), ... FROM ...;</code></pre><p id="f2bb9255-7756-4ef6-b7b3-3865c5ac638f" class="">The rows that are ranked the same show the same number.</p><p id="2fe43e00-8e47-43b7-b51e-d168a71e2b64" class="">If you want distinct row numbers, use the <code>ROW_NUMBER()</code> function.</p><p id="2ff8928e-ac1e-4d32-931e-bbd0f1e3f5d5" class="">The <code>RANK()</code> function skips numbers when there are rows ranked the same, the <code>DENSE_RANK()</code> function does not leave any gaps.</p><p id="6be85aa7-f207-4c7c-9c95-678c22b4c669" class="">The <code>NTILE(&lt;n&gt;)</code> function distributes integers from <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span> to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span> in sequence and in equal amounts.</p><p id="9d39bcb0-4d55-4687-b27a-43f104e796f2" class="">Window functions perform calculations across a set of table rows, but unlike aggregate functions, the rows will not be grouped together after using the windows function.</p></div></article></body></html>

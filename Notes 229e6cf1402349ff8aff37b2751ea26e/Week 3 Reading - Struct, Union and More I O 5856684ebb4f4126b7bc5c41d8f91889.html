@@ -1,0 +1,699 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 3 Reading - Struct, Union and More I/O</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5856684e-bb4f-4126-b7bc-5c41d8f91889" class="page sans"><header><h1 class="page-title">Week 3 Reading - Struct, Union and More I/O</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@March 14, 2022 5:15 PM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-green">COMP2017</span></td></tr></tbody></table></header><div class="page-body"><nav id="4a4e5182-1bee-40af-9be9-17f397440a7a" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2a74fa8c-1e81-47ec-bb0f-65f3714bfef6">Heterogeneous Data Structures</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#72589529-ac1c-4e7e-9b1f-21866c2d36d4">Structures</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0d221fd3-d5af-443a-a34a-69e80a945449">Unions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e1d44885-e5a1-47fd-a611-dc04141f37c1">Data Alignment</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#21ef5d07-d50a-4112-8778-13b896868b85">System-Level I/O</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#8563d0d9-3f1e-4893-9cd8-e67d5f634c2a">Files</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#041a7c93-048f-4cf5-98ef-1045de995a9a">Open and Closing Files</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a6b33a8b-3cd9-4796-87b4-1d2c64bf12d8">Reading and Writing Files</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#92ece962-d9c8-476c-99c4-eb09570a1898">Standard I/O</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#cb523a0d-246c-474a-8b28-1dd4c3237b5a">Choosing I/O Functions</a></div></nav><h1 id="2a74fa8c-1e81-47ec-bb0f-65f3714bfef6" class="">Heterogeneous Data Structures</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="bedcfc69-2a59-4d5f-aec9-dcfcfd1f3505"><div style="font-size:1.5em"><span class="icon">📖</span></div><div style="width:100%">Chapter 3.9 Page 301</div></figure><p id="6eae8699-fccb-4629-afca-09200bba2f4b" class="">C provided two mechanisms for creating data types by combining objects of different types: <em>structures</em>, declared using the keyword <code>struct</code>, aggregate multiple objects into a single unit; <em>unions</em>, declared using the keyword <code>union</code>, allow an object to be referenced using several different types.</p><h2 id="72589529-ac1c-4e7e-9b1f-21866c2d36d4" class="">Structures</h2><p id="70e3aec8-3c6c-4fed-8f87-781419cdbd65" class="">The C <code>struct</code> declaration creates a data type that groups objects of possibly different types into a single object. The different components of a structure are referenced by names. The implementation of structures is similar to that of arrays in that all of the components of a structure are stored in a contiguous region of memory and a pointer to a structure is the address of its first byte. The compiler maintains information about each structure type indicating the byte offset of each field. It generates references to structure elements using these offsets as displacement in memory referencing instructions.</p><p id="b37c974f-d44c-42cc-bd8b-8e14bb7da4cd" class="">To access the fields of a structure, the compiler generates code that adds the appropriate offset to the address of the structure. As shown in the example below, the bolded C code corresponds to the assembly on the right. To access the field <code>y</code> in a <code>struct pos</code> object, simply add <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span></span><span>﻿</span></span> more to the stack pointer than that of <code>x</code>.</p><div id="2bc79bd8-c755-4f5c-a341-8647f9320ff1" class="column-list"><div id="83185259-b0e6-4b97-b303-612229bc8a96" style="width:50%" class="column"><pre id="7b383a27-8f0c-4bc4-b3e2-5f284d0ff7ad" class="code"><code>#include &lt;stdio.h&gt;
+
+struct pos{
+    int x;
+    int y;
+};
+
+int main() {
+    struct pos p1 = { 0 };
+    p1.y = 1;
+
+    return 0;
+}</code></pre></div><div id="16cdc9a4-02d8-40ad-9459-6818b8530628" style="width:50%" class="column"><pre id="0b2e1550-6df6-4d9b-bd3d-9ccd100f27e0" class="code"><code>&quot; armv8-a
+&quot; GCC: (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+
+str	xzr, [sp, 8]
+mov	w0, 1
+str	w0, [sp, 12]
+mov	w0, 0</code></pre></div></div><p id="f30eece6-d93e-4d5e-98db-76751d884c65" class="block-color-orange_background">The selection of the different fields of a structure is handled completely at compile time. The machine code contains no information about the field declarations or the names of the fields.</p><p id="d824c4be-4b57-4961-a989-22cfcea26b17" class="">Structure objects are usually passed by their address. Use <code>-&gt;</code> operator to access a member of the object stored at some pointer.</p><h2 id="0d221fd3-d5af-443a-a34a-69e80a945449" class="">Unions</h2><p id="db10f0a6-7853-4d43-ba3e-5387d51cbe3e" class="">Unions provide a way to circumvent the type system of C, allowing a single object to be referenced according to multiple types. The syntax of a union declaration is identical to that for structures, but its semantics are very different. Rather than having different fields reference different blocks of memory, they all reference the same block.</p><p id="9c957dc6-ba44-41f7-a9b3-60f1c07d37e6" class="">One application is when we know in advance that the use of two different fields in a data structure will be mutually exclusive.</p><p id="256304dc-fc88-4951-bd6e-1c2d8378487c" class="">Union usually involves introducing an enumerated type defining the different possible choices for the union and then creating a structure containing a tag field and the union.</p><p id="9c7cd18d-5fb4-4551-9163-f528af23fcd4" class="block-color-orange_background">Unions can lead to nasty bugs since they bypass the safety provided by C’s type system.</p><h2 id="e1d44885-e5a1-47fd-a611-dc04141f37c1" class="">Data Alignment</h2><p id="bf43b4c7-0828-49c4-8968-5b3acb930046" class="">Many computer systems place restrictions on the allowable addresses for the primitive data types, requiring that the address for some objects must be a multiple of some <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span></span><span>﻿</span></span> (typically <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span></span><span>﻿</span></span>, or <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn></mrow><annotation encoding="application/x-tex">8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span></span></span></span></span><span>﻿</span></span>). Such <em>alignment restrictions</em> simplify the design of the hardware forming the interface between the processor and the memory system.</p><p id="8621aaca-8d1b-41cf-a694-ee77563f779e" class="">The x86-64 hardware will work correctly regardless of the alignment of data. However, Intel recommends that data be aligned to improve memory system performance. Their alignment rule is based on the principle that any primitive object of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span></span><span>﻿</span></span> bytes must have an address that is a multiple of <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span></span><span>﻿</span></span>. The compiler places <code>.align</code> directives in the assembly code indicating the desired alignment for the following data. For code involving structures, it may need to insert gaps in the field allocation to ensure that each structure element satisfies its alignment requirement.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cbf5c72d-814c-42cf-9974-ed7e1e824337"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">On the other hand, some models of Intel and AMD processors will not work correctly with unaligned data for some of the SSE instructions implementing multimedia operations. These instructions operate on 16-byte blocks of data, and the instructions that transfer data between the SSE unit and memory require the memory addresses to be multiples of 16. Any attempt to access memory with an address that does not satisfy this alignment will lead to an <em>exception</em>, with the default behavior for the program to terminate.<ul id="1451efe7-fac9-4f19-9132-8ab95b1aa5dd" class="bulleted-list"><li style="list-style-type:disc">The starting address for any block generated by a memory allocation function must be a multiple of 16.</li></ul><ul id="73cdaa93-4522-4361-a676-df14b344dcc8" class="bulleted-list"><li style="list-style-type:disc">The stack frame for most functions must be aligned on a 16-byte boundary with several exceptions.</li></ul><p id="b6d53f0d-9615-4106-926b-4499747a506c" class="">More recent versions of x86-64 processors implement AVX, which does not have these restrictions.</p></div></figure><h1 id="21ef5d07-d50a-4112-8778-13b896868b85" class="">System-Level I/O</h1><h2 id="8563d0d9-3f1e-4893-9cd8-e67d5f634c2a" class="">Files</h2><p id="b50bbb38-b2dd-4937-b021-1b96cac2ee29" class="">Each Linux file has a type that indicates its role in the system:<div class="indented"><ul id="b3b0e939-e701-437d-a836-1128b91eb974" class="bulleted-list"><li style="list-style-type:disc">A <em>regular file</em> contains arbitrary data. Application programs often distinguish between <em>text files</em>, which are regular files that contain only ASCII or Unicode characters, and <em>binary files</em>, which are everything else. <strong>To the kernel, there is no difference between text and binary files.</strong></li></ul><ul id="50e3876f-771a-44e4-b66a-5999757db1da" class="bulleted-list"><li style="list-style-type:disc">A <em>directory</em> <strong>is a file</strong> consisting of an array of <em>links</em>, where each link maps a <em>filename</em> to a file, which may be another directory. Each directory contains at least two entries: <code>.</code> is a link to the directory itself, and <code>..</code> is a link to the <em>parent directory</em>.</li></ul><ul id="0ed44ff1-c570-485a-a7a6-f405cc13974c" class="bulleted-list"><li style="list-style-type:disc">A <em>socket</em> is a file that is used to communicate with another process across a network.</li></ul><ul id="16c5949c-045e-45d6-9f5d-77f774687498" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-gray">Named pipes</mark></li></ul><ul id="602adea8-beba-49ea-bdbe-5bb7386c9fa0" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-gray">Symbolic pinks</mark></li></ul><ul id="f0e6c12b-0762-420f-bb3d-4195b0c1931e" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-gray">Character and block devices</mark></li></ul></div></p><p id="d4dd2779-effe-4d02-ad99-18faee718dbb" class="">The Linux kernel organizes all files in a single <em>directory hierarchy</em> anchored by the <em>root directory</em> named <code>/</code>. Each file in the system is a direct or indirect descendant of the root directory. As part of its context, each process has a <em>current working directory</em> that identifies its current location in the directory hierarchy.</p><p id="bef2fd15-45b5-458b-b397-9cffd8b6f146" class="">Locations in the directory are specified by <em>pathnames</em>. A pathname is a string consisting of an optional slash followed by a sequence of filenames separated by slashes. Pathnames have two forms:<div class="indented"><ul id="748d0f7d-8574-4cfe-808d-796e4770f619" class="bulleted-list"><li style="list-style-type:disc">An <em>absolute pathname</em> starts with a slash and denotes a path from the root node.</li></ul><ul id="f710f97a-eced-40e5-bf48-cc6baa0e695f" class="bulleted-list"><li style="list-style-type:disc">A <em>relative pathname</em> starts with a filename and denotes a path from the current working directory.</li></ul></div></p><h2 id="041a7c93-048f-4cf5-98ef-1045de995a9a" class="">Open and Closing Files</h2><p id="a226d7fc-46a8-45c9-ab41-e47129d93890" class="">A process opens an existing file or creates a new file by calling the <code>open</code> function.</p><pre id="0c3362d8-5ecd-4d01-894e-ae271a3b88e5" class="code"><code>#include &lt;sys/stat.h&gt; // for mode MACROS
+#include &lt;fcntl.h&gt;
+
+int open(char *path, int oflag, ...); // Returns file descriptor if OK, -1 on error</code></pre><div id="e3e09316-7868-448f-ad84-2d02d4f6eaf8" class="column-list"><div id="0c56ac57-94fd-4a31-adf3-0763e269fae8" style="width:50%" class="column"><p id="51e62e43-332b-4c03-8752-c7013d4b9fac" class="">The <code>open</code> function converts a filename to a <em>file descriptor</em> and returns the descriptor number. The descriptor returned is always the smallest descriptor that is not currently open in the process. The <code>flags</code> argument indicates how the process intends to access the file.</p></div><div id="fdf05b6a-1984-41c3-be7c-cdedc4f2d4c5" style="width:50%" class="column"><table id="25d3fba9-90c4-4c1b-b365-ac7938c77bd4" class="simple-table"><tbody><tr id="7e58480d-b509-4dda-816d-03267b3edb16"><td id="zOyZ" class=""><code>O_RDONLY</code></td><td id="NmX^" class="" style="width:165.078125px">Reading only</td></tr><tr id="1091e0bf-58c0-4abe-8ff7-6607cc4926e0"><td id="zOyZ" class=""><code>O_WRONLY</code></td><td id="NmX^" class="" style="width:165.078125px">Writing only</td></tr><tr id="3b9c16ba-90f4-48cc-9e5f-77cc91a96fcc"><td id="zOyZ" class=""><code>O_RDWR</code></td><td id="NmX^" class="" style="width:165.078125px">Reading and writing</td></tr></tbody></table></div></div><div id="16a34c3b-bb48-40b3-a4a6-4ed026dc7335" class="column-list"><div id="8226959e-013d-4e26-a027-e9d7c5f6d821" style="width:50%" class="column"><p id="50615ea6-d890-4527-b834-20cc188ce484" class="">The flags can also be bitwise or-ed with one or more bit masks that provide additional instructions for writing.</p></div><div id="cb5ce821-668e-4465-a7e9-0e376bae40ec" style="width:50%" class="column"><table id="3fcc9f16-30dd-4ea4-abc0-a76c71d4fbc1" class="simple-table"><tbody><tr id="47482f49-9bb8-46b3-bd05-483bdc3598e9"><td id="Wlkt" class=""><code>O_CREATE</code></td><td id="l`;Q" class="" style="width:530.359375px">If the file doesn’t exist, then create a <em>truncated</em> (empty) version of it.</td></tr><tr id="91f3295d-939f-4f24-beeb-e587764b5c54"><td id="Wlkt" class=""><code>O_TRUNC</code></td><td id="l`;Q" class="" style="width:530.359375px">If the file already exists, then truncate it.</td></tr><tr id="7310affb-0579-483f-a553-b4988172a6d5"><td id="Wlkt" class=""><code>O_APPEND</code></td><td id="l`;Q" class="" style="width:530.359375px">Before each write operation, set the file position to the end of the file.</td></tr></tbody></table></div></div><p id="787cc601-428e-4921-90c4-9c1b7b3f0b6b" class="">If <code>O_CREATE</code> is set for <code>oflag</code>, an additional <code>mode</code> argument is required to specify the access permission bits of new files. The symbolic names for these bits begin with <code>S_I</code>, followed by one letter representing permission (<code>R</code>, <code>W</code>, and <code>X</code>), and three letters representing who (<code>USR</code> for the user, <code>GRP</code> for owner’s group members, and <code>OTH</code> for others). <strong>As part of its context, each process has a umask that is set by calling the </strong><strong><code>umask</code></strong><strong> function. When a process creates a new file by calling the </strong><strong><code>open</code></strong><strong> function with some </strong><strong><code>mode</code></strong><strong> argument, then the access permission bits of the file are set to </strong><strong><code>mode &amp; ~mask</code></strong><strong>.</strong></p><pre id="a76a8604-ea5e-4718-b9fa-92b05d1b3fe4" class="code"><code>#include &lt;unistd.h&gt;
+
+int close(int fd); // Returns 0 if OK, -1 on error.</code></pre><p id="de92e0e7-a4cf-4a64-b2b0-3e96b3e4b6dd" class="">The above code closes a file descriptor. Closing a descriptor that is already closed is an error.</p><h2 id="a6b33a8b-3cd9-4796-87b4-1d2c64bf12d8" class="">Reading and Writing Files</h2><pre id="3396ca15-559b-4e7e-b832-5f88cd6bd49f" class="code"><code>#include &lt;unistd.h&gt;
+
+ssize_t
+read(int fildes, void *buf, size_t nbyte); // Returns number of bytes read if OK, 0 on EOF, -1 on error
+
+ssize_t
+write(int fildes, const void *buf, size_t nbyte); // Returns number of bytes written if OK, -1 on error</code></pre><p id="6aa03853-edf2-48ce-82b9-71fd915034f8" class="">The <code>read</code> function copies at most <code>n</code> bytes from the current file position of descriptor <code>fd</code> to memory location <code>buf</code>.</p><p id="89b871e9-9684-4d32-b600-20d973a38f54" class="">The <code>write</code> function copies at most <code>n</code> bytes from memory location <code>buf</code> to the current file position of descriptor <code>fd</code>.</p><p id="78925105-bfea-4c16-9330-d20905a4603c" class="">Applications can explicitly modify the current file position by calling the <code>lseek</code> function.</p><p id="f44224df-c789-4773-820e-766ce26eace2" class="">In some situations, <code>read</code> and <code>write</code> transfer fewer bytes than the application requests. Such <em>short counts</em> do <strong>not</strong> indicate an error. They occur for several reasons:<div class="indented"><ul id="a8733b7d-e9b8-4027-8e8c-a2d75720fe2d" class="bulleted-list"><li style="list-style-type:disc">Encountering EOF on reads. If the number of bytes specified is greater than the number of bytes in the file before EOF, the <code>read</code> function will return a short count.</li></ul><ul id="ee832dbb-8226-4fd2-bf93-2cb28bc5c355" class="bulleted-list"><li style="list-style-type:disc">Reading text lines from a terminal. If the open file is associated with a terminal (i.e., a keyboard and display), then each <code>read</code> function will transfer one text line at a time, returning a short count equal to the size of the text line.</li></ul><ul id="36d7275e-1f75-4190-a48c-60c4e5f80479" class="bulleted-list"><li style="list-style-type:disc">Reading and writing network sockets. If the open file corresponds to a network socket, then internal buffering constraints and long network delays can cause <code>read</code> and <code>write</code> to return short counts. </li></ul><ul id="e55e3c7f-ff90-4811-ae48-e2c9b6af6ae8" class="block-color-gray bulleted-list"><li style="list-style-type:disc">Reading and writing Linux <em>pipe</em>.</li></ul></div></p><p id="f2fa18ca-ebc8-4d1f-be82-a08798f0d7e0" class="block-color-orange_background">In practice, you will never encounter short counts when you read from disk files except on EOF, and you will never encounter short counts when you write to disk files. However, if you want to build robust (reliable) network applications such as Web servers, then you must deal with short counts by repeatedly calling <code>read</code> and <code>write</code> until all requested bytes have been transferred.</p><h2 id="92ece962-d9c8-476c-99c4-eb09570a1898" class="">Standard I/O</h2><p id="b26572fd-6ced-46d6-b509-526a155f8390" class="">The C language defines a set of higher-level input and output functions, called the <em>standard I/O library</em>, that provided programmers with a higher-level alternative to Unix I/O. The library (<code>libc</code>) provides functions for opening and closing files, reading and writing bytes, reading and writing strings, and sophisticated formatted I/O.</p><p id="d174271f-6063-433c-879e-93cfd1a155d6" class="">The standard I/O library models an open file as a <em>stream</em>. To the programmer, a stream is of type <code>FILE *</code>. Every ANSI C program begins with three open streams, <code>stdin</code>, <code>stdout</code>, and <code>stderr</code>, which correspond to standard input, standard output, and standard error, respectively. They have the file descriptors <code>0</code>, <code>1</code>, and <code>2</code>, respectively.</p><p id="220711cb-f0f9-4c94-abbd-0636cf20eeeb" class="block-color-orange_background">A stream of type <code>FILE *</code> is an abstraction for a file descriptor and a <em>stream buffer</em>. The purpose of the stream buffer is to minimize the number of expensive Linux I/O system calls. For example, suppose we have a program that makes repeated calls to the standard I/O <code>getc</code> function, where each invocation returns the next character from a file. When <code>getc</code> is called the first time, the library fills the stream buffer with a single call to the <code>read</code> function and then returns the first byte in the buffer to the application. As long as there are unread bytes in the buffer, subsequent calls to <code>getc</code> can be served directly from the stream buffer.</p><h2 id="cb523a0d-246c-474a-8b28-1dd4c3237b5a" class="">Choosing I/O Functions</h2><p id="21b64b97-3972-402f-b9f4-9f96df038722" class="">Here are some basic guidelines:<div class="indented"><ul id="fd324a4c-dda5-4038-ba1e-0814f892172b" class="bulleted-list"><li style="list-style-type:disc">Use the standard I/O functions whenever possible. The standard I/O functions are the method of choice for I/O on disk and terminal devices.</li></ul><ul id="26a33f9f-2e27-4a44-b3d0-62a01958f501" class="bulleted-list"><li style="list-style-type:disc">Don’t use formatted I/O functions like <code>scanf</code> on binary files.</li></ul><ul id="4cc32c71-8ae2-40d1-9c53-c3649be2045f" class="bulleted-list"><li style="list-style-type:disc">Use a robust wrapper around Unix I/O on network sockets. The explanation is provided below.</li></ul></div></p><p id="45622828-0a2b-4702-b929-6a5867e0737b" class="">Standard I/O streams have some poorly documented restrictions on streams that interact badly with restrictions on sockets:<div class="indented"><ol type="1" id="6579e435-b30d-46eb-bbf0-6359dd8928de" class="numbered-list" start="1"><li>An input function cannot follow an output function without an intervening call to <code>fflush</code>, <code>fseek</code>, <code>fsetpos</code>, or <code>rewind</code>.</li></ol><ol type="1" id="2f82a1e1-4be4-4b4b-8fb5-fb2971ad5965" class="numbered-list" start="2"><li>An output function cannot follow an input function without an intervening call to <code>fseek</code>, <code>fsetpos</code>, or <code>rewind</code>, unless the input function encounters an end-of-file.</li></ol></div></p><p id="25812383-4df2-421e-a1ce-cef8890b1f13" class="block-color-orange_background">These restrictions pose a problem for network applications because it is illegal to use the <code>lseek</code> function on a socket. The first restriction on stream I/O can be worked around by adopting a discipline of flushing the buffer before every input operation. However, the only way to work around the second restriction is to open two streams on the same open socket descriptor, one for reading and one for writing. But it then requires the application to call <code>fclose</code> on both streams to free the memory resources associated with each stream and avoid a memory leak. They would attempt to close the same underlying socket descriptor, so the second call to <code>fclose</code> will fail. This is a big problem for a threaded program. Thus, you should not use the standard I/O functions for input and output on network sockets.</p><p id="6c986aa5-e628-404b-92d2-e9805f927bca" class="">
+</p></div></article></body></html>
