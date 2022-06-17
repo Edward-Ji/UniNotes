@@ -1,0 +1,685 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Week 11 Lecture - Image Data Processing</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="af98a35c-1972-43d2-af1e-1381ca923da8" class="page sans"><header><h1 class="page-title">Week 11 Lecture - Image Data Processing</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M7.01356 14.0001C8.8042 14.0001 10.5958 13.3107 11.9575 11.9324C14.681 9.21201 14.6808 4.7603 11.9571 2.04013C9.23336 -0.680043 4.77573 -0.680043 2.05199 2.04013C0.727519 3.36277 0 5.13301 0 6.99553C0 8.8764 0.727811 10.6285 2.05199 11.9509C3.43207 13.3106 5.22243 14.0001 7.01356 14.0001ZM3.72947 7.00914V8.461V8.65543H3.92382H5.34563H8.2794H8.4738V8.461V5.52541V3.37947V3.18502H8.2794H6.82747H6.63307V3.37947V6.81467H3.92382H3.72947V7.00914ZM1.83985 6.99553C1.83985 5.61698 2.38099 4.32597 3.36061 3.3477C5.36746 1.34337 8.64803 1.34062 10.6585 3.33944C10.6613 3.34219 10.6639 3.34494 10.6668 3.3477C12.676 5.3546 12.6763 8.63642 10.6668 10.6434C8.65705 12.6504 5.37031 12.6504 3.36061 10.6434C2.38099 9.66506 1.83985 8.37408 1.83985 6.99553Z"></path></svg></span>Created time</th><td><time>@May 30, 2022 3:17 PM</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Unit</th><td><span class="selected-value select-value-color-purple">DATA2901</span></td></tr></tbody></table></header><div class="page-body"><nav id="06953dd2-aced-49b9-af43-d82cd3e6d98f" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f2c5ac11-89e0-4c40-ac68-f243631e81c6">Image Data</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#213791a9-700d-47b7-9bbd-0adc422767ed">Types of images</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#311358e4-28c2-4e93-b456-88613a43127b">Colored</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#65ab2baa-5d66-4465-8f53-23c4209bab9e">Grey-scale</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#9c7126b0-faa4-4dd1-97f7-b2681ff5c73d">Binary</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a812bdd9-f198-4d77-bbd6-ec58efbfc2fc">File Formats</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aa78f2c5-8442-40c3-b7c8-c3de406facf2">Image Metadata</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f59d2974-4d8d-4668-be81-0cdfde8bc762">Image Data Analysis</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#f55b460d-2ddd-4aa2-b22e-e185fe6edee7">Preprocessing</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e6353d5c-608c-4134-810b-e655171799ec">Image Enhancement</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#9df8d0a4-eba3-4ecc-878e-a33decdfe8bc">Image Restoration</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#f6606924-6916-407f-8274-56f183f747ee">Image Segmentation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#eebe75f9-5089-4ef0-a96c-4eb4c5d04b15">ROI Segmentation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#15ee39c6-2f7f-4950-aeba-9b7363a9541a">Thresholding</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#a9e49ac5-3268-4d4e-9c37-578475ed6add">Feature Extraction</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#643fd85f-2b6d-46d0-96f2-cd406736782c">Image Similarity Search</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#0edcf358-4682-4a43-99b0-f2432006bcc3">Image Processing Pitfall</a></div></nav><h1 id="f2c5ac11-89e0-4c40-ac68-f243631e81c6" class="">Image Data</h1><p id="ce62b76a-2e01-4648-aa4a-7c6ab407c96d" class="">Images can be described as vector graphics or <em>raster data</em>.</p><p id="be8f0282-8022-4677-8271-dbfc85e45cc0" class="">Raster images are</p><ul id="bb0e3e80-e922-4f94-9225-0a68f65c7bf3" class="bulleted-list"><li style="list-style-type:disc">Matrix with a fixed number of rows and columns.</li></ul><ul id="23beeebc-fc20-4f06-97f1-af5f15b57afd" class="bulleted-list"><li style="list-style-type:disc">Digital images consist of a fixed number of picture elements, called <strong>pixels</strong>. Each pixel represents the brightness of a given color.</li></ul><ul id="942564c4-6e86-4255-aacf-24c027bede03" class="bulleted-list"><li style="list-style-type:disc">A channel represents the brightness of a given color. The color depth is the number of channels in an image.</li></ul><p id="8979cfbf-db3f-4c00-839d-789d85519034" class="">Raster images can be created in multiple ways:</p><ul id="598c722f-0e61-4745-a444-1df02d02aadc" class="bulleted-list"><li style="list-style-type:disc">Digital photograph or videography</li></ul><ul id="cab284b8-9465-4499-b30e-601c88f14e38" class="bulleted-list"><li style="list-style-type:disc">Image sensors in scientific instruments (e.g. satellite images DNA sequences, etc.)</li></ul><ul id="319c2a0d-a657-4bc6-b463-b0773fc415f2" class="bulleted-list"><li style="list-style-type:disc">Scanners</li></ul><ul id="889fc959-c333-4d71-8b40-67ae469ecb9f" class="bulleted-list"><li style="list-style-type:disc">Medical instruments (e.g. X-ray, CET, MRT, etc.)</li></ul><h2 id="213791a9-700d-47b7-9bbd-0adc422767ed" class="">Types of images</h2><ul id="b566611a-e70c-4b92-90dc-0a02beac9278" class="bulleted-list"><li style="list-style-type:disc">True color</li></ul><ul id="fe04e267-380a-45a7-9719-8ebb6d1c93ac" class="bulleted-list"><li style="list-style-type:disc">RGB</li></ul><ul id="def3f47a-f619-40fe-8fd5-528a551c40fb" class="bulleted-list"><li style="list-style-type:disc">Grey-scale</li></ul><ul id="b959c874-39a3-4296-b74b-04e4373f9b6f" class="bulleted-list"><li style="list-style-type:disc">Binary</li></ul><h3 id="311358e4-28c2-4e93-b456-88613a43127b" class="">Colored</h3><p id="3adc54e5-bcbe-40b6-ace8-2bfe533091f9" class="">Each pixel has a particular color described by the value of pixels in RGB channels. the number of <em>bits per pixel</em> indicates how nay colors can be represented.</p><ul id="883f302e-fcb7-4187-b47a-1bc932eebf71" class="bulleted-list"><li style="list-style-type:disc">True colors typically have <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>24</mn></mrow><annotation encoding="application/x-tex">24</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">24</span></span></span></span></span><span>﻿</span></span> or more bits per pixel, which corresponds to more than <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mtext> </mtext><mn>777</mn><mtext> </mtext><mn>216</mn></mrow><annotation encoding="application/x-tex">16\,777\,216</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">777</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">216</span></span></span></span></span><span>﻿</span></span> colors.</li></ul><ul id="f8943db7-8bf6-4a37-8c96-f6d7a00db7e4" class="bulleted-list"><li style="list-style-type:disc">RGB typically has <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn></mrow><annotation encoding="application/x-tex">8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span></span></span></span></span><span>﻿</span></span> or <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn></mrow><annotation encoding="application/x-tex">16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">16</span></span></span></span></span><span>﻿</span></span> bits per pixel, which corresponds to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn></mrow><annotation encoding="application/x-tex">256</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">256</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65</mn><mtext> </mtext><mn>356</mn></mrow><annotation encoding="application/x-tex">65\,356</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">65</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">356</span></span></span></span></span><span>﻿</span></span> colors respectively.</li></ul><h3 id="65ab2baa-5d66-4465-8f53-23c4209bab9e" class="">Grey-scale</h3><p id="a1178b84-569d-4a17-95dc-f1033c8cc67c" class="">There is a single channel representing the brightness of every pixel.</p><p id="91ca74f2-e280-4813-9c12-66253ff59ac9" class="">Each pixel is interpreted to be a shade of grey.</p><p id="9c7e864e-f706-4fe2-a4c9-5b27e1476b5f" class="">The bits per pixel value defined how many shades of grey can be represented.</p><h3 id="9c7126b0-faa4-4dd1-97f7-b2681ff5c73d" class="">Binary</h3><p id="b6f1a944-7c94-4647-9e30-5e23f636e174" class="">Each pixel is either black or white, represented by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></span><span>﻿</span></span>, or <code>false</code> and <code>true</code>.</p><p id="eb54f0a0-09cd-47b4-9be6-77e169cb4c27" class="">It has a single channel with 1 bit per pixel.</p><p id="a30121f9-e1f7-4861-9498-51a03b95729e" class="">A binary image created from raw images is usually referred to as a <em>bit-mask</em>.</p><h2 id="a812bdd9-f198-4d77-bbd6-ec58efbfc2fc" class="">File Formats</h2><p id="13c6e02a-3854-479e-94a5-738c92fc31ba" class="">Lossy and compressed</p><ul id="b1ae0b56-2060-427d-a111-648437a8930e" class="bulleted-list"><li style="list-style-type:disc">JPEG</li></ul><ul id="d440cd04-61a4-46f7-a5e2-568818900f6d" class="bulleted-list"><li style="list-style-type:disc">…</li></ul><p id="26bf01c4-5cce-4397-a5bd-1996633fff57" class="">Lossless</p><ul id="55ee956b-611e-45d2-a17f-89b00c166662" class="bulleted-list"><li style="list-style-type:disc">TIFF</li></ul><ul id="41a41c11-6392-42d2-b30a-9dd7b57f954a" class="bulleted-list"><li style="list-style-type:disc">GIF</li></ul><ul id="348f3b98-18cf-49c0-a57f-563e95f934ae" class="bulleted-list"><li style="list-style-type:disc">PNG</li></ul><ul id="f4c81bf8-049d-4455-a35a-c9f65a22fd1f" class="bulleted-list"><li style="list-style-type:disc">…</li></ul><ul id="0474a82c-e462-400b-98f1-cc09bb12e427" class="toggle"><li><details open=""><summary>Converting images to another format using the Python standard library</summary><pre id="b84e8f42-1de2-45ac-9d6f-3fc4363a3a8b" class="code"><code>from PIL import Image
+import os
+
+out_ext = &quot;.jpg&quot;
+
+for img_path in img_paths:
+    img_name, img_ext = os.path.splitext(img_path)
+    if img_ext != out_ext:
+        try:
+            Image.open(img_path).save(img_name + out_ext)
+        except IOError:
+            print(f&quot;failed to convert {img_path}&quot;)</code></pre></details></li></ul><h1 id="aa78f2c5-8442-40c3-b7c8-c3de406facf2" class="">Image Metadata</h1><p id="90c9a1c1-501a-4b79-8dbe-a126f65045ad" class="">Digital images have metadata associated with them, especially in digital photography.</p><ul id="2dd03789-5349-45c8-b1b7-36b309fc8db7" class="bulleted-list"><li style="list-style-type:disc">It is standardized by <a href="http://iptc.org">iptc.org</a></li></ul><ul id="70e26492-ec65-41a0-8823-9211815edd33" class="bulleted-list"><li style="list-style-type:disc">There are several standard formats (e.g. EXIF, XMP)</li></ul><ul id="fcf00954-1c6d-4f4a-a111-804cf702d30b" class="bulleted-list"><li style="list-style-type:disc"><code>exiftool</code> can be used to examine the metadata of an image</li></ul><p id="b7b00341-fee9-4f00-8379-1d6f519ca9ca" class="">The metadata of an image typically includes:</p><ul id="f8bd289d-f110-4a37-9ebd-b383325cd603" class="bulleted-list"><li style="list-style-type:disc"><strong>When</strong> the image is captured</li></ul><ul id="588dbcb6-82e5-4e18-be18-a03f997063d3" class="bulleted-list"><li style="list-style-type:disc"><strong>Which</strong> camera or instrument is used to capture the image</li></ul><ul id="11da13ee-ed03-4c8e-94fd-6d526f3f5b4e" class="bulleted-list"><li style="list-style-type:disc"><strong>Where</strong> the image is captured (e.g. GPS location)</li></ul><ul id="53a8d2a2-6955-4063-8dd3-ec1211c9504e" class="bulleted-list"><li style="list-style-type:disc"><strong>How</strong> the image is captured (e.g. shutter speed, ISO, etc.)</li></ul><ul id="0eabb967-2186-4b43-ad63-dc420a4d7179" class="bulleted-list"><li style="list-style-type:disc">The author and copyright information</li></ul><h1 id="f59d2974-4d8d-4668-be81-0cdfde8bc762" class="">Image Data Analysis</h1><ul id="ae3c30b1-53f4-4bb3-bd62-930ff6403caa" class="bulleted-list"><li style="list-style-type:disc">Image acquisition</li></ul><ul id="a351c5d6-46d8-4b79-a701-a2135c9c9186" class="bulleted-list"><li style="list-style-type:disc">Preprocessing</li></ul><ul id="537b2e74-bf49-4637-90e7-f02ba0af2739" class="bulleted-list"><li style="list-style-type:disc">Feature extraction</li></ul><ul id="3097e513-3544-44fd-a806-117afad46aa3" class="bulleted-list"><li style="list-style-type:disc">Analysis<ul id="41844826-72ac-40d7-9e0f-42760fefb68b" class="bulleted-list"><li style="list-style-type:circle">Classification</li></ul><ul id="c24e1ad7-7386-4aaf-9f24-18dca786da05" class="bulleted-list"><li style="list-style-type:circle">Image similarity</li></ul><ul id="76fc6adf-ca63-40fc-94fe-2b856f098ed7" class="bulleted-list"><li style="list-style-type:circle">Object detection</li></ul><ul id="32f485cd-8206-48c6-b1cb-ea32e51c917c" class="bulleted-list"><li style="list-style-type:circle">Intensity-based analysis</li></ul><ul id="beb2c05d-8082-4885-88cf-29c84d51d616" class="bulleted-list"><li style="list-style-type:circle">Extraction of the region of interest (ROI) using bit-masks
+<strong>Not</strong> suitable for intensity-based analysis</li></ul></li></ul><h2 id="f55b460d-2ddd-4aa2-b22e-e185fe6edee7" class="">Preprocessing</h2><p id="ef50e64b-4734-4e65-85c7-2939cafb3e5e" class="">Below are a few non-exhaustive ways to preprocess an image.</p><ul id="5a31b6c5-b3b3-49fe-93d4-0e4dafd62f34" class="bulleted-list"><li style="list-style-type:disc">Image enhancement: perform overall adjustments to the image so that they present clearer information.<ul id="14667d32-2416-44e2-87af-9be36a3bc0d6" class="bulleted-list"><li style="list-style-type:circle">Sharpening or de-blurring an out of focus image</li></ul><ul id="fe4b5a66-ec92-46c2-bf7f-9f3498f2060c" class="bulleted-list"><li style="list-style-type:circle">Highlighting edges</li></ul><ul id="40981651-6efc-4e60-9dfd-95f169b6207d" class="bulleted-list"><li style="list-style-type:circle">Improving contrasts</li></ul><ul id="942fbc79-b86c-4c93-af65-1f752c784fb7" class="bulleted-list"><li style="list-style-type:circle">Brightening images</li></ul><ul id="597a2605-9174-436c-bd6f-e5487a610537" class="bulleted-list"><li style="list-style-type:circle">Reduce noise</li></ul></li></ul><ul id="e9230fdd-3f74-41bc-a2d1-656f5007d063" class="bulleted-list"><li style="list-style-type:disc">Image restoration: reversing damages to an image by a known cause.<ul id="cfc9dad8-abe2-4a95-969d-73cac57dbe0e" class="bulleted-list"><li style="list-style-type:circle">Removing blue caused by linear motion</li></ul><ul id="95bdb21f-e981-4ef9-8fa2-cc2c81c44d05" class="bulleted-list"><li style="list-style-type:circle">Removing optical distortions</li></ul></li></ul><ul id="53d45f53-d11b-4ea0-875b-c045501b3227" class="bulleted-list"><li style="list-style-type:disc">Image segmentation: subdividing an image into constituent parts, or isolating aspects of an image.<ul id="aadeec30-5c4d-49f5-a632-e438a9a4b582" class="bulleted-list"><li style="list-style-type:circle">Finding lines, circles, or particular shapes in an image</li></ul><ul id="09d59b88-00b3-4d2b-8c37-a5a9e17f06c5" class="bulleted-list"><li style="list-style-type:circle">Identifying objects of interest</li></ul></li></ul><h3 id="e6353d5c-608c-4134-810b-e655171799ec" class="">Image Enhancement</h3><p id="580a9b4c-4e1a-475c-be22-27ae0c8efda8" class="">Images may have noises.</p><ul id="498e780c-80c1-459a-a054-ee713215b4b7" class="bulleted-list"><li style="list-style-type:disc"><em>Salt and pepper noise</em>: There are sharp and sudden disturbances in the image signal. It presents itself as sparsely occurring white and black pixels</li></ul><ul id="3a8d852e-cd07-432e-b44a-54c938afebd3" class="bulleted-list"><li style="list-style-type:disc"><em>Gaussian noise</em>: It is a kind of signal noise that has a probability density function (pdf) equal to that of the normal distribution.</li></ul><p id="83104c78-3e25-4132-8c6a-20a93ea029bc" class="">We perform image de-noising using Gaussian blur or other digital filters.</p><hr id="9b55f57a-d998-4910-ae8d-4337927bf902"/><p id="5a6dc977-530a-4b3d-8bae-e2bee066a322" class="">The <em>dynamic range</em> of an image is the ratio of brightest to darkest intensity values. It directly corresponds to the contrast of an image.</p><p id="778f2c86-3631-4055-87a0-104531814df3" class="">Sometimes, the dynamic range of a scene exceeds the dynamic range of a viewing device, in which case, we perform dynamic range compression.</p><p id="d456b39c-3848-492a-8522-8c8d90f40055" class=""><em>Dynamic range compression</em> in imaging: multi-exposure HDR capture is a technique allowing us to capture high dynamic range images by taking and then combining several different exposures of the same subject matter.</p><h3 id="9df8d0a4-eba3-4ecc-878e-a33decdfe8bc" class="">Image Restoration</h3><p id="807be80d-ff9a-4438-b263-eee07026044e" class="">The p<em>oint spread function</em> is described as the impulse response of the optical system. For example, the diffraction of light determined the microscope’s resolution limit and blurs out any point-like object to a certain minimal size and shape. We say the captured image becomes convoluted.</p><p id="96fb2d18-9ed4-4023-987d-f6a8aef81ea7" class=""><em>Deconvolution</em> is an algorithm-based process used to reverse the effects of convolution on an image.</p><h3 id="f6606924-6916-407f-8274-56f183f747ee" class="">Image Segmentation</h3><p id="a3d6513d-44bd-4637-b208-e7c23780b4ef" class="">There are a broad set of operations that process images based on shapes. The goal is to remove imperfections in binary or grayscale images.</p><p id="88698624-d3e3-44a6-9b80-dfa4d5eb6e0c" class="">Morphological techniques probe an image with a small shape or template called a structuring element. The structuring element is a small binary image. This technique affects object connectivity.</p><ul id="df041133-338f-45de-974d-83ab5fb716f4" class="bulleted-list"><li style="list-style-type:disc">Dilation vs erosion<ul id="5b325057-711a-4ab3-b4bd-5bd56209b281" class="bulleted-list"><li style="list-style-type:circle">In <em>morphological dilation</em>, the value of the output pixel is the maximum value of all the pixels in the input neighborhood.</li></ul><ul id="b359977c-7cb7-491e-a34e-b99babb7a55b" class="bulleted-list"><li style="list-style-type:circle">In <em>morphological erosion</em>, the value of the output pixel is the minimum value of all the pixels in the input neighborhood.</li></ul></li></ul><ul id="b723c629-ceaf-41b6-83a0-7359390a18c9" class="bulleted-list"><li style="list-style-type:disc">Choice of neighborhood<ul id="dd283f90-4e67-445e-b257-8b69e34ebcec" class="bulleted-list"><li style="list-style-type:circle">4-neighborhood (the pixel up, down, left, and right)</li></ul><ul id="803a3c0d-aa14-4f66-884c-8e92f3955754" class="bulleted-list"><li style="list-style-type:circle">d-neighborhood (the 4 pixels diagonal to the output)</li></ul><ul id="dd84d5d5-2db7-4c6a-b805-534aab5d62f3" class="bulleted-list"><li style="list-style-type:circle">8-neighborhood (4-neighborhood and d-neighborhood)</li></ul></li></ul><h2 id="eebe75f9-5089-4ef0-a96c-4eb4c5d04b15" class="">ROI Segmentation</h2><p id="f56e99a4-c69e-4fc2-9ee9-9f994c641420" class="">Application: identifying blood vessels in an eye image.</p><h3 id="15ee39c6-2f7f-4950-aeba-9b7363a9541a" class="">Thresholding</h3><p id="6366aefe-dd47-44ea-8c15-84b80727a19c" class=""><em>Thresholding</em> creates binary images from grayscale ones by turning all pixels below some threshold to zero and all pixels above to one. It creates a separation between light and dark regions.</p><p id="6ce9693f-633c-48fe-9081-110e50688901" class="">If we denote the input pixel at <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> in a grayscale image as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">a_{x, y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, and the output pixel at <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> in a binary image as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub></mrow><annotation encoding="application/x-tex">b_{x, y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, then</p><figure id="f523d9a9-00cb-4919-846d-91fc3637ed17" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>b</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.3600em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext>if </mtext><msub><mi>a</mi><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow></msub><mo>≥</mo><mi>T</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>0</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>otherwise</mtext></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">b_{x,y} =
+\begin{cases}
+1 &amp;\text{if } a_{x,y} \ge T \\
+0 &amp;\text{otherwise}
+\end{cases}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0000299999999998em;vertical-align:-1.25003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">1</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord">if </span></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord">otherwise</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><p id="0e4ec38f-49e9-4b57-9111-5082371c2343" class="">for some threshold <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span></span><span>﻿</span></span>.</p><p id="618281dc-2d9c-460a-955a-1f3734a09a07" class="">We choose a threshold that separates the object from the background.</p><p id="cd3605c6-ead8-4a0b-ac0a-b7f7527d10b4" class="">To choose such a threshold, we use a histogram of pixel intensity. It plots how many times the search intensity value in an image occurs. We <strong>can’t</strong> reconstruct an image from a histogram for obvious reasons. It also helps us evaluate the exposure of the image.</p><p id="3fb1da67-0a78-42df-bc20-72547232ab67" class=""><strong>Issues</strong></p><ul id="2b096f07-c1be-45fb-bc48-8d8b7fee3eff" class="bulleted-list"><li style="list-style-type:disc">Many objects at different gray level</li></ul><ul id="ac2ee256-3c54-4ae7-a0df-3367638e518d" class="bulleted-list"><li style="list-style-type:disc">Variations in background gray level</li></ul><ul id="439f175b-8ae1-4aec-8096-85aa247f1ac8" class="bulleted-list"><li style="list-style-type:disc">Noise in the image</li></ul><p id="35d1f5c5-919c-4664-b9bd-7a2f4fb2c4bd" class="">To address these issues, we use adaptive or local thresholding. A local threshold is calculated for each pixel based on some local statistics such as range, variance, or surface-fitting parameters of the neighborhood pixels within a local block of some size.</p><p id="8f25271a-3969-462c-a53d-55c579fc921f" class=""><strong>Applications</strong></p><ul id="05e0209e-a5c0-468e-a2f0-6446d01baf71" class="bulleted-list"><li style="list-style-type:disc">Object recognition</li></ul><ul id="bcaa6d85-308a-453f-9262-f89d5cfad907" class="bulleted-list"><li style="list-style-type:disc">Size measurements</li></ul><ul id="e0c57aea-0418-43fa-8714-97469e935e2b" class="bulleted-list"><li style="list-style-type:disc">…</li></ul><h2 id="a9e49ac5-3268-4d4e-9c37-578475ed6add" class="">Feature Extraction</h2><p id="280c07c4-4061-4110-a644-18f2a094ba34" class="">Application: Google allows search by image.</p><p id="37fee578-fc18-4397-84c7-d96f80d448a5" class="">Image features include:</p><ul id="16da4015-968a-47fd-94aa-8d26a129106b" class="bulleted-list"><li style="list-style-type:disc">Simple pattern</li></ul><ul id="6f66f334-32a5-4fdc-9772-a4a1c63b4293" class="bulleted-list"><li style="list-style-type:disc">Color information</li></ul><ul id="89a9c408-fd3b-4655-81e5-a62ba5c3f8b4" class="bulleted-list"><li style="list-style-type:disc">Metadata</li></ul><p id="e13ee076-21ed-4acd-8df7-dad8729f1eac" class="">The core idea of using features is to transform visual information into a vector space. This allows us to perform mathematical operations on them.</p><h3 id="643fd85f-2b6d-46d0-96f2-cd406736782c" class="">Image Similarity Search</h3><p id="97d31987-1121-4487-a74f-446d61a286e5" class="">The core idea is to extract <strong>feature vectors</strong> from images and build an index on them.</p><p id="422dadad-e2d2-4cee-8b50-bdb55aae4bd7" class="">When searching, the engine converts the query image into a feature vector and compares it with existing vectors.</p><p id="7d60be9a-e4f7-4fb6-b899-92a0d5bac557" class="">To extract features, there are two approaches</p><ul id="4e1c8145-ee4d-4535-953e-b47f5be2488f" class="bulleted-list"><li style="list-style-type:disc">Image descriptors (white box)</li></ul><ul id="d25d6fbb-a1ec-441d-a5ff-885b878e4bb9" class="bulleted-list"><li style="list-style-type:disc">Neural networks (black box)</li></ul><p id="f75ef767-9780-4349-9e38-d9a546cf0e82" class="">Many white box algorithms for feature extraction exists, typically based on <strong>image gradient</strong>.</p><p id="749e6653-1726-4202-9475-975ede17e98a" class="">There is support for it in the <code>skimage</code> module of scikit-learn.</p><hr id="4f538439-2a2b-47ba-b35b-a48d9d2044f7"/><p id="f7872c0c-d407-4f5d-8cd8-da6a481c0c05" class="">We can then perform other analyses on the extracted features.</p><h2 id="0edcf358-4682-4a43-99b0-f2432006bcc3" class="">Image Processing Pitfall</h2><p id="c0cd3e24-ac2b-43d1-9335-15e4e5cce916" class="">How do we recognize when digital image analysis has been properly conducted?</p></div></article></body></html>
